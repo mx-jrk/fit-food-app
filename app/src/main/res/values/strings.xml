@@ -11,4 +11,6 @@
     <string name="input_log_pass">Введите логин и пароль</string>
     <string name="user_name">Логин</string>
     <string name="password">Пароль</string>
+    <string name="think_log_pass">Придумайте лоигн и пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
 </resources>
