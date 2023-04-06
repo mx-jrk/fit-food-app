@@ -8,4 +8,7 @@
     <string name="LogIn_or_SignUp">Выполните вход или зарегестрируйтесь</string>
     <string name="sign_up">Зарегестрироваться</string>
     <string name="log_in">Войти</string>
+    <string name="input_log_pass">Введите логин и пароль</string>
+    <string name="user_name">Логин</string>
+    <string name="password">Пароль</string>
 </resources>
