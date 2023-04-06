@@ -2,13 +2,13 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/home"
+    <item android:id="@+id/homeFragment"
         android:title="@string/main"
         android:icon="@drawable/ic_baseline_home_24"/>
-    <item android:id="@+id/shopping_list"
+    <item android:id="@+id/shoppingListFragment"
         android:title="@string/shopping_list"
         android:icon="@drawable/ic_baseline_shopping_basket_24"/>
-    <item android:id="@+id/profile"
+    <item android:id="@+id/profileFragment"
         android:title="@string/profile"
         android:icon="@drawable/ic_baseline_person_24"
         tools:ignore="HardcodedText" />
