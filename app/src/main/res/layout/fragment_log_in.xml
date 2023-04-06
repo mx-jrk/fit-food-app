@@ -34,7 +34,7 @@
         android:layout_marginTop="15dp"/>
     <Button
         android:id="@+id/log_in_btn"
-        android:enabled="false"
+
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
         android:layout_marginTop="30dp"

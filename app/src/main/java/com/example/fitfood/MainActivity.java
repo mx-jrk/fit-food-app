@@ -2,15 +2,21 @@ package com.example.fitfood;
 
 import static androidx.navigation.ui.BottomNavigationViewKt.setupWithNavController;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.NavHostController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.fitfood.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,7 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
+    static BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +32,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Activating Bottom navigation
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController navController = navHostFragment.getNavController();
         setupWithNavController(bottomNavigationView, navController);
+
+
+        if (true){
+            navController.navigate(R.id.action_homeFragment_to_loginOrSignupFragment);
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+
     }
+
+    public static void show_bottom(){
+        bottomNavigationView.setVisibility(View.VISIBLE);
+    }
+
 
 }
