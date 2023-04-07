@@ -28,4 +28,14 @@
     <string name="weight_gain">Набор массы</string>
     <string name="drying">Сушка</string>
     <string name="maintaining_mass">Поддержание массы</string>
+    <string name="what_u_activity_lvl">Опишите свой уровень активности:</string>
+    <string name="sedentary">Сидячий образ жизни</string>
+    <string name="moderately_active">Умеренно активный (умеренные физические нагрузки или ходьба 10 000 шагов в день)</string>
+    <string name="active">Активный (интенсивные тренировки 3-4 раза в неделю)</string>
+    <string name="very_active">Очень активный (ежедневные интенсивные тренировки или физическая работа)</string>
+    <string name="training_frequency">Как часто Вы тренируетесь?</string>
+    <string name="no_training">Не тренируюсь</string>
+    <string name="one_two_training">1-2 раза в неделю</string>
+    <string name="three_four_training">3-4 раза в неделю</string>
+    <string name="more_four_training">Более 4-х раз в неделю</string>
 </resources>

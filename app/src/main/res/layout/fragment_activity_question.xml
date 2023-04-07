@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Survey.GoalQuestionFragment"
+    tools:context=".Survey.ActivityQuestionFragment"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:text="@string/what_u_goal"
+        android:text="@string/what_u_activity_lvl"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"/>
     <RadioGroup
-        android:id="@+id/goal"
+        android:id="@+id/activity_lvl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
@@ -24,31 +24,31 @@
         android:layout_marginTop="30dp">
 
         <RadioButton
-            android:id="@+id/weight_loss"
+            android:id="@+id/sedentary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/weight_loss"
+            android:text="@string/sedentary"
             android:textSize="16sp"/>
 
         <RadioButton
-            android:id="@+id/weight_gain"
+            android:id="@+id/moderately_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/weight_gain"
+            android:text="@string/moderately_active"
             android:textSize="16sp"/>
 
         <RadioButton
-            android:id="@+id/drying"
+            android:id="@+id/active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/drying"
+            android:text="@string/active"
             android:textSize="16sp"/>
 
         <RadioButton
-            android:id="@+id/maintaining_mass"
+            android:id="@+id/very_active"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/maintaining_mass"
+            android:text="@string/very_active"
             android:textSize="16sp"/>
 
     </RadioGroup>
@@ -63,5 +63,6 @@
         android:text="@string/further"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"/>
+
 
 </LinearLayout>
