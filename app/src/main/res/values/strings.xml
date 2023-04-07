@@ -16,4 +16,7 @@
     <string name="hello">Здравствуйте!</string>
     <string name="hellofragment_content">Для более комфортного использования приложения необходимо пройти анкетирование. Ваши ответы на вопросы помогут узнать вас получше, подобрать правильный план, учитывающий Ваши предпочтения и противопоказания</string>
     <string name="start">Начать</string>
+    <string name="what_u_name">Как Вас зовут?</string>
+    <string name="print_name">Введите имя</string>
+    <string name="further">Далее</string>
 </resources>
