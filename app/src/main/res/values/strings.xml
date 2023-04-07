@@ -23,4 +23,9 @@
     <string name="print_height">Введите рост</string>
     <string name="what_u_weight">Какой у Вас вес (в кг)?</string>
     <string name="print_weight">Введите вес</string>
+    <string name="what_u_goal">Какую цель вы преследуете в отношении своего питания?</string>
+    <string name="weight_loss">Похудение</string>
+    <string name="weight_gain">Набор массы</string>
+    <string name="drying">Сушка</string>
+    <string name="maintaining_mass">Поддержание массы</string>
 </resources>
