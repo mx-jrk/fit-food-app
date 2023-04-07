@@ -19,4 +19,6 @@
     <string name="what_u_name">Как Вас зовут?</string>
     <string name="print_name">Введите имя</string>
     <string name="further">Далее</string>
+    <string name="what_u_height">Какой у Вас рост (в см)?</string>
+    <string name="print_height">Введите рост</string>
 </resources>
