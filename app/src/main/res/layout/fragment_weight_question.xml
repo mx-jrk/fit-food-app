@@ -3,23 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Survey.NameQuestionFragment"
+    tools:context=".Survey.WeightQuestionFragment"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:text="@string/what_u_name"
+        android:text="@string/what_u_weight"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"/>
     <EditText
-        android:id="@+id/user_name"
+        android:id="@+id/weight"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:hint="@string/print_name"
+        android:hint="@string/print_weight"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/et_border_black"
