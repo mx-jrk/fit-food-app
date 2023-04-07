@@ -21,4 +21,6 @@
     <string name="further">Далее</string>
     <string name="what_u_height">Какой у Вас рост (в см)?</string>
     <string name="print_height">Введите рост</string>
+    <string name="what_u_weight">Какой у Вас вес (в кг)?</string>
+    <string name="print_weight">Введите вес</string>
 </resources>
