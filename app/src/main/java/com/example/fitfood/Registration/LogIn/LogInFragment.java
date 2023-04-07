@@ -34,7 +34,6 @@ public class LogInFragment extends Fragment {
         binding.logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.show_bottom();
                 navController.navigate(R.id.action_logInFragment_to_homeFragment);
             }
         });

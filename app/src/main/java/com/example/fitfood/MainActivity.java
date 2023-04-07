@@ -38,16 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setupWithNavController(bottomNavigationView, navController);
 
 
-        if (true){
-            navController.navigate(R.id.action_homeFragment_to_loginOrSignupFragment);
-            bottomNavigationView.setVisibility(View.GONE);
-        }
-
     }
 
-    public static void show_bottom(){
-        bottomNavigationView.setVisibility(View.VISIBLE);
-    }
 
 
 }
