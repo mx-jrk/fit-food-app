@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Survey.HelloFragment"
+    android:orientation="vertical">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/hello"
+    android:textSize="40sp"
+    android:layout_marginTop="170dp"
+    android:textColor="@color/black"
+    android:paddingStart="15dp"
+    tools:ignore="RtlSymmetry" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hellofragment_content"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        android:paddingStart="15dp"
+        tools:ignore="RtlSymmetry"
+        android:lineSpacingExtra="5dp"/>
+    <Button
+        android:id="@+id/log_in_btn"
+        android:textAllCaps="false"
+        android:background="@drawable/roundstyle"
+        android:layout_marginTop="15dp"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/start"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"/>
+
+</LinearLayout>

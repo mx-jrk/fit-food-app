@@ -13,4 +13,7 @@
     <string name="password">Пароль</string>
     <string name="think_log_pass">Придумайте лоигн и пароль</string>
     <string name="repeat_password">Повторите пароль</string>
+    <string name="hello">Здравствуйте!</string>
+    <string name="hellofragment_content">Для более комфортного использования приложения необходимо пройти анкетирование. Ваши ответы на вопросы помогут узнать вас получше, подобрать правильный план, учитывающий Ваши предпочтения и противопоказания</string>
+    <string name="start">Начать</string>
 </resources>
