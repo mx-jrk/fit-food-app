@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Survey.FoodStylQuestionFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:text="@string/what_u_food_style"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"/>
+    <RadioGroup
+        android:id="@+id/food_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        tools:ignore="RtlSymmetry"
+        android:layout_marginTop="30dp">
+
+        <RadioButton
+            android:id="@+id/vegan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vegan"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/more_meal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/more_meal"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/less_meal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/less_meal"
+            android:textSize="16sp"/>
+
+    </RadioGroup>
+    <Button
+        android:id="@+id/next_btn"
+        android:enabled="false"
+        android:textAllCaps="false"
+        android:background="@drawable/roundstyle"
+        android:layout_marginTop="30dp"
+        android:layout_width="310dp"
+        android:layout_height="50dp"
+        android:text="@string/further"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"/>
+
+</LinearLayout>
