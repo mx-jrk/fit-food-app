@@ -38,4 +38,5 @@
     <string name="one_two_training">1-2 раза в неделю</string>
     <string name="three_four_training">3-4 раза в неделю</string>
     <string name="more_four_training">Более 4-х раз в неделю</string>
+    <string name="what_u_contraindications">Укажите продукты, добавки, ингредиенты и т.д., которые Вы не желаете видеть в своём рационе (противопоказания, не нравятся по вкусу), разделяя их запятыми</string>
 </resources>
