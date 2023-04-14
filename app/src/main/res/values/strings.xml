@@ -60,4 +60,15 @@
     <string name="snack">Перекус</string>
     <string name="no_photo">Фото отсутствует</string>
     <string name="ccal_eaten">Ккал съедено</string>
+    <string name="show_shop_list_for">Отобразить список покупок на</string>
+    <string name="add_own_product">Добавить свой продукт</string>
+    <string name="scan_barcode">Отсканировать штрих-код</string>
+
+    <string-array name="shopping_list_variants">
+        <item>сегодня</item>
+        <item>завтра</item>
+        <item>неделя</item>
+    </string-array>
+
+
 </resources>
