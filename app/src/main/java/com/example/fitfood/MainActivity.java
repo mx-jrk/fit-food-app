@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.example.fitfood.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
@@ -30,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //Hiding Bar
+        try
+        {
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
+        }
+        catch (NullPointerException ignored){}
+
 
         //Activating Bottom navigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
