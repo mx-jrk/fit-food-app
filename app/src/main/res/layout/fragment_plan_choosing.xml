@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/thanks_to"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="40sp"
         android:textColor="@color/black"
         android:layout_marginTop="50dp"
@@ -19,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/plan_preface"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginStart="10dp"/>

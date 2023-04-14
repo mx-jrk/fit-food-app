@@ -4,12 +4,15 @@
 
     <item android:id="@+id/homeFragment"
         android:title="@string/main"
+        android:fontFamily="@font/dexaround_regular"
         android:icon="@drawable/ic_baseline_home_24"/>
     <item android:id="@+id/shoppingListFragment"
         android:title="@string/shopping_list"
+        android:fontFamily="@font/dexaround_regular"
         android:icon="@drawable/ic_baseline_shopping_basket_24"/>
     <item android:id="@+id/profileFragment"
         android:title="@string/profile"
+        android:fontFamily="@font/dexaround_regular"
         android:icon="@drawable/ic_baseline_person_24"
         tools:ignore="HardcodedText" />
 </menu>

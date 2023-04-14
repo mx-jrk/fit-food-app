@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="40sp"
+        android:fontFamily="@font/dexaround_regular"
         android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
@@ -27,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:fontFamily="@font/dexaround_regular"
         android:textColor="@color/black"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"/>
@@ -35,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/average_ccal"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginStart="10dp"

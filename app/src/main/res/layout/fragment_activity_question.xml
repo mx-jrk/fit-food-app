@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/what_u_activity_lvl"
         android:textColor="@color/black"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="32sp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sedentary"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
         <RadioButton
@@ -35,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/moderately_active"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
         <RadioButton
@@ -42,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/active"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
         <RadioButton
@@ -49,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/very_active"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
     </RadioGroup>
@@ -57,11 +62,12 @@
         android:enabled="false"
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="30dp"
         android:layout_width="310dp"
         android:layout_height="50dp"
         android:text="@string/further"
+        android:fontFamily="@font/dexaround_semibold"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"/>
 

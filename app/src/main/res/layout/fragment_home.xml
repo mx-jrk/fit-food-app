@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/good_afternoon"
+                android:fontFamily="@font/dexaround_regular"
                 android:textSize="40sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
@@ -40,6 +41,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dish_eaten"
+                        android:fontFamily="@font/dexaround_regular"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_marginTop="10dp"
@@ -48,6 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2 из 4"
+                        android:fontFamily="@font/dexaround_regular"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_gravity="center"/>
@@ -70,6 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/goal_completion"
+                        android:fontFamily="@font/dexaround_regular"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_marginTop="10dp"
@@ -78,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Осталось 15,8кг"
+                        android:fontFamily="@font/dexaround_regular"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_gravity="center"/>
@@ -96,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ccal_eaten"
+                android:fontFamily="@font/dexaround_regular"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="20dp"
@@ -104,6 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="970 из 1864"
+                android:fontFamily="@font/dexaround_regular"
                 android:textSize="20sp"
                 android:textColor="@color/black"
                 android:layout_gravity="center"/>
@@ -121,19 +128,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="45dp">
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
                     android:layout_weight="1"
                     android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:padding="0dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:textAlignment="center"
                     android:text="@string/show_plan"
+                    android:fontFamily="@font/dexaround_semibold"
                     android:textAllCaps="false"
                     android:textSize="12sp" />
                 <Button
@@ -141,12 +149,13 @@
                     android:layout_height="27dp"
                     android:layout_weight="1"
                     android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:padding="0dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:textAlignment="center"
                     android:text="@string/update_weight"
+                    android:fontFamily="@font/dexaround_semibold"
                     android:textAllCaps="false"
                     android:textSize="12sp" />
                 <Button
@@ -154,12 +163,13 @@
                     android:layout_height="27dp"
                     android:layout_weight="1"
                     android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:padding="0dp"
                     android:layout_marginLeft="3dp"
                     android:layout_marginRight="3dp"
                     android:textAlignment="center"
                     android:text="@string/change_plan"
+                    android:fontFamily="@font/dexaround_semibold"
                     android:textAllCaps="false"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -187,6 +197,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/breakfast"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
@@ -194,6 +205,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
@@ -201,6 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black_2"
                             android:textSize="11sp"
                             android:layout_marginStart="10dp"/>
@@ -216,6 +229,7 @@
                             android:layout_marginRight="3dp"
                             android:textAlignment="center"
                             android:text="@string/complited"
+                            android:fontFamily="@font/dexaround_semibold"
                             android:textAllCaps="false"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -256,6 +270,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/lunch"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
@@ -263,6 +278,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
@@ -270,6 +286,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black_2"
                             android:textSize="11sp"
                             android:layout_marginStart="10dp"/>
@@ -285,6 +302,7 @@
                             android:layout_marginRight="3dp"
                             android:textAlignment="center"
                             android:text="@string/complited"
+                            android:fontFamily="@font/dexaround_semibold"
                             android:textAllCaps="false"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -324,6 +342,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dinner"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
@@ -331,6 +350,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
@@ -338,6 +358,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black_2"
                             android:textSize="11sp"
                             android:layout_marginStart="10dp"/>
@@ -353,6 +374,7 @@
                             android:layout_marginRight="3dp"
                             android:textAlignment="center"
                             android:text="@string/complited"
+                            android:fontFamily="@font/dexaround_semibold"
                             android:textAllCaps="false"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -393,6 +415,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/snack"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
@@ -400,6 +423,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
@@ -407,6 +431,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
+                            android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black_2"
                             android:textSize="11sp"
                             android:layout_marginStart="10dp"/>
@@ -422,6 +447,7 @@
                             android:layout_marginRight="3dp"
                             android:textAlignment="center"
                             android:text="@string/complited"
+                            android:fontFamily="@font/dexaround_semibold"
                             android:textAllCaps="false"
                             android:textSize="12sp" />
                     </LinearLayout>

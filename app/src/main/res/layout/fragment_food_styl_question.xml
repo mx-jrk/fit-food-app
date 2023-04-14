@@ -10,6 +10,7 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:text="@string/what_u_food_style"
+        android:fontFamily="@font/dexaround_regular"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textAlignment="center"
@@ -28,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vegan"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
         <RadioButton
@@ -35,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/more_meal"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
         <RadioButton
@@ -42,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/less_meal"
+            android:fontFamily="@font/dexaround_regular"
             android:textSize="16sp"/>
 
     </RadioGroup>
@@ -50,11 +54,12 @@
         android:enabled="false"
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="30dp"
         android:layout_width="310dp"
         android:layout_height="50dp"
         android:text="@string/further"
+        android:fontFamily="@font/dexaround_semibold"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"/>
 

@@ -9,6 +9,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/input_log_pass"
+        android:fontFamily="@font/dexaround_regular"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textAlignment="center"
@@ -19,6 +20,7 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:hint="@string/user_name"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/et_border_black"
@@ -28,21 +30,21 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:hint="@string/password"
+        android:fontFamily="@font/dexaround_regular"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/et_border_black"
         android:layout_marginTop="15dp"/>
     <Button
         android:id="@+id/log_in_btn"
-
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
-                            android:foreground="?android:attr/selectableItemBackground"
-
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="30dp"
         android:layout_width="310dp"
         android:layout_height="50dp"
         android:text="@string/log_in"
+        android:fontFamily="@font/dexaround_semibold"
         android:layout_gravity="center_horizontal"
         android:textSize="24sp"/>
 
