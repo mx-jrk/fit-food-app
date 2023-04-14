@@ -28,6 +28,7 @@
         android:id="@+id/log_in_btn"
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
+                            android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="15dp"
         android:layout_width="250dp"
         android:layout_height="50dp"

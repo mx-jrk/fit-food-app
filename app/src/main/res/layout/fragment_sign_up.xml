@@ -47,6 +47,7 @@
         android:enabled="false"
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
+                            android:foreground="?android:attr/selectableItemBackground"
         android:layout_marginTop="30dp"
         android:layout_width="310dp"
         android:layout_height="50dp"
