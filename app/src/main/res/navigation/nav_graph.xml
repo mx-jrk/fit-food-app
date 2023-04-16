@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.fitfood.HomeFragment"
+        android:name="com.example.fitfood.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,17 +16,30 @@
     </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"
-        android:name="com.example.fitfood.ShoppingListFragment"
+        android:name="com.example.fitfood.ui.ShoppingListFragment"
         android:label="fragment_shopping_list"
-        tools:layout="@layout/fragment_shopping_list" />
+        tools:layout="@layout/fragment_shopping_list" >
+        <action
+            android:id="@+id/action_shoppingListFragment_to_addOwnProduct"
+            app:destination="@id/addOwnProduct" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOwnProduct"
+        android:name="com.example.fitfood.ui.AddOwnProductFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_add_own_product" >
+        <action
+            android:id="@+id/action_addOwnProduct_to_shoppingListFragment"
+            app:destination="@id/shoppingListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.fitfood.ProfileFragment"
+        android:name="com.example.fitfood.ui.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/loginOrSignupFragment"
-        android:name="com.example.fitfood.Registration.LoginOrSignupFragment"
+        android:name="com.example.fitfood.ui.Registration.LoginOrSignupFragment"
         android:label="fragment_login_or_signup"
         tools:layout="@layout/fragment_login_or_signup" >
         <action
@@ -38,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.example.fitfood.Registration.LogIn.LogInFragment"
+        android:name="com.example.fitfood.ui.Registration.LogIn.LogInFragment"
         android:label="fragment_log_in"
         tools:layout="@layout/fragment_log_in" >
         <action
@@ -47,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.fitfood.Registration.SignUp.SignUpFragment"
+        android:name="com.example.fitfood.ui.Registration.SignUp.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action

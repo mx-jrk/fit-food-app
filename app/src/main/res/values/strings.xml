@@ -70,6 +70,8 @@
     <string name="plan">План питания</string>
     <string name="calorie_statistics">Статистика потребляемых калорий</string>
     <string name="weight_statistics">Статистика изменения веса</string>
+    <string name="count">Количество</string>
+    <string name="product_name">Название</string>
 
     <string-array name="shopping_list_variants">
         <item>сегодня</item>

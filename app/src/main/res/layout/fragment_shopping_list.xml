@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShoppingListFragment"
+    tools:context=".ui.ShoppingListFragment"
     android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
@@ -42,9 +42,9 @@
             android:entries="@array/shopping_list_variants" />
     </LinearLayout>
     <TextView
+        android:id="@+id/bought"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Куплено 2 из 10"
         android:fontFamily="@font/dexaround_regular"
         android:textSize="16sp"
         android:textColor="@color/black"
@@ -56,6 +56,7 @@
         android:layout_marginTop="15dp">
 
         <Button
+            android:id="@+id/add_product"
             android:layout_width="match_parent"
             android:layout_height="27dp"
             android:layout_weight="1"
@@ -85,5 +86,10 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <!--TODO добавить Recycler View для товаров-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shopping_list"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

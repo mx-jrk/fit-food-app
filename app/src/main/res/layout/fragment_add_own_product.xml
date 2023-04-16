@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.AddOwnProductFragment"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_own_product"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/dexaround_regular"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="15dp"/>
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textSize="24sp"
+            android:text="@string/product_name"
+            android:textColor="@color/black"
+            android:fontFamily="@font/dexaround_regular" />
+        <EditText
+            android:layout_marginStart="75sp"
+            android:id="@+id/product_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/dexaround_regular"
+            android:textSize="24sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:textSize="24sp"
+            android:text="@string/count"
+            android:textColor="@color/black"
+            android:fontFamily="@font/dexaround_regular" />
+        <EditText
+            android:layout_marginStart="50sp"
+            android:id="@+id/product_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/dexaround_regular"
+            android:textSize="24sp"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/next_btn"
+        android:enabled="false"
+        android:textAllCaps="false"
+        android:background="@drawable/roundstyle"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_marginTop="30dp"
+        android:layout_width="310dp"
+        android:layout_height="50dp"
+        android:text="@string/further"
+        android:fontFamily="@font/dexaround_semibold"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"/>
+
+
+
+</LinearLayout>
