@@ -22,7 +22,8 @@ public interface ProductDAO {
     @Update
     void update(ProductEntity product);
 
-    @Query("SELECT * FROM products_table")
+    @Query("SELECT * FROM products_table ORDER BY selected ASC")
     LiveData<List<ProductEntity>> getAllProducts();
+
 
 }

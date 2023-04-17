@@ -2,6 +2,7 @@ package com.example.fitfood.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         final ProductEntity currentProduct = this.products.get(position);
         holder.name.setText(currentProduct.name);
         holder.count.setText(String.valueOf(currentProduct.count) + " шт.");
+        if (currentProduct.selected) {
+            holder.name.setTextColor(Color.parseColor("#C9D6DF"));
+            holder.count.setTextColor(Color.parseColor("#C9D6DF"));
+        }
+        else {
+            holder.name.setTextColor(Color.parseColor("#FF000000"));
+            holder.count.setTextColor(Color.parseColor("#FF000000"));
+        }
+
         holder.selected.setChecked(currentProduct.selected);
         holder.selected.setOnClickListener(view -> {
             currentProduct.selected = !currentProduct.selected;
