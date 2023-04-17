@@ -33,11 +33,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return new ProductHolder(itemView);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     public void onBindViewHolder(ProductHolder holder, int position) {
         final ProductEntity currentProduct = this.products.get(position);
         holder.name.setText(currentProduct.name);
-        holder.count.setText(String.valueOf(currentProduct.count));
+        holder.count.setText(String.valueOf(currentProduct.count) + " шт.");
         holder.selected.setChecked(currentProduct.selected);
         holder.selected.setOnClickListener(view -> {
             currentProduct.selected = !currentProduct.selected;
