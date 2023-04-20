@@ -30,6 +30,7 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:hint="@string/password"
+        android:password="true"
         android:fontFamily="@font/dexaround_regular"
         android:textSize="20sp"
         android:layout_gravity="center_horizontal"

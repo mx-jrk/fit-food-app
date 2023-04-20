@@ -17,20 +17,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fitfood.R;
-import com.example.fitfood.databinding.FragmentContraindicationsQuestionBinding;
+import com.example.fitfood.databinding.FragmentGoalQuestionBinding;
 import com.example.fitfood.databinding.FragmentGoalWeightBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
-public class ContraindicationsQuestionFragment extends Fragment {
-
-    FragmentContraindicationsQuestionBinding binding;
+public class GoalWeightFragment extends Fragment {
+    FragmentGoalWeightBinding binding;
     UserViewModel userViewModel;
     NavHostFragment navHostFragment;
     NavController navController;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentContraindicationsQuestionBinding.inflate(inflater, container, false);
+        binding = FragmentGoalWeightBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         navController = navHostFragment.getNavController();
@@ -43,7 +42,7 @@ public class ContraindicationsQuestionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.contraindications.addTextChangedListener(new TextWatcher() {
+        binding.weight.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -64,10 +63,13 @@ public class ContraindicationsQuestionFragment extends Fragment {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userViewModel.my_user.Contraindications_s = binding.contraindications.getText().toString();
-                navController.navigate(R.id.action_contraindicationsQuestionFragment_to_preferencesQuestionFragment);
+                try{
+                    userViewModel.my_user.Height = Integer.parseInt(binding.weight.getText().toString());
+                    navController.navigate(R.id.action_goalWeightFragment_to_activityQuestionFragment);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
 }

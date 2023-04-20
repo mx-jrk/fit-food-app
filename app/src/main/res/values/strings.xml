@@ -38,8 +38,8 @@
     <string name="one_two_training">1-2 раза в неделю</string>
     <string name="three_four_training">3-4 раза в неделю</string>
     <string name="more_four_training">Более 4-х раз в неделю</string>
-    <string name="what_u_contraindications">Укажите продукты, добавки, ингредиенты и т.д., которые Вы не желаете видеть в своём рационе (противопоказания, не нравятся по вкусу), разделяя их запятыми</string>
-    <string name="what_u_preferences">Укажите продукты, ингредиенты и т.д., которые предпочитаете (нравятся по вкусу, рекомендованы к употреблению), разделяя их запятыми</string>
+    <string name="what_u_contraindications">Укажите продукты, добавки, ингредиенты и т.д., которые Вы не желаете видеть в своём рационе (противопоказания, не нравятся по вкусу), разделяя их ТОЛЬКО запятой и пробелом</string>
+    <string name="what_u_preferences">Укажите продукты, ингредиенты и т.д., которые предпочитаете (нравятся по вкусу, рекомендованы к употреблению), разделяя их ТОЛЬКО запятой и пробелом</string>
     <string name="what_u_food_style">Какой из следующих стилей питания соответствует вашим предпочтениям?</string>
     <string name="vegan">Вегетерианство</string>
     <string name="more_meal">Умеренное потребление мяса с ограничением гарниров</string>
@@ -72,6 +72,7 @@
     <string name="weight_statistics">Статистика изменения веса</string>
     <string name="count">Количество</string>
     <string name="product_name">Название</string>
+    <string name="what_u_goal_weight">Какой у вас целевой вес (в кг)?</string>
 
     <string-array name="shopping_list_variants">
         <item>сегодня</item>

@@ -30,7 +30,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_recyclerview_item, parent, false);
         builder = new AlertDialog.Builder(parent.getContext());
-        productRepository = ProductRepository.getInstance((Application) parent.getContext().getApplicationContext());
+        productRepository = new ProductRepository((Application) parent.getContext().getApplicationContext());
         return new ProductHolder(itemView);
     }
 

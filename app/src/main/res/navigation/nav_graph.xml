@@ -9,11 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.fitfood.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_to_loginOrSignupFragment"
-            app:destination="@id/loginOrSignupFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/shoppingListFragment"
         android:name="com.example.fitfood.ui.ShoppingListFragment"
@@ -64,7 +60,127 @@
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
-            android:id="@+id/action_signUpFragment_to_homeFragment"
+            android:id="@+id/action_signUpFragment_to_helloFragment"
+            app:destination="@id/helloFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helloFragment"
+        android:name="com.example.fitfood.ui.Survey.HelloFragment"
+        android:label="fragment_hello"
+        tools:layout="@layout/fragment_hello" >
+        <action
+            android:id="@+id/action_helloFragment_to_nameQuestionFragment"
+            app:destination="@id/nameQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nameQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.NameQuestionFragment"
+        android:label="fragment_name_question"
+        tools:layout="@layout/fragment_name_question" >
+        <action
+            android:id="@+id/action_nameQuestionFragment_to_heightQuestionFragment"
+            app:destination="@id/heightQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/heightQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.HeightQuestionFragment"
+        android:label="fragment_height_question"
+        tools:layout="@layout/fragment_height_question" >
+        <action
+            android:id="@+id/action_heightQuestionFragment_to_weightQuestionFragment"
+            app:destination="@id/weightQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weightQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.WeightQuestionFragment"
+        android:label="fragment_weight_question"
+        tools:layout="@layout/fragment_weight_question" >
+        <action
+            android:id="@+id/action_weightQuestionFragment_to_goalQuestionFragment"
+            app:destination="@id/goalQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goalQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.GoalQuestionFragment"
+        android:label="fragment_goal_question"
+        tools:layout="@layout/fragment_goal_question" >
+        <action
+            android:id="@+id/action_goalQuestionFragment_to_goalWeightFragment"
+            app:destination="@id/goalWeightFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goalWeightFragment"
+        android:name="com.example.fitfood.ui.Survey.GoalWeightFragment"
+        android:label="fragment_goal_weight"
+        tools:layout="@layout/fragment_goal_weight" >
+        <action
+            android:id="@+id/action_goalWeightFragment_to_activityQuestionFragment"
+            app:destination="@id/activityQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.ActivityQuestionFragment"
+        android:label="fragment_activity_question"
+        tools:layout="@layout/fragment_activity_question" >
+        <action
+            android:id="@+id/action_activityQuestionFragment_to_trainingFrequencyQuestionFragment"
+            app:destination="@id/trainingFrequencyQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trainingFrequencyQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.TrainingFrequencyQuestionFragment"
+        android:label="fragment_training_frequency_question"
+        tools:layout="@layout/fragment_training_frequency_question" >
+        <action
+            android:id="@+id/action_trainingFrequencyQuestionFragment_to_contraindicationsQuestionFragment"
+            app:destination="@id/contraindicationsQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contraindicationsQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.ContraindicationsQuestionFragment"
+        android:label="fragment_contraindications_question"
+        tools:layout="@layout/fragment_contraindications_question" >
+        <action
+            android:id="@+id/action_contraindicationsQuestionFragment_to_preferencesQuestionFragment"
+            app:destination="@id/preferencesQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/preferencesQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.PreferencesQuestionFragment"
+        android:label="fragment_preferences_question"
+        tools:layout="@layout/fragment_preferences_question" >
+        <action
+            android:id="@+id/action_preferencesQuestionFragment_to_foodStylQuestionFragment"
+            app:destination="@id/foodStylQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodStylQuestionFragment"
+        android:name="com.example.fitfood.ui.Survey.FoodStylQuestionFragment"
+        android:label="fragment_food_styl_question"
+        tools:layout="@layout/fragment_food_styl_question" >
+        <action
+            android:id="@+id/action_foodStylQuestionFragment_to_planChoosingFragment"
+            app:destination="@id/planChoosingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planChoosingFragment"
+        android:name="com.example.fitfood.ui.PlanChoosing.PlanChoosingFragment"
+        android:label="fragment_plan_choosing"
+        tools:layout="@layout/fragment_plan_choosing" >
+        <action
+            android:id="@+id/action_planChoosingFragment_to_planCardFragment"
+            app:destination="@id/planCardFragment" />
+        <action
+            android:id="@+id/action_planChoosingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planCardFragment"
+        android:name="com.example.fitfood.ui.PlanChoosing.PlanCardFragment"
+        android:label="fragment_plan_card"
+        tools:layout="@layout/fragment_plan_card" >
+        <action
+            android:id="@+id/action_planCardFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>
