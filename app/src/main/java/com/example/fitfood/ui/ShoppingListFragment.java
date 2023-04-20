@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,7 +15,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.fitfood.R;
+import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
+import com.example.fitfood.data.data_sources.room.root.PlanDatabase;
 import com.example.fitfood.databinding.FragmentShoppingListBinding;
 import com.example.fitfood.ui.adapters.ProductListAdapter;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
@@ -37,6 +40,16 @@ public class ShoppingListFragment extends Fragment {
         binding.shoppingList.setAdapter(this.adapter);
         ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         viewModel = shoppingListViewModel;
+
+
+//        shoppingListViewModel.getAllPlans().observe(getViewLifecycleOwner(), new Observer<List<PlanEntity>>() {
+//            @Override
+//            public void onChanged(List<PlanEntity> planEntities) {
+//                Toast.makeText(getContext(), planEntities.get(0).Title, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+
         shoppingListViewModel.getAllProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
             @SuppressLint("SetTextI18n")
             public void onChanged(List<ProductEntity> productEntities) {
