@@ -11,8 +11,6 @@ import java.util.List;
 
 @Dao
 public interface PlanDAO {
-    @Insert
-    void insert(PlanEntity plan);
 
     @Query("SELECT * FROM plan_table")
     LiveData<List<PlanEntity>> getAllPlans();

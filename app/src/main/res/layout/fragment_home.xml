@@ -185,12 +185,13 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/black" />
                 <LinearLayout
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
@@ -202,14 +203,15 @@
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/breakfast_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Блюдо"
                             android:fontFamily="@font/dexaround_regular"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/breakfast_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
@@ -239,9 +241,9 @@
                         android:layout_weight="1"
                         />
                     <ImageView
+                        android:id="@+id/breakfast_image"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:src="@drawable/logo"
                         android:contentDescription="@string/no_photo" />
 
                 </LinearLayout>
@@ -254,6 +256,7 @@
 
 
             <LinearLayout
+                android:layout_marginEnd="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -263,7 +266,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
@@ -275,6 +278,7 @@
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/lunch_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
@@ -283,6 +287,7 @@
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/lunch_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
@@ -312,6 +317,7 @@
                         android:layout_weight="1"
                         />
                     <ImageView
+                        android:id="@+id/lunch_image"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:src="@drawable/logo"
@@ -331,11 +337,12 @@
                 android:orientation="vertical"
                 android:layout_marginTop="5dp">
                 <LinearLayout
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="270dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
                         <TextView
@@ -347,6 +354,7 @@
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/dinner_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
@@ -355,6 +363,7 @@
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/dinner_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
@@ -384,6 +393,7 @@
                         android:layout_weight="1"
                         />
                     <ImageView
+                        android:id="@+id/dinner_image"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:src="@drawable/logo"
