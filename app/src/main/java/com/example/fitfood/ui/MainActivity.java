@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     static BottomNavigationView bottomNavigationView;
+    UserViewModel userViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setupWithNavController(bottomNavigationView, navController);
 
         //First Launch checking
-        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getUser().observe(this, new Observer<UserEntity>() {
             @Override
             public void onChanged(UserEntity user) {
@@ -63,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                     NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
                     NavController navController = navHostFragment.getNavController();
                     navController.navigate(R.id.loginOrSignupFragment);
+                }
+                else {
+                    userViewModel.my_user = user;
                 }
             }
         });
@@ -83,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //Toast.makeText(this, userViewModel.my_user.Name, Toast.LENGTH_SHORT).show();
+        userViewModel.update();
+    }
 }

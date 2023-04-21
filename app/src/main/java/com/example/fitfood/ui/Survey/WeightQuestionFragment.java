@@ -21,6 +21,8 @@ import com.example.fitfood.databinding.FragmentHeightQuestionBinding;
 import com.example.fitfood.databinding.FragmentWeightQuestionBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
+import java.util.Objects;
+
 
 public class WeightQuestionFragment extends Fragment {
 
@@ -69,8 +71,18 @@ public class WeightQuestionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    userViewModel.my_user.Height = Integer.parseInt(binding.weight.getText().toString());
-                    navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);
+                    userViewModel.my_user.Weight = Integer.parseInt(binding.weight.getText().toString());
+
+                    if (getArguments() == null){
+                        navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);
+                    }
+                    else if (Objects.equals(getArguments().getString("source"), "profile")){
+                        navController.navigate(R.id.action_weightQuestionFragment_to_profileFragment);
+                    }
+                    else if (Objects.equals(getArguments().getString("source"), "home")){
+                        navController.navigate(R.id.action_weightQuestionFragment_to_homeFragment);
+                    }
+
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
                 }

@@ -64,8 +64,14 @@ public class GoalWeightFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    userViewModel.my_user.Height = Integer.parseInt(binding.weight.getText().toString());
-                    navController.navigate(R.id.action_goalWeightFragment_to_activityQuestionFragment);
+                    userViewModel.my_user.WeightGoal = Integer.parseInt(binding.weight.getText().toString());
+                    if (userViewModel.getUser().getValue() == null){
+                        navController.navigate(R.id.action_goalWeightFragment_to_activityQuestionFragment);
+                    }
+                    else {
+                        navController.navigate(R.id.action_goalWeightFragment_to_profileFragment);
+                    }
+
                 } catch (NumberFormatException e) {
                     Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
                 }

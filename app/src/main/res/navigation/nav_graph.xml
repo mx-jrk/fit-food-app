@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.fitfood.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_weightQuestionFragment"
+            app:destination="@id/weightQuestionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"
         android:name="com.example.fitfood.ui.ShoppingListFragment"
@@ -32,7 +36,17 @@
         android:id="@+id/profileFragment"
         android:name="com.example.fitfood.ui.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_nameQuestionFragment"
+            app:destination="@id/nameQuestionFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_weightQuestionFragment"
+            app:destination="@id/weightQuestionFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_goalWeightFragment"
+            app:destination="@id/goalWeightFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginOrSignupFragment"
         android:name="com.example.fitfood.ui.Registration.LoginOrSignupFragment"
@@ -80,6 +94,9 @@
         <action
             android:id="@+id/action_nameQuestionFragment_to_heightQuestionFragment"
             app:destination="@id/heightQuestionFragment" />
+        <action
+            android:id="@+id/action_nameQuestionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/heightQuestionFragment"
@@ -98,6 +115,12 @@
         <action
             android:id="@+id/action_weightQuestionFragment_to_goalQuestionFragment"
             app:destination="@id/goalQuestionFragment" />
+        <action
+            android:id="@+id/action_weightQuestionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_weightQuestionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/goalQuestionFragment"
@@ -116,6 +139,9 @@
         <action
             android:id="@+id/action_goalWeightFragment_to_activityQuestionFragment"
             app:destination="@id/activityQuestionFragment" />
+        <action
+            android:id="@+id/action_goalWeightFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/activityQuestionFragment"

@@ -145,6 +145,7 @@
                     android:textAllCaps="false"
                     android:textSize="12sp" />
                 <Button
+                    android:id="@+id/change_weight"
                     android:layout_width="match_parent"
                     android:layout_height="27dp"
                     android:layout_weight="1"

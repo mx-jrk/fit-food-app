@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.databinding.FragmentHomeBinding;
+import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.HomeViewModel;
 
 import java.util.List;
@@ -24,10 +27,19 @@ public class HomeFragment extends Fragment {
 
     FragmentHomeBinding binding;
     HomeViewModel homeViewModel;
+    NavHostFragment navHostFragment;
+    NavController navController;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        navController = navHostFragment.getNavController();
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
         return binding.getRoot();
     }
 
@@ -35,7 +47,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.getAllRecipes().observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
             @Override
             public void onChanged(List<RecipeEntity> recipeEntities) {
@@ -68,6 +79,17 @@ public class HomeFragment extends Fragment {
                     }
 
                 }
+            }
+        });
+
+        binding.changeWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("source", "home");
+                WeightQuestionFragment weightQuestionFragment = new WeightQuestionFragment();
+                weightQuestionFragment.setArguments(bundle);
+                navController.navigate(R.id.action_homeFragment_to_weightQuestionFragment, bundle);
             }
         });
     }

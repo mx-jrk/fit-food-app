@@ -21,6 +21,8 @@ import com.example.fitfood.databinding.FragmentLoginOrSignupBinding;
 import com.example.fitfood.databinding.FragmentNameQuestionBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
+import java.util.Objects;
+
 public class NameQuestionFragment extends Fragment {
 
     FragmentNameQuestionBinding binding;
@@ -40,6 +42,7 @@ public class NameQuestionFragment extends Fragment {
 
         return binding.getRoot();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -62,11 +65,21 @@ public class NameQuestionFragment extends Fragment {
             }
         });
 
+
+
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 userViewModel.my_user.Name = binding.userName.getText().toString();
-                navController.navigate(R.id.action_nameQuestionFragment_to_heightQuestionFragment);
+
+                if (getArguments() == null){
+                    navController.navigate(R.id.action_nameQuestionFragment_to_heightQuestionFragment);
+                }
+                else if (Objects.equals(getArguments().getString("source"), "profile")){
+                    navController.navigate(R.id.action_nameQuestionFragment_to_profileFragment);
+                }
+
+
             }
         });
     }

@@ -3,12 +3,14 @@ package com.example.fitfood.ui.view_models;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.data.repositories.UserRepository;
 
-public class UserViewModel extends AndroidViewModel {
+public class UserViewModel extends AndroidViewModel  {
     private UserRepository userRepository;
     private LiveData<UserEntity> user;
     public UserEntity my_user;
@@ -24,8 +26,8 @@ public class UserViewModel extends AndroidViewModel {
         userRepository.insert(my_user);
     }
 
-    public void update(UserEntity user){
-        userRepository.update(user);
+    public void update(){
+        userRepository.update(my_user);
     }
 
     public void delete(UserEntity user){

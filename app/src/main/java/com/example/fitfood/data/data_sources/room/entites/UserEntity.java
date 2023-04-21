@@ -61,6 +61,34 @@ public class UserEntity {
     public String[] Preferences;
 
     public UserEntity(){}
+    public UserEntity(UserEntity value){
+        if (value != null){
+            this.id = value.id;
+            this.Name = value.Name;
+            this.Height = value.Height;
+            this.Weight = value.Weight;
+            this.Goal = value.Goal;
+            this.WeightGoal = value.WeightGoal;;
+            this.ActivityLevel = value.ActivityLevel;
+            this.TrainingFrequency = value.TrainingFrequency;
+            this.Contraindications_s = value.Contraindications_s;
+            this.Preferences_s = value.Preferences_s;
+            this.FoodStyle = value.FoodStyle;
+            this.Plan = value.Plan;
+            this.EatenCalories = value.EatenCalories;
+            this.BreakfastEaten = value.BreakfastEaten;;
+            this.LunchEaten = value.LunchEaten;
+            this.DinnerEaten = value.DinnerEaten;
+            this.SnackEaten = value.SnackEaten;
+            this.PlanCycle = value.PlanCycle;
+            this.LastChangeDate = value.LastChangeDate;
+            this.Login = value.Login;
+            this.Password = value.Password;
+
+            Contraindications = Contraindications_s.split(" ");
+            Preferences = Preferences_s.split(" ");
+        }
+    }
 
     public UserEntity(int id, String name, int height, int weight, String goal, int weightGoal,
                       String activityLevel, String trainingFrequency, String contraindications_s,
