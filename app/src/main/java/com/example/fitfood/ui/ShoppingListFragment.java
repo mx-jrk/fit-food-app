@@ -41,12 +41,6 @@ public class ShoppingListFragment extends Fragment {
         ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
         viewModel = shoppingListViewModel;
 
-        shoppingListViewModel.getAllPlans().observe(getViewLifecycleOwner(), new Observer<List<PlanEntity>>() {
-            @Override
-            public void onChanged(List<PlanEntity> planEntities) {
-                Toast.makeText(getContext(), String.valueOf(planEntities.size()), Toast.LENGTH_SHORT).show();
-            }
-        });
 
         shoppingListViewModel.getAllProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
             @SuppressLint("SetTextI18n")

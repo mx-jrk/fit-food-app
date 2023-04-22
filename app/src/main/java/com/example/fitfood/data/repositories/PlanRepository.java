@@ -35,7 +35,7 @@ public class PlanRepository {
         allPlans = planDAO.getAllPlans();
 
         recipeDAO = db.recipeDAO();
-        allRecipes = recipeDAO.getRecipesByPlan("Студенческий план");
+        allRecipes = recipeDAO.getRecipesByPlan(1);
     }
 
     public LiveData<List<RecipeEntity>> getAllRecipes(){

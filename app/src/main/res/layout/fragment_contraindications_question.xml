@@ -16,20 +16,56 @@
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"/>
-    <EditText
-        android:id="@+id/contraindications"
-        android:layout_width="380dp"
-        android:layout_height="250dp"
-        android:inputType="textMultiLine"
-        android:fontFamily="@font/dexaround_regular"
-        android:gravity="top"
+    <CheckBox
+        android:id="@+id/sugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/suagar"
         android:textSize="20sp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/et_border_black"
-        android:layout_marginTop="30dp"/>
+        android:fontFamily="@font/dexaround_regular"/>
+    <CheckBox
+        android:id="@+id/carbohydrate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/carbohydrate"
+        android:textSize="20sp"
+        android:fontFamily="@font/dexaround_regular"/>
+    <CheckBox
+        android:id="@+id/fats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/Fats"
+        android:textSize="20sp"
+        android:fontFamily="@font/dexaround_regular"/>
+    <CheckBox
+        android:id="@+id/milk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/milk"
+        android:textSize="20sp"
+        android:fontFamily="@font/dexaround_regular"/>
+    <CheckBox
+        android:id="@+id/pig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/pig"
+        android:textSize="20sp"
+        android:fontFamily="@font/dexaround_regular"/>
+    <CheckBox
+        android:id="@+id/meal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:text="@string/meal"
+        android:textSize="20sp"
+        android:fontFamily="@font/dexaround_regular"/>
     <Button
         android:id="@+id/next_btn"
-        android:enabled="false"
         android:textAllCaps="false"
         android:background="@drawable/roundstyle"
         android:foreground="?android:attr/selectableItemBackground"

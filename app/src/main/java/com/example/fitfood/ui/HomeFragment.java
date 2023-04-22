@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
@@ -46,7 +47,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         homeViewModel.getAllRecipes().observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
             @Override
             public void onChanged(List<RecipeEntity> recipeEntities) {

@@ -14,7 +14,7 @@ public interface RecipeDAO {
     @Insert
     void insert(RecipeEntity recipeEntity);
 
-    @Query("SELECT * FROM recipes_table WHERE Plan = :plan")
-    LiveData<List<RecipeEntity>> getRecipesByPlan(String plan);
+    @Query("SELECT * FROM recipes_table WHERE PlansId = :plan")
+    LiveData<List<RecipeEntity>> getRecipesByPlan(int plan);
 
 }

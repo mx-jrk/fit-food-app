@@ -38,14 +38,14 @@
     <string name="one_two_training">1-2 раза в неделю</string>
     <string name="three_four_training">3-4 раза в неделю</string>
     <string name="more_four_training">Более 4-х раз в неделю</string>
-    <string name="what_u_contraindications">Укажите продукты, добавки, ингредиенты и т.д., которые Вы не желаете видеть в своём рационе (противопоказания, не нравятся по вкусу), разделяя их ТОЛЬКО запятой и пробелом</string>
+    <string name="what_u_contraindications">Укажите продукты, добавки, ингредиенты и т.д., которые Вы не желаете видеть (или хотите сократить) в своём рационе (противопоказания, не нравятся по вкусу)</string>
     <string name="what_u_preferences">Укажите продукты, ингредиенты и т.д., которые предпочитаете (нравятся по вкусу, рекомендованы к употреблению), разделяя их ТОЛЬКО запятой и пробелом</string>
     <string name="what_u_food_style">Какой из следующих стилей питания соответствует вашим предпочтениям?</string>
     <string name="vegan">Вегетерианство</string>
     <string name="more_meal">Умеренное потребление мяса с ограничением гарниров</string>
     <string name="less_meal">Умеренное потребление гарниров с ограничением мяса</string>
     <string name="plan_preface">Теперь мы узнали Вас получше и составили подходящие Вам планы питания. Все они собраны исходя из Ваших целей, пожеланий и противопоказаний.</string>
-    <string name="thanks_to">Спасибо,</string>
+    <string name="thanks_to">Спасибо, </string>
     <string name="average_ccal">Средние показатели КБЖУ - \n</string>
     <string name="good_afternoon">Добрый день!</string>
     <string name="dish_eaten">Блюд съедено</string>
@@ -73,6 +73,14 @@
     <string name="count">Количество</string>
     <string name="product_name">Название</string>
     <string name="what_u_goal_weight">Какой у вас целевой вес (в кг)?</string>
+    <string name="suagar">Сахар</string>
+    <string name="carbohydrate">Углеводы</string>
+    <string name="Fats">Жиры</string>
+    <string name="milk">Молочная продукция</string>
+    <string name="pig">Свинина</string>
+    <string name="meal">Мясо</string>
+    <string name="choose">Выбрать</string>
+    <string name="average_calories">Средний каллораж: </string>
 
     <string-array name="shopping_list_variants">
         <item>сегодня</item>

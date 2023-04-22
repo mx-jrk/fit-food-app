@@ -5,8 +5,13 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.example.fitfood.data.repositories.PlanRepository;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Entity(tableName = "user_table")
 public class UserEntity {
@@ -24,17 +29,9 @@ public class UserEntity {
 
     public int WeightGoal;
 
-    public String ActivityLevel;
-
-    public String TrainingFrequency;
-
     public String Contraindications_s;
 
-    public String Preferences_s;
-
-    public String FoodStyle;
-
-    public String Plan;
+    public int PlanId;
 
     public int EatenCalories = 0;
 
@@ -54,71 +51,55 @@ public class UserEntity {
 
     public String Password;
 
+    public int NormalCalories;
+
     @Ignore
     public String[] Contraindications;
 
     @Ignore
-    public String[] Preferences;
+    public PlanEntity Plan;
 
     public UserEntity(){}
-    public UserEntity(UserEntity value){
-        if (value != null){
-            this.id = value.id;
-            this.Name = value.Name;
-            this.Height = value.Height;
-            this.Weight = value.Weight;
-            this.Goal = value.Goal;
-            this.WeightGoal = value.WeightGoal;;
-            this.ActivityLevel = value.ActivityLevel;
-            this.TrainingFrequency = value.TrainingFrequency;
-            this.Contraindications_s = value.Contraindications_s;
-            this.Preferences_s = value.Preferences_s;
-            this.FoodStyle = value.FoodStyle;
-            this.Plan = value.Plan;
-            this.EatenCalories = value.EatenCalories;
-            this.BreakfastEaten = value.BreakfastEaten;;
-            this.LunchEaten = value.LunchEaten;
-            this.DinnerEaten = value.DinnerEaten;
-            this.SnackEaten = value.SnackEaten;
-            this.PlanCycle = value.PlanCycle;
-            this.LastChangeDate = value.LastChangeDate;
-            this.Login = value.Login;
-            this.Password = value.Password;
 
-            Contraindications = Contraindications_s.split(" ");
-            Preferences = Preferences_s.split(" ");
+
+
+    public List<PlanEntity> choose_plans(List<PlanEntity> plans){
+        Contraindications = Contraindications_s.split("\n");
+
+        if (Contraindications.length == 0) return plans;
+
+        List<PlanEntity> good_plans = new ArrayList<>();
+        String[] planContraindications;
+        int countContraindications;
+
+        for (PlanEntity plan : plans){
+            if (!plan.GoalOfPlan.contains(Goal.toLowerCase(Locale.ROOT))) continue;
+            if (Goal.contains("Набор массы") && plan.AverageCalories < (NormalCalories + 500)) continue;
+            if ((Goal.contains("Сушка") || Goal.contains("Похудение")) && plan.AverageCalories > (NormalCalories - 500)) continue;
+            if (Goal.contains("Поддержание массы") && Math.abs(NormalCalories - plan.AverageCalories) > 500) continue;
+
+            countContraindications = 0;
+            if (plan.Contraindications == null){
+                good_plans.add(plan);
+                continue;
+            }
+            planContraindications = plan.Contraindications.split("\n");
+
+            for (String contraindication : Contraindications){
+                if (isValueInArray(contraindication, planContraindications)) countContraindications++;
+            }
+
+            if (countContraindications <= 2) good_plans.add(plan);
         }
+
+        return good_plans;
     }
 
-    public UserEntity(int id, String name, int height, int weight, String goal, int weightGoal,
-                      String activityLevel, String trainingFrequency, String contraindications_s,
-                      String preferences_s, String foodStyle, String plan, int eatenCalories,
-                      boolean breakfastEaten, boolean lunchEaten, boolean dinnerEaten,
-                      boolean snackEaten, int planCycle, String lastChangeDate,
-                      String login, String password) {
-        this.id = id;
-        Name = name;
-        Height = height;
-        Weight = weight;
-        Goal = goal;
-        WeightGoal = weightGoal;
-        ActivityLevel = activityLevel;
-        TrainingFrequency = trainingFrequency;
-        Contraindications_s = contraindications_s;
-        Preferences_s = preferences_s;
-        FoodStyle = foodStyle;
-        Plan = plan;
-        EatenCalories = eatenCalories;
-        BreakfastEaten = breakfastEaten;
-        LunchEaten = lunchEaten;
-        DinnerEaten = dinnerEaten;
-        SnackEaten = snackEaten;
-        PlanCycle = planCycle;
-        LastChangeDate = lastChangeDate;
-        Login = login;
-        Password = password;
-
-        Contraindications = Contraindications_s.split(" ");
-        Preferences = Preferences_s.split(" ");
+    private boolean isValueInArray(String value, String[] array){
+        for (String v: array){
+            if (v.contains(value)) return true;
+        }
+        return false;
     }
+
 }

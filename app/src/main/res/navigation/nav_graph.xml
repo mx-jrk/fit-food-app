@@ -137,28 +137,10 @@
         android:label="fragment_goal_weight"
         tools:layout="@layout/fragment_goal_weight" >
         <action
-            android:id="@+id/action_goalWeightFragment_to_activityQuestionFragment"
-            app:destination="@id/activityQuestionFragment" />
-        <action
             android:id="@+id/action_goalWeightFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/activityQuestionFragment"
-        android:name="com.example.fitfood.ui.Survey.ActivityQuestionFragment"
-        android:label="fragment_activity_question"
-        tools:layout="@layout/fragment_activity_question" >
         <action
-            android:id="@+id/action_activityQuestionFragment_to_trainingFrequencyQuestionFragment"
-            app:destination="@id/trainingFrequencyQuestionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/trainingFrequencyQuestionFragment"
-        android:name="com.example.fitfood.ui.Survey.TrainingFrequencyQuestionFragment"
-        android:label="fragment_training_frequency_question"
-        tools:layout="@layout/fragment_training_frequency_question" >
-        <action
-            android:id="@+id/action_trainingFrequencyQuestionFragment_to_contraindicationsQuestionFragment"
+            android:id="@+id/action_goalWeightFragment_to_contraindicationsQuestionFragment"
             app:destination="@id/contraindicationsQuestionFragment" />
     </fragment>
     <fragment
@@ -167,25 +149,7 @@
         android:label="fragment_contraindications_question"
         tools:layout="@layout/fragment_contraindications_question" >
         <action
-            android:id="@+id/action_contraindicationsQuestionFragment_to_preferencesQuestionFragment"
-            app:destination="@id/preferencesQuestionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/preferencesQuestionFragment"
-        android:name="com.example.fitfood.ui.Survey.PreferencesQuestionFragment"
-        android:label="fragment_preferences_question"
-        tools:layout="@layout/fragment_preferences_question" >
-        <action
-            android:id="@+id/action_preferencesQuestionFragment_to_foodStylQuestionFragment"
-            app:destination="@id/foodStylQuestionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/foodStylQuestionFragment"
-        android:name="com.example.fitfood.ui.Survey.FoodStylQuestionFragment"
-        android:label="fragment_food_styl_question"
-        tools:layout="@layout/fragment_food_styl_question" >
-        <action
-            android:id="@+id/action_foodStylQuestionFragment_to_planChoosingFragment"
+            android:id="@+id/action_contraindicationsQuestionFragment_to_planChoosingFragment"
             app:destination="@id/planChoosingFragment" />
     </fragment>
     <fragment

@@ -17,9 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fitfood.R;
+
 import com.example.fitfood.databinding.FragmentContraindicationsQuestionBinding;
-import com.example.fitfood.databinding.FragmentGoalWeightBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
+
+import java.util.Locale;
 
 public class ContraindicationsQuestionFragment extends Fragment {
 
@@ -43,29 +45,40 @@ public class ContraindicationsQuestionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.contraindications.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) binding.nextBtn.setEnabled(true);
-                else binding.nextBtn.setEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userViewModel.my_user.Contraindications_s = binding.contraindications.getText().toString();
-                navController.navigate(R.id.action_contraindicationsQuestionFragment_to_preferencesQuestionFragment);
+                String Contraindications = "";
+                if (binding.pig.isChecked()){
+                    Contraindications += binding.pig.getText().toString().toLowerCase(Locale.ROOT);
+                }
+
+                if (binding.carbohydrate.isChecked()){
+                    if (Contraindications.length() == 0) Contraindications += binding.carbohydrate.getText().toString().toLowerCase(Locale.ROOT);
+                    else Contraindications += "\n" + binding.carbohydrate.getText().toString().toLowerCase(Locale.ROOT);
+                }
+
+                if (binding.fats.isChecked()){
+                    if (Contraindications.length() == 0) Contraindications += binding.fats.getText().toString().toLowerCase(Locale.ROOT);
+                    else Contraindications += "\n" + binding.fats.getText().toString().toLowerCase(Locale.ROOT);
+                }
+
+                if (binding.sugar.isChecked()){
+                    if (Contraindications.length() == 0) Contraindications += binding.sugar.getText().toString().toLowerCase(Locale.ROOT);
+                    else Contraindications += "\n" + binding.sugar.getText().toString().toLowerCase(Locale.ROOT);
+                }
+                if (binding.milk.isChecked()){
+                    if (Contraindications.length() == 0) Contraindications += binding.milk.getText().toString().toLowerCase(Locale.ROOT);
+                    else Contraindications += "\n" + binding.milk.getText().toString().toLowerCase(Locale.ROOT);
+                }
+
+                if (binding.meal.isChecked()){
+                    if (Contraindications.length() == 0) Contraindications += binding.meal.getText().toString().toLowerCase(Locale.ROOT);
+                    else Contraindications += "\n" + binding.meal.getText().toString().toLowerCase(Locale.ROOT);
+                }
+
+                userViewModel.my_user.Contraindications_s = Contraindications;
+                navController.navigate(R.id.action_contraindicationsQuestionFragment_to_planChoosingFragment);
             }
         });
     }

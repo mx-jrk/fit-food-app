@@ -72,6 +72,7 @@ public class WeightQuestionFragment extends Fragment {
             public void onClick(View view) {
                 try{
                     userViewModel.my_user.Weight = Integer.parseInt(binding.weight.getText().toString());
+                    userViewModel.my_user.NormalCalories = userViewModel.my_user.Weight * 33;
 
                     if (getArguments() == null){
                         navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);

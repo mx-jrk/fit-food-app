@@ -13,18 +13,34 @@ import java.util.Objects;
 public class RecipeEntity {
     @NonNull
     @PrimaryKey
+    @ColumnInfo(name = "id")
+    public int id;
+
     @ColumnInfo(name = "Title")
     public String Title;
 
     @ColumnInfo(name = "Description")
     public String Description;
 
-    @ColumnInfo(name = "Plan")
-    public String Plan;
+    @NonNull
+    @ColumnInfo(name = "PlansId")
+    public int PlansId;
 
+    @NonNull
     @ColumnInfo(name = "Calories")
-    public Integer Calories;
+    public int Calories;
 
+    @NonNull
+    @ColumnInfo(name = "Protein")
+    public int Protein;
+
+    @NonNull
+    @ColumnInfo(name = "Fats")
+    public int Fats;
+
+    @NonNull
+    @ColumnInfo(name = "Carbohydrates")
+    public int Carbohydrates;
 
     @ColumnInfo(name = "Time")
     public String Time;
@@ -32,16 +48,24 @@ public class RecipeEntity {
     @ColumnInfo(name = "ImageName")
     public String ImageName;
 
+    @ColumnInfo(name = "CookingMethod")
+    public String CookingMethod;
+
     public RecipeEntity(){
     }
 
-    public RecipeEntity(String title, String description, String plan, int calories, String time, String imageName) {
+    public RecipeEntity(int id, String title, String description, int plansId, int calories, int protein, int fats, int carbohydrates, String time, String imageName, String cookingMethod) {
+        this.id = id;
         Title = title;
         Description = description;
-        Plan = plan;
+        PlansId = plansId;
         Calories = calories;
+        Protein = protein;
+        Fats = fats;
+        Carbohydrates = carbohydrates;
         Time = time;
         ImageName = imageName;
+        CookingMethod = cookingMethod;
     }
 
     public boolean is_this_time(String time){

@@ -5,11 +5,16 @@
     import androidx.room.Entity;
     import androidx.room.PrimaryKey;
 
+    import org.jetbrains.annotations.NotNull;
+
 
     @Entity(tableName = "plan_table")
     public class PlanEntity {
         @NonNull
         @PrimaryKey
+        @ColumnInfo(name = "id")
+        public int id;
+
         @ColumnInfo(name = "Title")
         public String Title;
 
@@ -19,15 +24,25 @@
         @ColumnInfo(name = "ImageName")
         public String ImageName;
 
+        @NonNull
         @ColumnInfo(name = "AverageCalories")
-        public String AverageCalories;
+        public int AverageCalories;
+
+        @ColumnInfo(name = "GoalOfPlan")
+        public String GoalOfPlan;
+
+        @ColumnInfo(name = "Contraindications")
+        public String Contraindications;
 
         public PlanEntity(){}
 
-        public PlanEntity(@NonNull String title, String description, String imageName, String averageCalories) {
+        public PlanEntity(int id, String title, String description, String imageName, int averageCalories, String goalOfPlan, String contraindications) {
+            this.id = id;
             Title = title;
             Description = description;
             ImageName = imageName;
             AverageCalories = averageCalories;
+            GoalOfPlan = goalOfPlan;
+            Contraindications = contraindications;
         }
     }

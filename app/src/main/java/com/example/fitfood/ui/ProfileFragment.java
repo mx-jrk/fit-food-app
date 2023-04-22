@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
-import com.example.fitfood.databinding.FragmentPreferencesQuestionBinding;
 import com.example.fitfood.databinding.FragmentProfileBinding;
 import com.example.fitfood.ui.Survey.GoalWeightFragment;
 import com.example.fitfood.ui.Survey.NameQuestionFragment;
@@ -54,7 +53,7 @@ public class ProfileFragment extends Fragment {
 
         binding.userGoalWeight.setText(userViewModel.my_user.WeightGoal + "кг");
 
-        binding.userPlan.setText(userViewModel.my_user.Plan);
+        binding.userPlan.setText(userViewModel.my_user.Plan.Title);
 
 
         Bundle bundle = new Bundle();

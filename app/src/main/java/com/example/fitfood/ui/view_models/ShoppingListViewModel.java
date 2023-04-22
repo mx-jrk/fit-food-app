@@ -28,6 +28,7 @@ public class ShoppingListViewModel extends AndroidViewModel {
         this.allPlans = planRepository.getAllPlans();
     }
 
+
     public LiveData<List<PlanEntity>> getAllPlans(){
         return allPlans;
     }

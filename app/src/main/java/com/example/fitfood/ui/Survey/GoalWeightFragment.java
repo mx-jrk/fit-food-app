@@ -66,7 +66,7 @@ public class GoalWeightFragment extends Fragment {
                 try{
                     userViewModel.my_user.WeightGoal = Integer.parseInt(binding.weight.getText().toString());
                     if (userViewModel.getUser().getValue() == null){
-                        navController.navigate(R.id.action_goalWeightFragment_to_activityQuestionFragment);
+                        navController.navigate(R.id.action_goalWeightFragment_to_contraindicationsQuestionFragment);
                     }
                     else {
                         navController.navigate(R.id.action_goalWeightFragment_to_profileFragment);

@@ -11,7 +11,7 @@
         import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
         import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 
-        @Database(entities = {PlanEntity.class, RecipeEntity.class}, version = 2, exportSchema = false)
+        @Database(entities = {PlanEntity.class, RecipeEntity.class}, version = 3, exportSchema = false)
         public abstract class PlanDatabase extends RoomDatabase {
             public abstract PlanDAO planDAO();
             public abstract RecipeDAO recipeDAO();
