@@ -22,12 +22,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.fitfood.R;
+import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
+import com.example.fitfood.data.repositories.PlanRepository;
 import com.example.fitfood.data.repositories.UserRepository;
 import com.example.fitfood.databinding.ActivityMainBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     static BottomNavigationView bottomNavigationView;
     UserViewModel userViewModel;
+    PlanRepository planRepository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         setupWithNavController(bottomNavigationView, navController);
 
+        planRepository = new PlanRepository(getApplication());
+
         //First Launch checking
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getUser().observe(this, new Observer<UserEntity>() {
@@ -66,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.loginOrSignupFragment);
                 }
                 else {
+                    planRepository.getAllPlans().observe(MainActivity.this, new Observer<List<PlanEntity>>() {
+                        @Override
+                        public void onChanged(List<PlanEntity> planEntities) {
+                            for (PlanEntity plan : planEntities){
+                                if (plan.id == user.PlanId){
+                                    user.Plan = plan;
+                                    return;
+                                }
+                            }
+                        }
+                    });
                     userViewModel.my_user = user;
                 }
             }

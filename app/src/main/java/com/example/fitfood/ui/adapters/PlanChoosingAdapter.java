@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
+import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,13 @@ import java.util.List;
 public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapter.PlanHolder> {
     private List<PlanEntity> plans = new ArrayList<>();
     private Context context;
+    private NavController navController;
+    private UserViewModel userViewModel;
 
-    public PlanChoosingAdapter(Context context) {
+    public PlanChoosingAdapter(Context context, NavController navController, UserViewModel userViewModel) {
         this.context = context;
+        this.navController = navController;
+        this.userViewModel = userViewModel;
     }
 
     @NonNull
@@ -39,6 +45,15 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         holder.planDescription.setText(currentPlan.Description);
         holder.planCalories.setText(String.valueOf(holder.planCalories.getText().toString() + ' ' + currentPlan.AverageCalories));
         holder.planImage.setImageResource(context.getResources().getIdentifier(currentPlan.ImageName, "drawable", context.getPackageName()));
+        holder.planChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userViewModel.my_user.PlanId = currentPlan.id;
+                userViewModel.my_user.Plan = currentPlan;
+                userViewModel.insert();
+                navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
+            }
+        });
     }
 
     @Override

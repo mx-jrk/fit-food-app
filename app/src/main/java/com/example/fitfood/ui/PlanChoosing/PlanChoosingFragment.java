@@ -43,7 +43,7 @@ public class PlanChoosingFragment extends Fragment {
 
 
 
-        adapter = new PlanChoosingAdapter(getContext());
+        adapter = new PlanChoosingAdapter(getContext(), navController, userViewModel);
 
         return binding.getRoot();
     }
@@ -61,5 +61,7 @@ public class PlanChoosingFragment extends Fragment {
                 adapter.setPlans(userViewModel.my_user.choose_plans(planEntities));
             }
         });
+
+
     }
 }
