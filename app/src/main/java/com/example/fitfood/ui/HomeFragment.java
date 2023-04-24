@@ -18,10 +18,13 @@ import android.widget.Toast;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
+import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.databinding.FragmentHomeBinding;
 import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.HomeViewModel;
+import com.example.fitfood.ui.view_models.UserViewModel;
 
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -30,6 +33,7 @@ public class HomeFragment extends Fragment {
     HomeViewModel homeViewModel;
     NavHostFragment navHostFragment;
     NavController navController;
+    UserViewModel userViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +44,8 @@ public class HomeFragment extends Fragment {
         navController = navHostFragment.getNavController();
 
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+
 
         return binding.getRoot();
     }
@@ -47,40 +53,34 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        homeViewModel.getAllRecipes().observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-            @Override
-            public void onChanged(List<RecipeEntity> recipeEntities) {
-                RecipeEntity dailyRation;
-                for (int i = 0; i < recipeEntities.size(); i++){
-                    dailyRation = recipeEntities.get(i);
-                    if (dailyRation.is_this_time("Завтрак")){
-                        binding.breakfastTitle.setText(dailyRation.Title);
-                        binding.breakfastDescription.setText(dailyRation.Description);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            binding.breakfastImage.setImageResource(getResources().getIdentifier(dailyRation.ImageName, "drawable", view.getContext().getOpPackageName()));
-                        }
-                        continue;
-                    }
-                    else if (dailyRation.is_this_time("Обед")){
-                        binding.lunchTitle.setText(dailyRation.Title);
-                        binding.lunchDescription.setText(dailyRation.Description);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            binding.lunchImage.setImageResource(getResources().getIdentifier(dailyRation.ImageName, "drawable", view.getContext().getOpPackageName()));
-                        }
-                        continue;
-                    }
-                    else if (dailyRation.is_this_time("Ужин")){
-                        binding.dinnerTitle.setText(dailyRation.Title);
-                        binding.dinnerDescription.setText(dailyRation.Description);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            binding.dinnerImage.setImageResource(getResources().getIdentifier(dailyRation.ImageName, "drawable", view.getContext().getOpPackageName()));
-                        }
-                        continue;
-                    }
 
-                }
-            }
-        });
+
+        List<RecipeEntity>  recipeEntities= userViewModel.my_user.DailyRecipes;
+
+
+        binding.breakfastTitle.setText(recipeEntities.get(0).Title);
+        binding.breakfastDescription.setText(recipeEntities.get(0).Description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            binding.breakfastImage.setImageResource(getResources().getIdentifier(recipeEntities.get(0).ImageName,  "drawable", view.getContext().getOpPackageName()));
+        }
+
+        binding.lunchTitle.setText(recipeEntities.get(1).Title);
+        binding.lunchDescription.setText(recipeEntities.get(1).Description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            binding.lunchImage.setImageResource(getResources().getIdentifier(recipeEntities.get(1).ImageName,  "drawable", view.getContext().getOpPackageName()));
+        }
+
+        binding.dinnerTitle.setText(recipeEntities.get(2).Title);
+        binding.dinnerDescription.setText(recipeEntities.get(2).Description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            binding.dinnerImage.setImageResource(getResources().getIdentifier(recipeEntities.get(2).ImageName,  "drawable", view.getContext().getOpPackageName()));
+        }
+
+        binding.snackTile.setText(recipeEntities.get(3).Title);
+        binding.snackDescription.setText(recipeEntities.get(3).Description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            binding.snackImage.setImageResource(getResources().getIdentifier(recipeEntities.get(3).ImageName,  "drawable", view.getContext().getOpPackageName()));
+        }
 
         binding.changeWeight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,5 +92,7 @@ public class HomeFragment extends Fragment {
                 navController.navigate(R.id.action_homeFragment_to_weightQuestionFragment, bundle);
             }
         });
+
+
     }
 }

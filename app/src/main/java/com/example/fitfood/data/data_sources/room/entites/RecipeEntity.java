@@ -51,6 +51,12 @@ public class RecipeEntity {
     @ColumnInfo(name = "CookingMethod")
     public String CookingMethod;
 
+    @ColumnInfo(name = "Day")
+    public String Day;
+
+    @ColumnInfo(name = "Products")
+    public String Products;
+
     public RecipeEntity(){
     }
 

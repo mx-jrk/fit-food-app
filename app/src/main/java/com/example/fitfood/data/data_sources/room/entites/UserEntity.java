@@ -45,7 +45,7 @@ public class UserEntity {
 
     public int PlanCycle = 1;
 
-    public String LastChangeDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    public String LastChangeDate =new Date().toString();
 
     public String Login;
 
@@ -59,8 +59,10 @@ public class UserEntity {
     @Ignore
     public PlanEntity Plan;
 
-    public UserEntity(){}
+    @Ignore
+    public List<RecipeEntity> DailyRecipes;
 
+    public UserEntity(){}
 
 
     public List<PlanEntity> choose_plans(List<PlanEntity> plans){

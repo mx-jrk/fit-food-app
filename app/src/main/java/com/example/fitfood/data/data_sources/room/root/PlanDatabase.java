@@ -25,7 +25,7 @@
                         if (INSTANCE == null) {
                             INSTANCE = Room.databaseBuilder(context, PlanDatabase.class, "recipes_database.db")
                                     .createFromAsset("recipes_database.db")
-                                    .fallbackToDestructiveMigration()
+                                    .fallbackToDestructiveMigration().allowMainThreadQueries()
                                     .build();
 
                         }

@@ -257,12 +257,13 @@
 
 
             <LinearLayout
-                android:layout_marginEnd="15dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="5dp">
                 <LinearLayout
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -415,6 +416,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="5dp">
                 <LinearLayout
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -431,6 +433,7 @@
                             android:textSize="32sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/snack_tile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Блюдо"
@@ -439,6 +442,7 @@
                             android:textSize="16sp"
                             android:layout_marginStart="10dp"/>
                         <TextView
+                            android:id="@+id/snack_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Краткое описание"
@@ -468,6 +472,7 @@
                         android:layout_weight="1"
                         />
                     <ImageView
+                        android:id="@+id/snack_image"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:src="@drawable/logo"

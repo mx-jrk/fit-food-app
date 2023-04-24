@@ -14,4 +14,7 @@ public interface PlanDAO {
 
     @Query("SELECT * FROM plan_table")
     LiveData<List<PlanEntity>> getAllPlans();
+
+    @Query("SELECT * FROM plan_table WHERE id = :planId")
+    LiveData<PlanEntity> getPlansById(int planId);
 }

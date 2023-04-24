@@ -21,7 +21,8 @@ public class UserViewModel extends AndroidViewModel  {
     private LiveData<UserEntity> user;
     public PlanRepository planRepository;
     private LiveData<List<PlanEntity>> plans;
-    public List<RecipeEntity> recipes;
+    public LiveData<List<RecipeEntity>> recipes;
+    public LiveData<PlanEntity> plansById;
     public UserEntity my_user;
 
     public UserViewModel(Application application){
@@ -32,8 +33,9 @@ public class UserViewModel extends AndroidViewModel  {
         user = userRepository.getUser();
         plans = planRepository.getAllPlans();
         my_user = new UserEntity();
-
     }
+
+
 
     public LiveData<List<PlanEntity>> getAllPlans(){
         return plans;
@@ -55,4 +57,16 @@ public class UserViewModel extends AndroidViewModel  {
         return user;
     }
 
+    public LiveData<PlanEntity> getPlansById(int id){
+        plansById = planRepository.getPlansById(id);
+        return plansById;
+    }
+
+    public LiveData<List<RecipeEntity>> getRecipesByPlan(UserEntity user){
+        recipes = planRepository.getRecipesByPlan(user);
+        return recipes;
+    }
+
 }
+
+

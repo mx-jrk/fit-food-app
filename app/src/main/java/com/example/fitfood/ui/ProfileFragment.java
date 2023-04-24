@@ -17,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fitfood.R;
+import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.databinding.FragmentProfileBinding;
 import com.example.fitfood.ui.Survey.GoalWeightFragment;
 import com.example.fitfood.ui.Survey.NameQuestionFragment;
 import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.UserViewModel;
+
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
@@ -46,6 +49,13 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
        // Toast.makeText(getContext(), userViewModel.my_user.Name + " " + userViewModel.user + " " + userViewModel.my_user.Weight, Toast.LENGTH_SHORT).show();
+//        userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, userViewModel.my_user.LastChangeDate.split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+//            @Override
+//            public void onChanged(List<RecipeEntity> recipeEntities) {
+//                userViewModel.my_user.DailyRecipes = recipeEntities;
+//            }
+//        });
+
         binding.name.setText(userViewModel.my_user.Name + "!");
         binding.userName.setText(userViewModel.my_user.Name);
 
@@ -55,7 +65,7 @@ public class ProfileFragment extends Fragment {
 
         binding.userPlan.setText(userViewModel.my_user.Plan.Title);
 
-
+        Toast.makeText(getContext(), userViewModel.my_user.DailyRecipes.get(0).Title, Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putString("source", "profile");
 

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.fitfood.data.data_sources.room.dao.ProductDAO;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
+import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.data.data_sources.room.root.ProductDatabase;
 
 import java.util.List;
@@ -43,5 +44,6 @@ public class ProductRepository {
     public void delete(ProductEntity product){
         ProductDatabase.databaseWriteExecutor.execute(()-> productDAO.delete(product));
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.fitfood.ui;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static androidx.navigation.ui.BottomNavigationViewKt.setupWithNavController;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
+import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.data.repositories.PlanRepository;
 import com.example.fitfood.data.repositories.UserRepository;
@@ -30,6 +33,7 @@ import com.example.fitfood.databinding.ActivityMainBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,34 +64,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         setupWithNavController(bottomNavigationView, navController);
 
-        planRepository = new PlanRepository(getApplication());
 
-        //First Launch checking
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.getUser().observe(this, new Observer<UserEntity>() {
-            @Override
-            public void onChanged(UserEntity user) {
-                if (user == null){
-                    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-                    NavController navController = navHostFragment.getNavController();
-                    navController.navigate(R.id.loginOrSignupFragment);
-                }
-                else {
-                    planRepository.getAllPlans().observe(MainActivity.this, new Observer<List<PlanEntity>>() {
-                        @Override
-                        public void onChanged(List<PlanEntity> planEntities) {
-                            for (PlanEntity plan : planEntities){
-                                if (plan.id == user.PlanId){
-                                    user.Plan = plan;
-                                    return;
-                                }
-                            }
-                        }
-                    });
-                    userViewModel.my_user = user;
-                }
-            }
-        });
 
         //Hiding BottomNavigation
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
@@ -108,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        //Toast.makeText(this, userViewModel.my_user.Name, Toast.LENGTH_SHORT).show();
+        userViewModel.my_user.LastChangeDate = new Date().toString();
         userViewModel.update();
     }
 }
