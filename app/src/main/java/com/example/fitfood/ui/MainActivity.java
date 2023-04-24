@@ -33,6 +33,7 @@ import com.example.fitfood.databinding.ActivityMainBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
        userViewModel.my_user.LastChangeDate = new Date().toString();
+       userViewModel.my_user.LastChangeDateInt = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
        userViewModel.update();
     }
 }

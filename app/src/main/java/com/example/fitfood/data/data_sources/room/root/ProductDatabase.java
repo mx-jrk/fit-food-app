@@ -12,7 +12,7 @@ import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ProductEntity.class}, version = 1)
+@Database(entities = {ProductEntity.class}, version = 2)
 public abstract class ProductDatabase extends RoomDatabase {
     public abstract ProductDAO productDAO();
 
@@ -27,7 +27,7 @@ public abstract class ProductDatabase extends RoomDatabase {
             synchronized (ProductDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    ProductDatabase.class, "app_database")
+                                    ProductDatabase.class, "app_database").fallbackToDestructiveMigration().allowMainThreadQueries()
                             .build();
                 }
             }

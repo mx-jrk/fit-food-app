@@ -38,7 +38,7 @@ public class ShoppingListFragment extends Fragment {
         ShoppingListFragment.super.onViewCreated(view, savedInstanceState);
         binding.shoppingList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.shoppingList.setAdapter(this.adapter);
-        ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
+        ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
         viewModel = shoppingListViewModel;
 
 

@@ -19,6 +19,7 @@ import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.databinding.FragmentPlanChoosingBinding;
 import com.example.fitfood.ui.adapters.PlanChoosingAdapter;
+import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class PlanChoosingFragment extends Fragment {
     NavHostFragment navHostFragment;
     NavController navController;
     PlanChoosingAdapter adapter;
+    ShoppingListViewModel shoppingListViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +43,10 @@ public class PlanChoosingFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
 
+        shoppingListViewModel =new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
 
 
-        adapter = new PlanChoosingAdapter(getContext(), navController, userViewModel);
+        adapter = new PlanChoosingAdapter(getContext(), navController, userViewModel, shoppingListViewModel);
 
         return binding.getRoot();
     }

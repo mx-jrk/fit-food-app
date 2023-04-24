@@ -25,5 +25,6 @@ public interface ProductDAO {
     @Query("SELECT * FROM products_table ORDER BY selected ASC")
     LiveData<List<ProductEntity>> getAllProducts();
 
-
+    @Query("DELETE FROM products_table WHERE generated = 1")
+    void deleteGenerated();
 }

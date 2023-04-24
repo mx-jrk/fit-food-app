@@ -45,5 +45,9 @@ public class ProductRepository {
         ProductDatabase.databaseWriteExecutor.execute(()-> productDAO.delete(product));
     }
 
+    public void deleteGenerated(){
+        productDAO.deleteGenerated();
+    }
+
 
 }

@@ -61,7 +61,7 @@ public class AddOwnProductFragment extends Fragment {
         this.binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
-                    viewModel.insert(new ProductEntity(binding.productName.getText().toString(), Integer.parseInt(binding.productCount.getText().toString()), false));
+                    viewModel.insert(new ProductEntity(binding.productName.getText().toString(), Integer.parseInt(binding.productCount.getText().toString()), false, false));
                     Navigation.findNavController(AddOwnProductFragment.this.requireView()).navigate(R.id.action_addOwnProduct_to_shoppingListFragment);
                 } catch (NumberFormatException e) {
                     Toast.makeText(AddOwnProductFragment.this.getActivity(), "В поле «количество» вы ввели не целое число!", Toast.LENGTH_SHORT).show();

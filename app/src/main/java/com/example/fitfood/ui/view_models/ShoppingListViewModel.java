@@ -48,4 +48,8 @@ public class ShoppingListViewModel extends AndroidViewModel {
     public void delete(ProductEntity product) {
         this.productRepository.delete(product);
     }
+
+    public void deleteGenerated(){
+        productRepository.deleteGenerated();
+    }
 }

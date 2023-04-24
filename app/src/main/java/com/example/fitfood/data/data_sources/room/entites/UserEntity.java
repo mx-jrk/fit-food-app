@@ -47,6 +47,8 @@ public class UserEntity {
 
     public String LastChangeDate =new Date().toString();
 
+    public int LastChangeDateInt;
+
     public String Login;
 
     public String Password;

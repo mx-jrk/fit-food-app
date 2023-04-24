@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
+import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
+import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
@@ -27,11 +29,13 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
     private Context context;
     private NavController navController;
     private UserViewModel userViewModel;
+    private ShoppingListViewModel shoppingListViewModel;
 
-    public PlanChoosingAdapter(Context context, NavController navController, UserViewModel userViewModel) {
+    public PlanChoosingAdapter(Context context, NavController navController, UserViewModel userViewModel, ShoppingListViewModel shoppingListViewModel) {
         this.context = context;
         this.navController = navController;
         this.userViewModel = userViewModel;
+        this.shoppingListViewModel = shoppingListViewModel;
     }
 
     @NonNull
@@ -58,6 +62,28 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
                     @Override
                     public void onChanged(List<RecipeEntity> recipeEntities) {
                         userViewModel.my_user.DailyRecipes = recipeEntities;userViewModel.insert();
+
+                        String[] products;
+                        List<ProductEntity> productEntityList = new ArrayList<>();
+                        ProductEntity generatedProduct;
+
+                        for (RecipeEntity recipe : recipeEntities) {
+                            if (recipe.Products == null) continue;
+                            products = recipe.Products.split("\n");
+                            for (String product : products) {
+                                generatedProduct = new ProductEntity(product.split(": ")[0], Integer.parseInt(product.split(": ")[1].trim()), false, true);
+                                if (productEntityList.contains(generatedProduct)) {
+                                    productEntityList.get(productEntityList.indexOf(generatedProduct)).count++;
+                                } else {
+                                    productEntityList.add(generatedProduct);
+                                }
+                            }
+                        }
+                        for (ProductEntity product : productEntityList) {
+                            shoppingListViewModel.insert(product);
+                            System.out.println(product.name + " " + product.count);
+                        }
+
                         navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
                     }
                 });
@@ -76,6 +102,8 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         this.plans = plans;
         notifyDataSetChanged();
     }
+
+
 
 
 
