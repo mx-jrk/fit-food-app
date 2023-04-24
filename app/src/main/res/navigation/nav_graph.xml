@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_recipeCardFragment"
             app:destination="@id/recipeCardFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_planChoosingFragment"
+            app:destination="@id/planChoosingFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"

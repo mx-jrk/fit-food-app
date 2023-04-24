@@ -83,6 +83,13 @@ public class HomeFragment extends Fragment {
             binding.snackImage.setImageResource(getResources().getIdentifier(recipeEntities.get(3).ImageName,  "drawable", view.getContext().getOpPackageName()));
         }
 
+        binding.changePlanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_homeFragment_to_planChoosingFragment);
+            }
+        });
+
 
 
         binding.changeWeight.setOnClickListener(new View.OnClickListener() {
