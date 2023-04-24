@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
+import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
@@ -50,8 +53,16 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
             public void onClick(View view) {
                 userViewModel.my_user.PlanId = currentPlan.id;
                 userViewModel.my_user.Plan = currentPlan;
-                userViewModel.insert();
-                navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
+                userViewModel.getRecipesByPlan(userViewModel.my_user).observe((LifecycleOwner)context, new Observer<List<RecipeEntity>>() {
+
+                    @Override
+                    public void onChanged(List<RecipeEntity> recipeEntities) {
+                        userViewModel.my_user.DailyRecipes = recipeEntities;userViewModel.insert();
+                        navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
+                    }
+                });
+
+
             }
         });
     }
@@ -65,6 +76,8 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         this.plans = plans;
         notifyDataSetChanged();
     }
+
+
 
     static class PlanHolder extends RecyclerView.ViewHolder {
         private final TextView planTitle;

@@ -1,5 +1,6 @@
 package com.example.fitfood.ui;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -82,6 +83,8 @@ public class HomeFragment extends Fragment {
             binding.snackImage.setImageResource(getResources().getIdentifier(recipeEntities.get(3).ImageName,  "drawable", view.getContext().getOpPackageName()));
         }
 
+
+
         binding.changeWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,5 +97,161 @@ public class HomeFragment extends Fragment {
         });
 
 
+        setEatenDishes();
+        setEatenCalories();
+        setButtons();
+
+        binding.weightTv.setText("Осталось: " + (userViewModel.my_user.WeightGoal - userViewModel.my_user.Weight));
+        binding.weightPb.setMax(userViewModel.my_user.WeightGoal);
+        binding.weightPb.setProgress(userViewModel.my_user.Weight);
+
+        binding.breakfastEatenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userViewModel.my_user.BreakfastEaten){
+                    userViewModel.my_user.BreakfastEaten = false;
+                    userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(0).Calories;
+                    binding.breakfastEatenBtn.setText("Выполнить");
+                    binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
+                }
+                else {
+                    userViewModel.my_user.BreakfastEaten = true;
+                    userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(0).Calories;
+                    binding.breakfastEatenBtn.setText("Выполнено");
+                    binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+                }
+                setEatenCalories();
+                setEatenDishes();
+            }
+        });
+
+        binding.lunchEatenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userViewModel.my_user.LunchEaten){
+                    userViewModel.my_user.LunchEaten = false;
+                    userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(1).Calories;
+                    binding.lunchEatenBtn.setText("Выполнить");
+                    binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
+                }
+                else {
+                    userViewModel.my_user.LunchEaten = true;
+                    userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(1).Calories;
+                    binding.lunchEatenBtn.setText("Выполнено");
+                    binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+                }
+                setEatenDishes();
+                setEatenCalories();
+            }
+        });
+
+        binding.dinnerEatenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userViewModel.my_user.DinnerEaten){
+                    userViewModel.my_user.DinnerEaten = false;
+                    userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(2).Calories;
+                    binding.dinnerEatenBtn.setText("Выполнить");
+                    binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
+                }
+                else{
+                    userViewModel.my_user.DinnerEaten = true;
+                    userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(2).Calories;
+                    binding.dinnerEatenBtn.setText("Выполнено");
+                    binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+                }
+                setEatenDishes();
+                setEatenCalories();
+            }
+        });
+
+        binding.snackEatenBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userViewModel.my_user.SnackEaten){
+                    userViewModel.my_user.SnackEaten = false;
+                    userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(3).Calories;
+                    binding.snackEatenBtn.setText("Выполнить");
+                    binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
+                }
+                else {
+                    userViewModel.my_user.SnackEaten = true;
+                    userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(3).Calories;
+                    binding.snackEatenBtn.setText("Выполнено");
+                    binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+                }
+                setEatenDishes();
+                setEatenCalories();
+            }
+        });
+
+        binding.watchBreakfastRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRecipeCard(0);
+            }
+        });
+
+        binding.watchLunchRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRecipeCard(1);
+            }
+        });
+
+        binding.watchDinnerRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRecipeCard(2);
+            }
+        });
+
+        binding.watchSnackRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRecipeCard(3);
+            }
+        });
+
+
+    }
+
+    private void setButtons(){
+        if (userViewModel.my_user.BreakfastEaten) {
+            binding.breakfastEatenBtn.setText("Выполнено");
+            binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+        }
+        if (userViewModel.my_user.LunchEaten) {
+            binding.lunchEatenBtn.setText("Выполнено");
+            binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+        }
+        if (userViewModel.my_user.DinnerEaten) {
+            binding.dinnerEatenBtn.setText("Выполнено");
+            binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+        }
+        if (userViewModel.my_user.SnackEaten) {
+            binding.snackEatenBtn.setText("Выполнено");
+            binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
+        }
+    }
+
+    private void goToRecipeCard(int time){
+        Bundle bundle = new Bundle();
+        bundle.putInt("time", time);
+        RecipeCardFragment weightQuestionFragment = new RecipeCardFragment();
+        weightQuestionFragment.setArguments(bundle);
+        navController.navigate(R.id.action_homeFragment_to_recipeCardFragment, bundle);
+    }
+
+    private void setEatenDishes(){
+        binding.eatenTv.setText(userViewModel.my_user.dishesEaten() + " из " + userViewModel.my_user.DailyRecipes.size());
+        binding.eatenPb.setMax(userViewModel.my_user.DailyRecipes.size());
+        binding.eatenPb.setProgress(userViewModel.my_user.dishesEaten());
+    }
+
+    private void setEatenCalories(){
+        binding.caloriesTv.setText(userViewModel.my_user.EatenCalories + " из " + userViewModel.my_user.dailyCalories());
+        binding.caloriesPb.setMax(userViewModel.my_user.dailyCalories());
+        binding.caloriesPb.setProgress(userViewModel.my_user.EatenCalories);
     }
 }

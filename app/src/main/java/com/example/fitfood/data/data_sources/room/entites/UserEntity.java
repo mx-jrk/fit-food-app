@@ -97,6 +97,23 @@ public class UserEntity {
         return good_plans;
     }
 
+    public int dailyCalories(){
+        int calories = 0;
+        for (RecipeEntity dish: DailyRecipes){
+            calories += dish.Calories;
+        }
+        return calories;
+    }
+
+    public int dishesEaten(){
+        int count = 0;
+        if (BreakfastEaten) count++;
+        if (LunchEaten) count++;
+        if (DinnerEaten) count++;
+        if (SnackEaten) count++;
+        return count;
+    }
+
     private boolean isValueInArray(String value, String[] array){
         for (String v: array){
             if (v.contains(value)) return true;

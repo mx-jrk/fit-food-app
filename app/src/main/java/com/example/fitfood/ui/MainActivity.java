@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
         //Hiding Bar
         try
         {
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        userViewModel.my_user.LastChangeDate = new Date().toString();
-        userViewModel.update();
+       userViewModel.my_user.LastChangeDate = new Date().toString();
+       userViewModel.update();
     }
 }

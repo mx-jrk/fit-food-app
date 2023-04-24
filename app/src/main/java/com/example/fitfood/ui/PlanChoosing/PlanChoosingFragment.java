@@ -55,6 +55,7 @@ public class PlanChoosingFragment extends Fragment {
         binding.plansList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.plansList.setAdapter(adapter);
 
+
         userViewModel.getAllPlans().observe(getViewLifecycleOwner(), new Observer<List<PlanEntity>>() {
             @Override
             public void onChanged(List<PlanEntity> planEntities) {

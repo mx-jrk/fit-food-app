@@ -52,32 +52,33 @@ public class LogoFragment extends Fragment {
         //First Launch checking
         userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
 
-            userViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<UserEntity>() {
-                @Override
-                public void onChanged(UserEntity user) {
-                    if (user == null){
-                        NavController navController = navHostFragment.getNavController();
-                        navController.navigate(R.id.loginOrSignupFragment);
-                    }
-                    else {
-                        userViewModel.getPlansById(user.PlanId).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
-                            @Override
-                            public void onChanged(PlanEntity plan) {
-                                user.Plan = plan;
-                            }
-                        });
-                        userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                            @Override
-                            public void onChanged(List<RecipeEntity> recipeEntities) {
-                                user.DailyRecipes = recipeEntities;
-                                if (user.DailyRecipes != null && user.PlanId != 0){
-                                    userViewModel.my_user = user;
-                                    navController.navigate(R.id.action_logoFragment_to_homeFragment);
-                                }
-                            }
-                        });
-                    }
+        userViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<UserEntity>() {
+            @Override
+            public void onChanged(UserEntity user) {
+                if (user == null && userViewModel.my_user.Plan == null){
+                    NavController navController = navHostFragment.getNavController();
+                    navController.navigate(R.id.loginOrSignupFragment);
                 }
-            });
+                else {
+                    userViewModel.getPlansById(user.PlanId).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
+                        @Override
+                        public void onChanged(PlanEntity plan) {
+                            user.Plan = plan;
+                        }
+                    });
+                    userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                        @Override
+                        public void onChanged(List<RecipeEntity> recipeEntities) {
+                            user.DailyRecipes = recipeEntities;
+                            if (user.DailyRecipes != null && user.PlanId != 0){
+                                userViewModel.my_user = user;
+                                navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
+
 }
