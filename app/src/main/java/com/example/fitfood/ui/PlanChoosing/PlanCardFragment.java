@@ -57,8 +57,6 @@ public class PlanCardFragment extends Fragment {
 
 
         if (getArguments() != null){
-            Toast.makeText(getContext(), String.valueOf(getArguments().getInt("plan")), Toast.LENGTH_SHORT).show();
-
             List<List<RecipeEntity>> plansRicepes = new ArrayList<>();
 
             userViewModel.getPlansById(getArguments().getInt("plan")).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {

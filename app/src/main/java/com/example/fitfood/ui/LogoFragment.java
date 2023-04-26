@@ -80,6 +80,12 @@ public class LogoFragment extends Fragment {
                             if (user.DailyRecipes != null && user.PlanId != 0) {
                                 userViewModel.my_user = user;
                                 if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != userViewModel.my_user.LastChangeDateInt) {
+                                    userViewModel.my_user.EatenCalories = 0;
+                                    userViewModel.my_user.BreakfastEaten = false;
+                                    userViewModel.my_user.LunchEaten = false;
+                                    userViewModel.my_user.DinnerEaten = false;
+                                    userViewModel.my_user.SnackEaten = false;
+
                                     shoppingListViewModel.deleteGenerated();
                                     String[] products;
                                     List<ProductEntity> productEntityList = new ArrayList<>();
