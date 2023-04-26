@@ -26,6 +26,7 @@ import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PlanCardFragment extends Fragment {
@@ -64,7 +65,7 @@ public class PlanCardFragment extends Fragment {
                 public void onChanged(PlanEntity plan) {
                     binding.title.setText(plan.Title);
                     binding.description.setText(plan.Description);
-                    binding.calories.setText(String.valueOf("Среднесуточный калоораж: " + plan.AverageCalories));
+                    binding.calories.setText(String.valueOf("Среднесуточный калораж: " + plan.AverageCalories));
                     binding.image.setImageResource(getContext().getResources().getIdentifier(plan.ImageName, "drawable", getContext().getPackageName()));
                     if (!getArguments().getBoolean("is_first")) binding.chooseBtn.setVisibility(View.GONE);
                     binding.chooseBtn.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +114,9 @@ public class PlanCardFragment extends Fragment {
                                 @Override
                                 public void onChanged(List<RecipeEntity> recipeEntities) {
                                     plansRicepes.add(recipeEntities);
-
+                                    planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
+                                    binding.allPlanRecipes.setAdapter(planCardAdapter);
+                                    planCardAdapter.notifyDataSetChanged();
                                 }
                             });
                         }
@@ -123,8 +126,7 @@ public class PlanCardFragment extends Fragment {
 
 
 
-            planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
-            binding.allPlanRecipes.setAdapter(planCardAdapter);
+
         }
     }
 }

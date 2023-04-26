@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,9 +73,8 @@ public class PlanCardAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.plan_choosing_expandable_parent_item, parent, false);
-        }
+        convertView = LayoutInflater.from(context).inflate(R.layout.plan_choosing_expandable_parent_item, parent, false);
+
 
         TextView dayName = convertView.findViewById(R.id.day_name);
         dayName.setText(daysOfWeek[groupPosition]);
@@ -84,9 +84,7 @@ public class PlanCardAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.plan_choosing_expandable_child_item, parent, false);
-        }
+        convertView = LayoutInflater.from(context).inflate(R.layout.plan_choosing_expandable_child_item, parent, false);
 
         RecipeEntity recipeEntity = recipes.get(groupPosition).get(childPosition);
 
@@ -110,6 +108,7 @@ public class PlanCardAdapter extends BaseExpandableListAdapter {
                 break;
 
         }
+        System.out.println(recipeEntity.Title);
         title.setText(recipeEntity.Title);
         description.setText(recipeEntity.Description);
         image.setImageResource(context.getResources().getIdentifier(recipeEntity.ImageName, "drawable", context.getPackageName()));

@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        List<RecipeEntity>  recipeEntities= userViewModel.my_user.DailyRecipes;
+        List<RecipeEntity>  recipeEntities = userViewModel.my_user.DailyRecipes;
 
 
         binding.breakfastTitle.setText(recipeEntities.get(0).Title);
@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("source", userViewModel.my_user.PlanId);
+                bundle.putInt("plan", userViewModel.my_user.PlanId);
                 bundle.putBoolean("is_first", false);
                 PlanCardFragment planCardFragment = new PlanCardFragment();
                 planCardFragment.setArguments(bundle);

@@ -79,7 +79,11 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
                         userViewModel.my_user.DailyRecipes = recipeEntities;
                         if (!firstLaunch) {
                             shoppingListViewModel.deleteGenerated();
-                            System.out.println("DDDDDDDD");
+                            userViewModel.my_user.EatenCalories = 0;
+                            userViewModel.my_user.BreakfastEaten = false;
+                            userViewModel.my_user.LunchEaten = false;
+                            userViewModel.my_user.DinnerEaten = false;
+                            userViewModel.my_user.SnackEaten = false;
                             userViewModel.update();
                         }
                         else{
