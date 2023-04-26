@@ -66,6 +66,7 @@ public class PlanCardFragment extends Fragment {
                     binding.description.setText(plan.Description);
                     binding.calories.setText(String.valueOf("Среднесуточный калоораж: " + plan.AverageCalories));
                     binding.image.setImageResource(getContext().getResources().getIdentifier(plan.ImageName, "drawable", getContext().getPackageName()));
+                    if (!getArguments().getBoolean("is_first")) binding.chooseBtn.setVisibility(View.GONE);
                     binding.chooseBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -97,7 +98,6 @@ public class PlanCardFragment extends Fragment {
                                         shoppingListViewModel.insert(product);
                                         System.out.println(product.name + " " + product.count);
                                     }
-
                                     navController.navigate(R.id.action_planCardFragment_to_homeFragment);
                                 }
                             });

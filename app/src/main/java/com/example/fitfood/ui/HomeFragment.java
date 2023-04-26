@@ -98,11 +98,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("source", userViewModel.my_user.PlanId);
+                bundle.putBoolean("is_first", false);
                 PlanCardFragment planCardFragment = new PlanCardFragment();
                 planCardFragment.setArguments(bundle);
                 navController.navigate(R.id.action_homeFragment_to_planCardFragment, bundle);
             }
         });
+
 
         binding.changeWeight.setOnClickListener(new View.OnClickListener() {
             @Override

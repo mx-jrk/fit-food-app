@@ -60,6 +60,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("plan", currentPlan.id);
+                bundle.putBoolean("is_first", true);
                 PlanCardFragment planCardFragment = new PlanCardFragment();
                 planCardFragment.setArguments(bundle);
                 navController.navigate(R.id.action_planChoosingFragment_to_planCardFragment, bundle);
