@@ -62,6 +62,9 @@ public class PlanChoosingFragment extends Fragment {
         userViewModel.getAllPlans().observe(getViewLifecycleOwner(), new Observer<List<PlanEntity>>() {
             @Override
             public void onChanged(List<PlanEntity> planEntities) {
+                if (getArguments() != null && !getArguments().getBoolean("is_first")) adapter.setFirstLaunch(false);
+                else adapter.setFirstLaunch(true);
+
                 adapter.setPlans(userViewModel.my_user.choose_plans(planEntities));
             }
         });

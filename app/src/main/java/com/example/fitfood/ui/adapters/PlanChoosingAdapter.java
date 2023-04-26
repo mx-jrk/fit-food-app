@@ -33,6 +33,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
     private NavController navController;
     private UserViewModel userViewModel;
     private ShoppingListViewModel shoppingListViewModel;
+    private boolean firstLaunch;
 
     public PlanChoosingAdapter(Context context, NavController navController, UserViewModel userViewModel, ShoppingListViewModel shoppingListViewModel) {
         this.context = context;
@@ -76,7 +77,15 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
                     @Override
                     public void onChanged(List<RecipeEntity> recipeEntities) {
                         userViewModel.my_user.DailyRecipes = recipeEntities;
-                        userViewModel.insert();
+                        if (!firstLaunch) {
+                            shoppingListViewModel.deleteGenerated();
+                            System.out.println("DDDDDDDD");
+                            userViewModel.update();
+                        }
+                        else{
+                            userViewModel.insert();
+                        }
+
 
                         String[] products;
                         List<ProductEntity> productEntityList = new ArrayList<>();
@@ -116,6 +125,10 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
     public void setPlans(List<PlanEntity> plans){
         this.plans = plans;
         notifyDataSetChanged();
+    }
+
+    public void setFirstLaunch(boolean isFirst){
+        this.firstLaunch = isFirst;
     }
 
 

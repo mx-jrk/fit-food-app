@@ -22,6 +22,7 @@ import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.databinding.FragmentHomeBinding;
 import com.example.fitfood.ui.PlanChoosing.PlanCardFragment;
+import com.example.fitfood.ui.PlanChoosing.PlanChoosingFragment;
 import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.HomeViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
@@ -102,6 +103,17 @@ public class HomeFragment extends Fragment {
                 PlanCardFragment planCardFragment = new PlanCardFragment();
                 planCardFragment.setArguments(bundle);
                 navController.navigate(R.id.action_homeFragment_to_planCardFragment, bundle);
+            }
+        });
+
+        binding.changePlanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("is_first", false);
+                PlanChoosingFragment planChoosingFragment = new PlanChoosingFragment();
+                planChoosingFragment.setArguments(bundle);
+                navController.navigate(R.id.action_homeFragment_to_planChoosingFragment, bundle);
             }
         });
 
