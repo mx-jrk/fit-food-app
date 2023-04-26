@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_planChoosingFragment"
             app:destination="@id/planChoosingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_planCardFragment"
+            app:destination="@id/planCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/shoppingListFragment"

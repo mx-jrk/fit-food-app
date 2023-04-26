@@ -21,6 +21,7 @@ import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import com.example.fitfood.databinding.FragmentHomeBinding;
+import com.example.fitfood.ui.PlanChoosing.PlanCardFragment;
 import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.HomeViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
@@ -91,6 +92,17 @@ public class HomeFragment extends Fragment {
         });
 
 
+
+        binding.watchPlanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("source", userViewModel.my_user.PlanId);
+                PlanCardFragment planCardFragment = new PlanCardFragment();
+                planCardFragment.setArguments(bundle);
+                navController.navigate(R.id.action_homeFragment_to_planCardFragment, bundle);
+            }
+        });
 
         binding.changeWeight.setOnClickListener(new View.OnClickListener() {
             @Override
