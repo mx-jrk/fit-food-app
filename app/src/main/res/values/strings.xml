@@ -88,6 +88,7 @@
     <string name="proteins">Белки:</string>
     <string name="calories">Калории:</string>
     <string name="recipe">Способ приготовления:</string>
+    <string name="watch_plan">Изучить план</string>
 
     <string-array name="shopping_list_variants">
         <item>сегодня</item>

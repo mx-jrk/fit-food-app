@@ -1,6 +1,7 @@
 package com.example.fitfood.ui.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
+import com.example.fitfood.ui.PlanChoosing.PlanCardFragment;
+import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
@@ -52,6 +55,16 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         holder.planDescription.setText(currentPlan.Description);
         holder.planCalories.setText(String.valueOf(holder.planCalories.getText().toString() + ' ' + currentPlan.AverageCalories));
         holder.planImage.setImageResource(context.getResources().getIdentifier(currentPlan.ImageName, "drawable", context.getPackageName()));
+        holder.watchPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("plan", currentPlan.id);
+                PlanCardFragment planCardFragment = new PlanCardFragment();
+                planCardFragment.setArguments(bundle);
+                navController.navigate(R.id.action_planChoosingFragment_to_planCardFragment, bundle);
+            }
+        });
         holder.planChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +74,8 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
 
                     @Override
                     public void onChanged(List<RecipeEntity> recipeEntities) {
-                        userViewModel.my_user.DailyRecipes = recipeEntities;userViewModel.insert();
+                        userViewModel.my_user.DailyRecipes = recipeEntities;
+                        userViewModel.insert();
 
                         String[] products;
                         List<ProductEntity> productEntityList = new ArrayList<>();
@@ -113,6 +127,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         private final TextView planCalories;
         private final ImageView planImage;
         private final Button planChoose;
+        private final Button watchPlan;
 
         public PlanHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,6 +136,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
             planCalories = itemView.findViewById(R.id.average_calories);
             planImage = itemView.findViewById(R.id.plan_image);
             planChoose = itemView.findViewById(R.id.choose_btn);
+            watchPlan = itemView.findViewById(R.id.watch_plan_btn);
         }
     }
 }

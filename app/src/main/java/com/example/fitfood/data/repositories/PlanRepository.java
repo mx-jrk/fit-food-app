@@ -44,6 +44,10 @@ public class PlanRepository {
         return allRecipes;
     }
 
+    public LiveData<List<RecipeEntity>> getRecipesByPlan(int planId, String day){
+        return recipeDAO.getRecipesByPlan(planId, day);
+    }
+
     public LiveData<PlanEntity> getPlansById(int planId){
         if (plansById == null) plansById = planDAO.getPlansById(planId);
         return plansById;

@@ -67,6 +67,10 @@ public class UserViewModel extends AndroidViewModel  {
         return recipes;
     }
 
+    public LiveData<List<RecipeEntity>> getRecipesByPlan(int planId, String day){
+        return planRepository.getRecipesByPlan(planId, day);
+    }
+
 }
 
 

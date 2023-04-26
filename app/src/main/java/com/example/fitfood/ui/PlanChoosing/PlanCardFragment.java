@@ -2,65 +2,131 @@ package com.example.fitfood.ui.PlanChoosing;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fitfood.R;
+import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
+import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
+import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
+import com.example.fitfood.databinding.FragmentPlanCardBinding;
+import com.example.fitfood.ui.adapters.PlanCardAdapter;
+import com.example.fitfood.ui.view_models.HomeViewModel;
+import com.example.fitfood.ui.view_models.ShoppingListViewModel;
+import com.example.fitfood.ui.view_models.UserViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PlanCardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlanCardFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PlanCardFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PlanCardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PlanCardFragment newInstance(String param1, String param2) {
-        PlanCardFragment fragment = new PlanCardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    FragmentPlanCardBinding binding;
+    NavHostFragment navHostFragment;
+    NavController navController;
+    UserViewModel userViewModel;
+    PlanCardAdapter planCardAdapter;
+    ShoppingListViewModel shoppingListViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_plan_card, container, false);
+        binding = FragmentPlanCardBinding.inflate(inflater, container, false);
+
+        navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        navController = navHostFragment.getNavController();
+
+        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        shoppingListViewModel = new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
+
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        if (getArguments() != null){
+            Toast.makeText(getContext(), String.valueOf(getArguments().getInt("plan")), Toast.LENGTH_SHORT).show();
+
+            List<List<RecipeEntity>> plansRicepes = new ArrayList<>();
+
+            userViewModel.getPlansById(getArguments().getInt("plan")).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
+                @Override
+                public void onChanged(PlanEntity plan) {
+                    binding.title.setText(plan.Title);
+                    binding.description.setText(plan.Description);
+                    binding.calories.setText(String.valueOf("Среднесуточный калоораж: " + plan.AverageCalories));
+                    binding.image.setImageResource(getContext().getResources().getIdentifier(plan.ImageName, "drawable", getContext().getPackageName()));
+                    binding.chooseBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            userViewModel.my_user.Plan = plan;
+                            userViewModel.my_user.PlanId = plan.id;
+                            userViewModel.getRecipesByPlan(userViewModel.my_user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                @Override
+                                public void onChanged(List<RecipeEntity> recipeEntities) {
+                                    userViewModel.my_user.DailyRecipes = recipeEntities;
+                                    userViewModel.insert();
+
+                                    String[] products;
+                                    List<ProductEntity> productEntityList = new ArrayList<>();
+                                    ProductEntity generatedProduct;
+
+                                    for (RecipeEntity recipe : recipeEntities) {
+                                        if (recipe.Products == null) continue;
+                                        products = recipe.Products.split("\n");
+                                        for (String product : products) {
+                                            generatedProduct = new ProductEntity(product.split(": ")[0], Integer.parseInt(product.split(": ")[1].trim()), false, true);
+                                            if (productEntityList.contains(generatedProduct)) {
+                                                productEntityList.get(productEntityList.indexOf(generatedProduct)).count++;
+                                            } else {
+                                                productEntityList.add(generatedProduct);
+                                            }
+                                        }
+                                    }
+                                    for (ProductEntity product : productEntityList) {
+                                        shoppingListViewModel.insert(product);
+                                        System.out.println(product.name + " " + product.count);
+                                    }
+
+                                    navController.navigate(R.id.action_planCardFragment_to_homeFragment);
+                                }
+                            });
+                        }
+                    });
+
+
+                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Mon").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                        @Override
+                        public void onChanged(List<RecipeEntity> recipeEntities) {
+                            plansRicepes.add(recipeEntities);
+                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Tue").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                @Override
+                                public void onChanged(List<RecipeEntity> recipeEntities) {
+                                    plansRicepes.add(recipeEntities);
+
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+
+
+            planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
+            binding.allPlanRecipes.setAdapter(planCardAdapter);
+        }
     }
 }
