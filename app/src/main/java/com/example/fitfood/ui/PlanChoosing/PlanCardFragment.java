@@ -114,7 +114,7 @@ public class PlanCardFragment extends Fragment {
                                 @Override
                                 public void onChanged(List<RecipeEntity> recipeEntities) {
                                     plansRicepes.add(recipeEntities);
-                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Wen").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Wed").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
                                         @Override
                                         public void onChanged(List<RecipeEntity> recipeEntities) {
                                             plansRicepes.add(recipeEntities);
