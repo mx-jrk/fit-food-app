@@ -72,7 +72,7 @@ public class LogoFragment extends Fragment {
                         @Override
                         public void onChanged(PlanEntity plan) {
                             user.Plan = plan;
-                            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != userViewModel.my_user.LastChangeDateInt){
+                            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != user.LastChangeDateInt){
                                 userViewModel.getRecipesByPlan(user.PlanId, new Date().toString().split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
                                     @Override
                                     public void onChanged(List<RecipeEntity> recipeEntities) {
@@ -116,6 +116,7 @@ public class LogoFragment extends Fragment {
                                     public void onChanged(List<RecipeEntity> recipeEntities) {
                                         user.DailyRecipes = recipeEntities;
                                         userViewModel.my_user = user;
+                                        System.out.println(user.DinnerEaten);
                                         navController.navigate(R.id.action_logoFragment_to_homeFragment);
                                     }
                                 });

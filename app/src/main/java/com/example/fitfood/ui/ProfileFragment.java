@@ -48,13 +48,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       // Toast.makeText(getContext(), userViewModel.my_user.Name + " " + userViewModel.user + " " + userViewModel.my_user.Weight, Toast.LENGTH_SHORT).show();
-//        userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, userViewModel.my_user.LastChangeDate.split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-//            @Override
-//            public void onChanged(List<RecipeEntity> recipeEntities) {
-//                userViewModel.my_user.DailyRecipes = recipeEntities;
-//            }
-//        });
 
         binding.name.setText(userViewModel.my_user.Name + "!");
         binding.userName.setText(userViewModel.my_user.Name);
@@ -65,7 +58,6 @@ public class ProfileFragment extends Fragment {
 
         binding.userPlan.setText(userViewModel.my_user.Plan.Title);
 
-        Toast.makeText(getContext(), userViewModel.my_user.DailyRecipes.get(0).Title, Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putString("source", "profile");
 
