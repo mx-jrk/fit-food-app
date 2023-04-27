@@ -25,6 +25,7 @@ import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapter.PlanHolder> {
@@ -72,7 +73,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
             public void onClick(View view) {
                 userViewModel.my_user.PlanId = currentPlan.id;
                 userViewModel.my_user.Plan = currentPlan;
-                userViewModel.getRecipesByPlan(userViewModel.my_user).observe((LifecycleOwner)context, new Observer<List<RecipeEntity>>() {
+                userViewModel.getRecipesByPlan(currentPlan.id, new Date().toString().split(" ")[0]).observe((LifecycleOwner)context, new Observer<List<RecipeEntity>>() {
 
                     @Override
                     public void onChanged(List<RecipeEntity> recipeEntities) {

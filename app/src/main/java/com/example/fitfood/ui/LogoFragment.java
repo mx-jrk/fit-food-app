@@ -28,6 +28,7 @@ import com.example.fitfood.ui.view_models.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class LogoFragment extends Fragment {
@@ -71,47 +72,57 @@ public class LogoFragment extends Fragment {
                         @Override
                         public void onChanged(PlanEntity plan) {
                             user.Plan = plan;
-                        }
-                    });
-                    userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                        @Override
-                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                            user.DailyRecipes = recipeEntities;
-                            if (user.DailyRecipes != null && user.PlanId != 0) {
-                                userViewModel.my_user = user;
-                                if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != userViewModel.my_user.LastChangeDateInt) {
-                                    userViewModel.my_user.EatenCalories = 0;
-                                    userViewModel.my_user.BreakfastEaten = false;
-                                    userViewModel.my_user.LunchEaten = false;
-                                    userViewModel.my_user.DinnerEaten = false;
-                                    userViewModel.my_user.SnackEaten = false;
+                            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != userViewModel.my_user.LastChangeDateInt){
+                                userViewModel.getRecipesByPlan(user.PlanId, new Date().toString().split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                    @Override
+                                    public void onChanged(List<RecipeEntity> recipeEntities) {
+                                        System.out.println(String.valueOf(recipeEntities.size()));
+                                        userViewModel.my_user = user;
+                                        userViewModel.my_user.DailyRecipes = recipeEntities;
+                                        userViewModel.my_user.EatenCalories = 0;
+                                        userViewModel.my_user.BreakfastEaten = false;
+                                        userViewModel.my_user.LunchEaten = false;
+                                        userViewModel.my_user.DinnerEaten = false;
+                                        userViewModel.my_user.SnackEaten = false;
 
-                                    shoppingListViewModel.deleteGenerated();
-                                    String[] products;
-                                    List<ProductEntity> productEntityList = new ArrayList<>();
-                                    ProductEntity generatedProduct;
+                                        shoppingListViewModel.deleteGenerated();
+                                        String[] products;
+                                        List<ProductEntity> productEntityList = new ArrayList<>();
+                                        ProductEntity generatedProduct;
 
-                                    for (RecipeEntity recipe : recipeEntities) {
-                                        if (recipe.Products == null) continue;
-                                        products = recipe.Products.split("\n");
-                                        for (String product : products) {
-                                            generatedProduct = new ProductEntity(product.split(": ")[0], Integer.parseInt(product.split(": ")[1].trim()), false, true);
-                                            if (productEntityList.contains(generatedProduct)) {
-                                                productEntityList.get(productEntityList.indexOf(generatedProduct)).count++;
-                                            } else {
-                                                productEntityList.add(generatedProduct);
+                                        for (RecipeEntity recipe : recipeEntities) {
+                                            if (recipe.Products == null) continue;
+                                            products = recipe.Products.split("\n");
+                                            for (String product : products) {
+                                                generatedProduct = new ProductEntity(product.split(": ")[0], Integer.parseInt(product.split(": ")[1].trim()), false, true);
+                                                if (productEntityList.contains(generatedProduct)) {
+                                                    productEntityList.get(productEntityList.indexOf(generatedProduct)).count++;
+                                                } else {
+                                                    productEntityList.add(generatedProduct);
+                                                }
                                             }
                                         }
+                                        for (ProductEntity product : productEntityList) {
+                                            shoppingListViewModel.insert(product);
+                                            System.out.println(product.name + " " + product.count);
+                                        }
+                                        navController.navigate(R.id.action_logoFragment_to_homeFragment);
                                     }
-                                    for (ProductEntity product : productEntityList) {
-                                        shoppingListViewModel.insert(product);
-                                        System.out.println(product.name + " " + product.count);
+                                });
+                            }
+                            else {
+                                userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                    @Override
+                                    public void onChanged(List<RecipeEntity> recipeEntities) {
+                                        user.DailyRecipes = recipeEntities;
+                                        userViewModel.my_user = user;
+                                        navController.navigate(R.id.action_logoFragment_to_homeFragment);
                                     }
-                                }
-                                navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                });
                             }
                         }
                     });
+
                 }
             }
         });

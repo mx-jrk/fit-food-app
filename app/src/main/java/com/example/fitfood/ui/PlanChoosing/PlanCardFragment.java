@@ -114,9 +114,22 @@ public class PlanCardFragment extends Fragment {
                                 @Override
                                 public void onChanged(List<RecipeEntity> recipeEntities) {
                                     plansRicepes.add(recipeEntities);
-                                    planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
-                                    binding.allPlanRecipes.setAdapter(planCardAdapter);
-                                    planCardAdapter.notifyDataSetChanged();
+                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Wen").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                        @Override
+                                        public void onChanged(List<RecipeEntity> recipeEntities) {
+                                            plansRicepes.add(recipeEntities);
+                                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Thu").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                                @Override
+                                                public void onChanged(List<RecipeEntity> recipeEntities) {
+                                                    plansRicepes.add(recipeEntities);
+                                                    planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
+                                                    binding.allPlanRecipes.setAdapter(planCardAdapter);
+                                                    planCardAdapter.notifyDataSetChanged();
+                                                }
+                                            });
+
+                                        }
+                                    });
                                 }
                             });
                         }
