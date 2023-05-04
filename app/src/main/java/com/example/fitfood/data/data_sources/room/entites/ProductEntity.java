@@ -9,17 +9,20 @@ import java.util.Objects;
 @Entity(tableName = "products_table")
 public class ProductEntity {
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    public int id;
     public String name;
     public int count;
     public boolean selected;
     public boolean generated;
+    public String type;
 
-    public ProductEntity(@NonNull String name, int count, boolean selected,boolean generated) {
+    public ProductEntity(@NonNull String name, int count, boolean selected,boolean generated,  String type) {
         this.name = name;
         this.count = count;
         this.selected = selected;
         this.generated = generated;
+        this.type = type;
     }
 
     @Override

@@ -16,4 +16,7 @@ public interface RecipeDAO {
 
     @Query("SELECT * FROM recipes_table WHERE PlansId = :plan AND Day = :day")
     LiveData<List<RecipeEntity>> getRecipesByPlan(int plan, String day);
+
+    @Query("SELECT * FROM recipes_table WHERE PlansId = :plan")
+    LiveData<List<RecipeEntity>> getAllRecipesByPlan(int plan);
 }

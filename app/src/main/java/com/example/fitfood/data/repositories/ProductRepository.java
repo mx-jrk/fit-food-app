@@ -13,7 +13,6 @@ import java.util.List;
 
 public class ProductRepository {
     private final ProductDAO productDAO;
-    private final LiveData<List<ProductEntity>> allProducts;
 
     private static volatile ProductRepository instance;
 
@@ -26,11 +25,10 @@ public class ProductRepository {
     public ProductRepository(Application application){
         ProductDatabase db = ProductDatabase.getDatabase(application);
         productDAO = db.productDAO();
-        allProducts = productDAO.getAllProducts();
     }
 
-    public LiveData<List<ProductEntity>> getAllProducts(){
-        return allProducts;
+    public LiveData<List<ProductEntity>> getAllProductsByType(String type){
+        return productDAO.getProductsByType(type);
     }
 
     public void insert(ProductEntity product){

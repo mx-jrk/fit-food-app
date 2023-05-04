@@ -12,7 +12,7 @@ import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ProductEntity.class}, version = 2)
+@Database(entities = {ProductEntity.class}, version = 4)
 public abstract class ProductDatabase extends RoomDatabase {
     public abstract ProductDAO productDAO();
 

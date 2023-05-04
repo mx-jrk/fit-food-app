@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class ShoppingListFragment extends Fragment {
     ProductListAdapter adapter;
     FragmentShoppingListBinding binding;
     ShoppingListViewModel viewModel;
+    String selectedSpinner;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentShoppingListBinding.inflate(inflater, container, false);
@@ -41,17 +43,57 @@ public class ShoppingListFragment extends Fragment {
         ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
         viewModel = shoppingListViewModel;
 
+        binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        selectedSpinner = "today";
+                        shoppingListViewModel.getAllProductsByType("today").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
+                            @Override
+                            public void onChanged(List<ProductEntity> productEntities) {
+                                adapter.setProducts(productEntities);
+                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
+                            }
+                        });
+                        break;
+                    case 1:
+                        selectedSpinner = "tomorrow";
+                        shoppingListViewModel.getAllProductsByType("tomorrow").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
+                            @Override
+                            public void onChanged(List<ProductEntity> productEntities) {
+                                adapter.setProducts(productEntities);
+                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
+                            }
+                        });
+                        break;
+                    case 2:
+                        selectedSpinner = "week";
+                        shoppingListViewModel.getAllProductsByType("week").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
+                            @Override
+                            public void onChanged(List<ProductEntity> productEntities) {
+                                adapter.setProducts(productEntities);
+                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
+                            }
+                        });
+                        break;
+                }
 
-        shoppingListViewModel.getAllProducts().observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
-            @SuppressLint("SetTextI18n")
-            public void onChanged(List<ProductEntity> productEntities) {
-                adapter.setProducts(productEntities);
-                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+
         this.binding.addProduct.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Navigation.findNavController(ShoppingListFragment.this.requireView()).navigate(R.id.action_shoppingListFragment_to_addOwnProduct);
+                Bundle bundle = new Bundle();
+                bundle.putString("type", selectedSpinner);
+                AddOwnProductFragment addOwnProductFragment = new AddOwnProductFragment();
+                addOwnProductFragment.setArguments(bundle);
+                Navigation.findNavController(ShoppingListFragment.this.requireView()).navigate(R.id.action_shoppingListFragment_to_addOwnProduct, bundle);
             }
         });
     }
