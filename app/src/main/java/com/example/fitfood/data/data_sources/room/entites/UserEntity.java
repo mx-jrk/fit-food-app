@@ -23,11 +23,11 @@ public class UserEntity {
 
     public int Height;
 
-    public int Weight;
+    public double Weight;
 
     public String Goal;
 
-    public int WeightGoal;
+    public double WeightGoal;
 
     public String Contraindications_s;
 

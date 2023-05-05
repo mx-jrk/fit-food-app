@@ -14,7 +14,7 @@ import com.example.fitfood.data.data_sources.room.entites.UserEntity;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {UserEntity.class}, version = 2)
+@Database(entities = {UserEntity.class}, version = 4)
 public abstract class UserDatabase extends RoomDatabase {
     public abstract UserDao userDAO();
 

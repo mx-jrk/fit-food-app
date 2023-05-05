@@ -64,7 +64,7 @@ public class GoalWeightFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try{
-                    userViewModel.my_user.WeightGoal = Integer.parseInt(binding.weight.getText().toString());
+                    userViewModel.my_user.WeightGoal = Double.parseDouble(binding.weight.getText().toString().replace(',', '.'));
                     if (userViewModel.getUser().getValue() == null){
                         navController.navigate(R.id.action_goalWeightFragment_to_contraindicationsQuestionFragment);
                     }

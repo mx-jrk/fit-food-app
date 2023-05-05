@@ -70,9 +70,9 @@ public class WeightQuestionFragment extends Fragment {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    userViewModel.my_user.Weight = Integer.parseInt(binding.weight.getText().toString());
-                    userViewModel.my_user.NormalCalories = userViewModel.my_user.Weight * 33;
+
+                    userViewModel.my_user.Weight = Double.parseDouble(binding.weight.getText().toString().replace(',', '.'));
+                    userViewModel.my_user.NormalCalories = (int) Math.round(userViewModel.my_user.Weight * 33);
 
                     if (getArguments() == null){
                         navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);
@@ -83,10 +83,6 @@ public class WeightQuestionFragment extends Fragment {
                     else if (Objects.equals(getArguments().getString("source"), "home")){
                         navController.navigate(R.id.action_weightQuestionFragment_to_homeFragment);
                     }
-
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
