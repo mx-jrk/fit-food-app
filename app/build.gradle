@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
 
     // Dependencies for working with Architecture components

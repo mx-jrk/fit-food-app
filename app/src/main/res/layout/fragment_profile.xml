@@ -176,12 +176,13 @@
         android:layout_height="1dp"
         android:background="@color/black" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:layout_marginTop="15dp"/>
-    <TextView
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/calories_graph"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="200dp" />
+
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calorie_statistics"
@@ -193,11 +194,11 @@
 
 
 
-        <ImageView
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/weight_graph"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="200dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

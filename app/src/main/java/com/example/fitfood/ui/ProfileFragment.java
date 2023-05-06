@@ -1,5 +1,6 @@
 package com.example.fitfood.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,18 @@ import com.example.fitfood.ui.Survey.GoalWeightFragment;
 import com.example.fitfood.ui.Survey.NameQuestionFragment;
 import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.UserViewModel;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.ScatterData;
+import com.github.mikephil.charting.data.ScatterDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -32,6 +44,7 @@ public class ProfileFragment extends Fragment {
     UserViewModel userViewModel;
     NavHostFragment navHostFragment;
     NavController navController;
+    List<Entry> weight, calories;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,5 +101,56 @@ public class ProfileFragment extends Fragment {
                 navController.navigate(R.id.action_profileFragment_to_goalWeightFragment, bundle);
             }
         });
+
+        weight = userViewModel.my_user.getWeightHistoryAsList();
+        calories = userViewModel.my_user.getEatenCaloriesHistoryAsList();
+
+        if (userViewModel.my_user.EatenCaloriesHistory == null) calories.add(new Entry( 1, userViewModel.my_user.EatenCalories));
+        else if (calories.size() == userViewModel.my_user.EatenCaloriesHistory.split(" ").length) calories.add(new Entry(calories.size() + 1, userViewModel.my_user.EatenCalories));
+        else if (calories.get(calories.size() - 1).getY() != userViewModel.my_user.EatenCalories) calories.get(calories.size() - 1).setY(userViewModel.my_user.EatenCalories);
+        setGraph(binding.caloriesGraph, calories, "Количество калорий", Color.parseColor("#62D2A2"));
+
+        if (userViewModel.my_user.WeightHistory == null)weight.add(new Entry(1, Float.parseFloat(String.valueOf(userViewModel.my_user.Weight))));
+        else if (weight.size() == userViewModel.my_user.WeightHistory.split(" ").length) weight.add(new Entry(weight.size() + 1, Float.parseFloat(String.valueOf(userViewModel.my_user.Weight))));
+        else if (weight.get(weight.size() - 1).getY() != userViewModel.my_user.Weight) weight.get(weight.size()-1).setY(Float.parseFloat(String.valueOf(userViewModel.my_user.Weight)));
+        setGraph(binding.weightGraph, weight, "Вес", Color.parseColor("#00E0FF"));
+
     }
+
+    private void setGraph(LineChart graph, List<Entry> data, String label, int color){
+        graph.getLegend().setEnabled(false);
+
+        XAxis xAxis = graph.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return "День " + (int) value;
+            }
+        });
+
+        YAxis yAxis = graph.getAxisLeft();
+        yAxis.setDrawGridLines(false);
+        yAxis.setGranularity(1f);
+
+        graph.getAxisRight().setEnabled(false);
+
+        LineDataSet eatenCaloriesDataSet = new LineDataSet(data, label);
+        eatenCaloriesDataSet.setColor(color);
+        eatenCaloriesDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        eatenCaloriesDataSet.setCubicIntensity(0.15f);
+        eatenCaloriesDataSet.setDrawFilled(true);
+        eatenCaloriesDataSet.setFillColor(color);
+        eatenCaloriesDataSet.setFillAlpha(70);
+
+        LineData lineData = new LineData(eatenCaloriesDataSet);
+        graph.setData(lineData);
+
+        graph.getDescription().setEnabled(false);
+        graph.animateX(500);
+        graph.invalidate();
+    }
+
 }

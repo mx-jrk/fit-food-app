@@ -6,9 +6,11 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.example.fitfood.data.repositories.PlanRepository;
+import com.github.mikephil.charting.data.Entry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -55,8 +57,9 @@ public class UserEntity {
 
     public int NormalCalories;
 
-    @Ignore
-    public String[] Contraindications;
+    public String WeightHistory;
+
+    public String EatenCaloriesHistory;
 
     @Ignore
     public PlanEntity Plan;
@@ -64,11 +67,18 @@ public class UserEntity {
     @Ignore
     public List<RecipeEntity> DailyRecipes;
 
+    @Ignore
+    List<Entry> EatenCaloriesHistoryList;
+
+    @Ignore
+    List<Entry> WeightHistoryList;
+
+
     public UserEntity(){}
 
 
     public List<PlanEntity> choose_plans(List<PlanEntity> plans){
-        Contraindications = Contraindications_s.split("\n");
+        String[] Contraindications = Contraindications_s.split("\n");
 
         if (Contraindications.length == 0) return plans;
 
@@ -121,6 +131,67 @@ public class UserEntity {
             if (v.contains(value)) return true;
         }
         return false;
+    }
+
+    public void resetForNewDay(List<RecipeEntity> recipeEntities){
+        if (WeightHistory == null) WeightHistory = String.valueOf(Weight);
+        else {
+            String[] weightHistoryArr = WeightHistory.split(" ");
+            if (weightHistoryArr.length >= 8){
+
+                StringBuilder newWeightHistory = new StringBuilder(weightHistoryArr[weightHistoryArr.length - 7]);
+                for (int i = weightHistoryArr.length - 6; i < weightHistoryArr.length; i++) newWeightHistory.append(" ").append(weightHistoryArr[i]);
+                WeightHistory = newWeightHistory.toString();
+            }
+            else {
+                WeightHistory += " " + Weight;
+            }
+        }
+        if (EatenCaloriesHistory == null) EatenCaloriesHistory = String.valueOf(EatenCalories);
+        else {
+            String[] caloriesHistoryArr = EatenCaloriesHistory.split(" ");
+            if (caloriesHistoryArr.length >= 8){
+                StringBuilder newCaloriesHostiry = new StringBuilder(caloriesHistoryArr[caloriesHistoryArr.length - 7]);
+                for (int i = caloriesHistoryArr.length - 6; i < caloriesHistoryArr.length; i++) newCaloriesHostiry.append(" ").append(caloriesHistoryArr[i]);
+                EatenCaloriesHistory = newCaloriesHostiry.toString();
+            }
+            else {
+                EatenCaloriesHistory += " " + EatenCalories;
+            }
+        }
+        DailyRecipes = recipeEntities;
+        EatenCalories = 0;
+        BreakfastEaten = false;
+        LunchEaten = false;
+        DinnerEaten = false;
+        SnackEaten = false;
+    }
+
+    public List<Entry> getEatenCaloriesHistoryAsList() {
+        if(EatenCaloriesHistory == null) return new ArrayList<>();
+        if (EatenCaloriesHistoryList == null) {
+            EatenCaloriesHistoryList = new ArrayList<>();
+            String[] history = EatenCaloriesHistory.split(" ");
+            for (int i = 0; i < history.length; i++) {
+                EatenCaloriesHistoryList.add(new Entry(i + 1, Integer.parseInt(history[i])));
+            }
+           // EatenCaloriesHistoryList.add(new Entry(history.length, EatenCalories));
+        }
+        System.out.println(EatenCaloriesHistory);
+        return EatenCaloriesHistoryList;
+    }
+
+    public List<Entry> getWeightHistoryAsList() {
+        if(WeightHistory == null) return new ArrayList<>();
+        if (WeightHistoryList == null) {
+            WeightHistoryList = new ArrayList<>();
+            String[] history = WeightHistory.split(" ");
+            for (int i = 0; i < history.length; i++) {
+                WeightHistoryList.add(new Entry(i + 1, Float.parseFloat(history[i])));
+            }
+        }
+        System.out.println(WeightHistoryList.size());
+        return WeightHistoryList;
     }
 
 }

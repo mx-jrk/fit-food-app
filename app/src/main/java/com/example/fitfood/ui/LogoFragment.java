@@ -82,12 +82,8 @@ public class LogoFragment extends Fragment {
                                     @Override
                                     public void onChanged(List<RecipeEntity> recipeEntities) {
                                         userViewModel.my_user = user;
-                                        userViewModel.my_user.DailyRecipes = recipeEntities;
-                                        userViewModel.my_user.EatenCalories = 0;
-                                        userViewModel.my_user.BreakfastEaten = false;
-                                        userViewModel.my_user.LunchEaten = false;
-                                        userViewModel.my_user.DinnerEaten = false;
-                                        userViewModel.my_user.SnackEaten = false;
+
+                                        userViewModel.my_user.resetForNewDay(recipeEntities);
 
                                         shoppingListViewModel.deleteGenerated();
 
