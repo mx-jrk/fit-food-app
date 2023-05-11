@@ -2,6 +2,7 @@ package com.example.fitfood.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfood.R;
@@ -25,18 +28,24 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private AlertDialog.Builder builder;
     private ProductRepository productRepository;
     private List<ProductEntity> products = new ArrayList();
+    private Context context;
+
+    public ProductListAdapter(Context context){
+        this.context = context;
+        productRepository = new ProductRepository((Application) context.getApplicationContext());
+
+    }
 
     @NonNull
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_recyclerview_item, parent, false);
         builder = new AlertDialog.Builder(parent.getContext());
-        productRepository = new ProductRepository((Application) parent.getContext().getApplicationContext());
-        return new ProductHolder(itemView);
+               return new ProductHolder(itemView);
     }
 
     @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     public void onBindViewHolder(ProductHolder holder, int position) {
-        final ProductEntity currentProduct = this.products.get(position);
+        ProductEntity currentProduct = products.get(position);
         holder.name.setText(currentProduct.name);
         holder.count.setText(String.valueOf(currentProduct.count) + " шт.");
         if (currentProduct.selected) {
@@ -80,9 +89,23 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setProducts(List<ProductEntity> products2) {
-        products = products2;
-        notifyDataSetChanged();
+    public void setProducts(String type) {
+        productRepository.getAllProductsByType(type).observe((LifecycleOwner) context, new Observer<List<ProductEntity>>() {
+            @Override
+            public void onChanged(List<ProductEntity> productEntities) {
+                if (productEntities.size() == products.size() && productEntities.get(0).type.contains(products.get(0).type)) {
+                    for (int i = 0; i < products.size(); i++) {
+                        if (products.get(i).id == productEntities.get(i).id) {
+                            products.set(i, productEntities.get(i));
+                            notifyDataSetChanged();
+                        }
+                    }
+                } else  {
+                    products = productEntities;
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     static class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

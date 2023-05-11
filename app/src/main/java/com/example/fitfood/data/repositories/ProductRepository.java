@@ -36,7 +36,7 @@ public class ProductRepository {
     }
 
     public void update(ProductEntity product){
-        ProductDatabase.databaseWriteExecutor.execute(()-> productDAO.update(product));
+       productDAO.update(product);
     }
 
     public void delete(ProductEntity product){

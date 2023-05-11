@@ -32,7 +32,7 @@ public class ShoppingListFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentShoppingListBinding.inflate(inflater, container, false);
-        adapter = new ProductListAdapter();
+        adapter = new ProductListAdapter(getContext());
         return binding.getRoot();
     }
 
@@ -42,6 +42,7 @@ public class ShoppingListFragment extends Fragment {
         binding.shoppingList.setAdapter(this.adapter);
         ShoppingListViewModel shoppingListViewModel = new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
         viewModel = shoppingListViewModel;
+        selectedSpinner = "today";
 
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -49,36 +50,18 @@ public class ShoppingListFragment extends Fragment {
                 switch (i){
                     case 0:
                         selectedSpinner = "today";
-                        shoppingListViewModel.getAllProductsByType("today").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
-                            @Override
-                            public void onChanged(List<ProductEntity> productEntities) {
-                                adapter.setProducts(productEntities);
-                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
-                            }
-                        });
                         break;
                     case 1:
                         selectedSpinner = "tomorrow";
-                        shoppingListViewModel.getAllProductsByType("tomorrow").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
-                            @Override
-                            public void onChanged(List<ProductEntity> productEntities) {
-                                adapter.setProducts(productEntities);
-                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
-                            }
-                        });
                         break;
                     case 2:
                         selectedSpinner = "week";
-                        shoppingListViewModel.getAllProductsByType("week").observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
-                            @Override
-                            public void onChanged(List<ProductEntity> productEntities) {
-                                adapter.setProducts(productEntities);
-                                binding.bought.setText("Куплено " + ShoppingListFragment.this.adapter.getSelectedItemCount() + " из " + ShoppingListFragment.this.adapter.getItemCount());
-                            }
-                        });
+                        break;
+                    default:
                         break;
                 }
 
+                adapter.setProducts(selectedSpinner);
             }
 
             @Override
