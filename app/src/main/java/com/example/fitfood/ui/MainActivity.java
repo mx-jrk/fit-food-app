@@ -74,26 +74,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNotificationChannel();
-        Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intentBreakfast = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntentBreakfast = PendingIntent.getBroadcast(this, 0, intentBreakfast, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intentLunch = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntentLunch = PendingIntent.getBroadcast(this, 1, intentLunch, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intentSnack = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntentSnack = PendingIntent.getBroadcast(this, 2, intentSnack, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent intentDinner = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntentDinner= PendingIntent.getBroadcast(this, 3, intentDinner, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
+
         calendar.set(Calendar.HOUR_OF_DAY, 7);
         calendar.set(Calendar.MINUTE, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntentBreakfast);
 
         calendar.set(Calendar.HOUR_OF_DAY, 13);
         calendar.set(Calendar.MINUTE, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntentLunch);
 
         calendar.set(Calendar.HOUR_OF_DAY, 15);
         calendar.set(Calendar.MINUTE, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntentSnack);
 
         calendar.set(Calendar.HOUR_OF_DAY, 18);
         calendar.set(Calendar.MINUTE, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntentDinner);
     }
 
     private void createNotificationChannel(){
