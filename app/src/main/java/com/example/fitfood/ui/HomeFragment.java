@@ -27,6 +27,7 @@ import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.HomeViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +61,12 @@ public class HomeFragment extends Fragment {
 
         List<RecipeEntity>  recipeEntities = userViewModel.my_user.DailyRecipes;
 
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        if (hour > 5 && hour < 12) binding.hello.setText("Доброе утро!");
+        else if (hour >= 12 && hour < 17) binding.hello.setText("Добрый день!");
+        else if (hour >= 17 && hour < 23) binding.hello.setText("Добрый вечер!");
+        else binding.hello.setText("Доброй ночи!");
 
         binding.breakfastTitle.setText(recipeEntities.get(0).Title);
         binding.breakfastDescription.setText(recipeEntities.get(0).Description);

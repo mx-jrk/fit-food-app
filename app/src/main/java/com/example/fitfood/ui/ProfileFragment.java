@@ -37,6 +37,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class ProfileFragment extends Fragment {
@@ -62,6 +63,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        if (hour > 5 && hour < 12) binding.hello.setText("Доброе утро,");
+        else if (hour >= 12 && hour < 17) binding.hello.setText("Добрый день,");
+        else if (hour >= 17 && hour < 23) binding.hello.setText("Добрый вечер,");
+        else binding.hello.setText("Доброй ночи,");
         binding.name.setText(userViewModel.my_user.Name + "!");
         binding.userName.setText(userViewModel.my_user.Name);
 
