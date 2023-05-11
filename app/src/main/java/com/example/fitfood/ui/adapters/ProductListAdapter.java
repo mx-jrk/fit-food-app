@@ -43,7 +43,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                return new ProductHolder(itemView);
     }
 
-    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     public void onBindViewHolder(ProductHolder holder, int position) {
         ProductEntity currentProduct = products.get(position);
         holder.name.setText(currentProduct.name);
@@ -61,13 +60,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.selected.setOnClickListener(view -> {
             currentProduct.selected = !currentProduct.selected;
             productRepository.update(currentProduct);
-            notifyDataSetChanged();
         });
         holder.delete.setOnClickListener(view -> {
             builder.setMessage("Вы уверены, что хотите удалить этот элемент?").setCancelable(false).setPositiveButton("Нет", (dialog, id) -> dialog.cancel()).setNegativeButton("Да", (dialog, id) -> {
                products.remove(currentProduct);
                productRepository.delete(currentProduct);
-               notifyDataSetChanged();
                 dialog.dismiss();
             });
             builder.create().show();
@@ -88,24 +85,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return this.products.size();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void setProducts(String type) {
-        productRepository.getAllProductsByType(type).observe((LifecycleOwner) context, new Observer<List<ProductEntity>>() {
-            @Override
-            public void onChanged(List<ProductEntity> productEntities) {
-                if (productEntities.size() == products.size() && productEntities.get(0).type.contains(products.get(0).type)) {
-                    for (int i = 0; i < products.size(); i++) {
-                        if (products.get(i).id == productEntities.get(i).id) {
-                            products.set(i, productEntities.get(i));
-                            notifyDataSetChanged();
-                        }
-                    }
-                } else  {
-                    products = productEntities;
-                    notifyDataSetChanged();
-                }
-            }
-        });
+    public void setProducts(List<ProductEntity> productEntities) {
+        products = productEntities;
+        notifyDataSetChanged();
     }
 
     static class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

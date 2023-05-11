@@ -61,7 +61,14 @@ public class ShoppingListFragment extends Fragment {
                         break;
                 }
 
-                adapter.setProducts(selectedSpinner);
+                shoppingListViewModel.getAllProductsByType(selectedSpinner).observe(getViewLifecycleOwner(), new Observer<List<ProductEntity>>() {
+                    @Override
+                    public void onChanged(List<ProductEntity> productEntities) {
+                        if (selectedSpinner.contains(productEntities.get(0).type)){
+                            adapter.setProducts(productEntities);
+                        }
+                    }
+                });
             }
 
             @Override
