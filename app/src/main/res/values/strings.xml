@@ -54,7 +54,7 @@
     <string name="update_weight">Обновить вес</string>
     <string name="change_plan">Сменить план</string>
     <string name="complited">Выполнено</string>
-    <string name="complite">Выполнить</string>
+    <string name="complite">Записать приём пищи</string>
     <string name="breakfast">Завтрак</string>
     <string name="lunch">Обед</string>
     <string name="dinner">Ужин</string>

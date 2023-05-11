@@ -148,13 +148,13 @@ public class HomeFragment extends Fragment {
                 if (userViewModel.my_user.BreakfastEaten){
                     userViewModel.my_user.BreakfastEaten = false;
                     userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(0).Calories;
-                    binding.breakfastEatenBtn.setText("Выполнить");
+                    binding.breakfastEatenBtn.setText("Записать приём пищи");
                     binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
                 }
                 else {
                     userViewModel.my_user.BreakfastEaten = true;
                     userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(0).Calories;
-                    binding.breakfastEatenBtn.setText("Выполнено");
+                    binding.breakfastEatenBtn.setText("Приём пищи записан");
                     binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
                 }
                 setEatenCalories();
@@ -168,13 +168,13 @@ public class HomeFragment extends Fragment {
                 if (userViewModel.my_user.LunchEaten){
                     userViewModel.my_user.LunchEaten = false;
                     userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(1).Calories;
-                    binding.lunchEatenBtn.setText("Выполнить");
+                    binding.lunchEatenBtn.setText("Записать приём пищи");
                     binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
                 }
                 else {
                     userViewModel.my_user.LunchEaten = true;
                     userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(1).Calories;
-                    binding.lunchEatenBtn.setText("Выполнено");
+                    binding.lunchEatenBtn.setText("Приём пищи записан");
                     binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
                 }
                 setEatenDishes();
@@ -188,13 +188,13 @@ public class HomeFragment extends Fragment {
                 if (userViewModel.my_user.DinnerEaten){
                     userViewModel.my_user.DinnerEaten = false;
                     userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(2).Calories;
-                    binding.dinnerEatenBtn.setText("Выполнить");
+                    binding.dinnerEatenBtn.setText("Записать приём пищи");
                     binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
                 }
                 else{
                     userViewModel.my_user.DinnerEaten = true;
                     userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(2).Calories;
-                    binding.dinnerEatenBtn.setText("Выполнено");
+                    binding.dinnerEatenBtn.setText("Приём пищи записан");
                     binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
                 }
                 setEatenDishes();
@@ -208,13 +208,13 @@ public class HomeFragment extends Fragment {
                 if (userViewModel.my_user.SnackEaten){
                     userViewModel.my_user.SnackEaten = false;
                     userViewModel.my_user.EatenCalories -= userViewModel.my_user.DailyRecipes.get(3).Calories;
-                    binding.snackEatenBtn.setText("Выполнить");
+                    binding.snackEatenBtn.setText("Записать приём пищи");
                     binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle));
                 }
                 else {
                     userViewModel.my_user.SnackEaten = true;
                     userViewModel.my_user.EatenCalories += userViewModel.my_user.DailyRecipes.get(3).Calories;
-                    binding.snackEatenBtn.setText("Выполнено");
+                    binding.snackEatenBtn.setText("Приём пищи записан");
                     binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
                 }
                 setEatenDishes();
@@ -255,19 +255,19 @@ public class HomeFragment extends Fragment {
 
     private void setButtons(){
         if (userViewModel.my_user.BreakfastEaten) {
-            binding.breakfastEatenBtn.setText("Выполнено");
+            binding.breakfastEatenBtn.setText("Приём пищи записан");
             binding.breakfastEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
         }
         if (userViewModel.my_user.LunchEaten) {
-            binding.lunchEatenBtn.setText("Выполнено");
+            binding.lunchEatenBtn.setText("Приём пищи записан");
             binding.lunchEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
         }
         if (userViewModel.my_user.DinnerEaten) {
-            binding.dinnerEatenBtn.setText("Выполнено");
+            binding.dinnerEatenBtn.setText("Приём пищи записан");
             binding.dinnerEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
         }
         if (userViewModel.my_user.SnackEaten) {
-            binding.snackEatenBtn.setText("Выполнено");
+            binding.snackEatenBtn.setText("Приём пищи записан");
             binding.snackEatenBtn.setBackground(getResources().getDrawable(R.drawable.roundstyle_blue));
         }
     }
