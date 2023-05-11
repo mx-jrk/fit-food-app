@@ -134,9 +134,9 @@ public class HomeFragment extends Fragment {
         setEatenCalories();
         setButtons();
 
-        binding.weightTv.setText("Осталось: " + String.format("%.2f",userViewModel.my_user.WeightGoal - userViewModel.my_user.Weight));
-        binding.weightPb.setMax((int) Math.round(userViewModel.my_user.WeightGoal));
-        binding.weightPb.setProgress((int) Math.round(userViewModel.my_user.Weight));
+        binding.weightTv.setText("Осталось: " + String.format("%.2f",Math.abs(userViewModel.my_user.WeightGoal - userViewModel.my_user.Weight)));
+        binding.weightPb.setMax((int) Math.round(Math.max(userViewModel.my_user.WeightGoal, userViewModel.my_user.Weight)));
+        binding.weightPb.setProgress((int) Math.round(Math.min(userViewModel.my_user.WeightGoal, userViewModel.my_user.Weight)));
 
         binding.breakfastEatenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
