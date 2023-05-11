@@ -149,7 +149,7 @@ public class ProfileFragment extends Fragment {
         graph.setData(lineData);
 
         graph.getDescription().setEnabled(false);
-        graph.animateX(500);
+        graph.animateX(200);
         graph.invalidate();
     }
 
