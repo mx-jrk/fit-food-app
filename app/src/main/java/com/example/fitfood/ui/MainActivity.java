@@ -73,50 +73,63 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        createNotificationChannel();
         Intent intentBreakfast = new Intent(this, NotificationReceiver.class);
+        intentBreakfast.putExtra("id", 0);
+        intentBreakfast.putExtra("time", "завтрака!");
         PendingIntent pendingIntentBreakfast = PendingIntent.getBroadcast(this, 0, intentBreakfast, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentLunch = new Intent(this, NotificationReceiver.class);
+        intentLunch.putExtra("id", 1);
+        intentLunch.putExtra("time", "обеда!");
         PendingIntent pendingIntentLunch = PendingIntent.getBroadcast(this, 1, intentLunch, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentSnack = new Intent(this, NotificationReceiver.class);
+        intentSnack.putExtra("id", 2);
+        intentSnack.putExtra("time", "перекуса!");
         PendingIntent pendingIntentSnack = PendingIntent.getBroadcast(this, 2, intentSnack, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentDinner = new Intent(this, NotificationReceiver.class);
+        intentDinner.putExtra("id", 3);
+        intentDinner.putExtra("time", "ужина!");
         PendingIntent pendingIntentDinner= PendingIntent.getBroadcast(this, 3, intentDinner, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentBreakfast);
 
-        calendar.set(Calendar.HOUR_OF_DAY, 13);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentLunch);
 
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentSnack);
+        // Завтрак
+        Calendar breakfastCalendar = Calendar.getInstance();
+        AlarmManager alarmManagerBreakfast = (AlarmManager) getSystemService(ALARM_SERVICE);
+        breakfastCalendar.set(Calendar.HOUR_OF_DAY, 7);
+        breakfastCalendar.set(Calendar.MINUTE, 0);
+        breakfastCalendar.set(Calendar.SECOND, 0);
+        alarmManagerBreakfast.setRepeating(AlarmManager.RTC_WAKEUP, breakfastCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentBreakfast);
 
-        calendar.set(Calendar.HOUR_OF_DAY, 18);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentDinner);
+        // Обед
+        Calendar lunchCalendar = Calendar.getInstance();
+        AlarmManager alarmManagerLunch = (AlarmManager) getSystemService(ALARM_SERVICE);
+        lunchCalendar.set(Calendar.HOUR_OF_DAY, 13);
+        lunchCalendar.set(Calendar.MINUTE, 0);
+        lunchCalendar.set(Calendar.SECOND, 0);
+        alarmManagerLunch.setRepeating(AlarmManager.RTC_WAKEUP, lunchCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentLunch);
+
+        // Перекус
+        Calendar snackCalendar = Calendar.getInstance();
+        AlarmManager alarmManagerSnack = (AlarmManager) getSystemService(ALARM_SERVICE);
+        snackCalendar.set(Calendar.HOUR_OF_DAY, 15);
+        snackCalendar.set(Calendar.MINUTE, 0);
+        snackCalendar.set(Calendar.SECOND, 0);
+        alarmManagerSnack.setRepeating(AlarmManager.RTC_WAKEUP, snackCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentSnack);
+
+        // Ужин
+        Calendar dinnerCalendar = Calendar.getInstance();
+        AlarmManager alarmManagerDinner = (AlarmManager) getSystemService(ALARM_SERVICE);
+        dinnerCalendar.set(Calendar.HOUR_OF_DAY, 18);
+        dinnerCalendar.set(Calendar.MINUTE, 0);
+        dinnerCalendar.set(Calendar.SECOND, 0);
+        alarmManagerDinner.setRepeating(AlarmManager.RTC_WAKEUP, dinnerCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntentDinner);
+
     }
 
-    private void createNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("notifyChannel", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 
     @Override
     protected void onPause() {
