@@ -32,7 +32,7 @@ public class UserRepository {
     }
 
     public void insert(UserEntity user){
-        UserDatabase.databaseWriteExecutor.execute(()-> userDao.insert(user));
+        userDao.insert(user);
     }
 
     public void delete(UserEntity user){

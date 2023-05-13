@@ -137,5 +137,6 @@ public class MainActivity extends AppCompatActivity {
            userViewModel.my_user.LastChangeDate = new Date().toString();
        userViewModel.my_user.LastChangeDateInt = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
        userViewModel.update();
+       userViewModel.loadDataToFirebaseCloud();
     }
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.fitfood.R;
+import com.example.fitfood.data.DataLoadCallback;
 import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
@@ -25,6 +26,13 @@ import com.example.fitfood.databinding.FragmentHomeBinding;
 import com.example.fitfood.databinding.FragmentLogoBinding;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
@@ -43,6 +51,8 @@ public class LogoFragment extends Fragment {
     NavController navController;
     UserViewModel userViewModel;
     ShoppingListViewModel shoppingListViewModel;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference firestoreReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +63,8 @@ public class LogoFragment extends Fragment {
         navController = navHostFragment.getNavController();
 
         shoppingListViewModel =new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         return binding.getRoot();
     }
@@ -113,7 +125,21 @@ public class LogoFragment extends Fragment {
                                         user.DailyRecipes = recipeEntities;
                                         System.out.println(getNextDayOfWeek("Sun"));
                                         userViewModel.my_user = user;
-                                        navController.navigate(R.id.action_logoFragment_to_homeFragment);
+
+                                        try {
+                                            firestoreReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getCurrentUser().getUid());
+                                             userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
+                                                 @Override
+                                                 public void onDataLoaded() {
+                                                     navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                                 }
+                                             });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getContext(), "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
+                                            navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                        }
+
                                     }
                                 });
                             }

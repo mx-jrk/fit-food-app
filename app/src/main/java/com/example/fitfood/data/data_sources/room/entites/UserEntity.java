@@ -18,7 +18,7 @@ import java.util.Locale;
 @Entity(tableName = "user_table")
 public class UserEntity {
     @NonNull
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
 
     public String Name;
@@ -60,6 +60,8 @@ public class UserEntity {
     public String WeightHistory;
 
     public String EatenCaloriesHistory;
+
+    public String FirebaseId;
 
     @Ignore
     public PlanEntity Plan;

@@ -20,6 +20,14 @@ import com.example.fitfood.R;
 import com.example.fitfood.databinding.FragmentLogInBinding;
 import com.example.fitfood.databinding.FragmentSignUpBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ktx.Firebase;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
 
@@ -27,6 +35,8 @@ public class SignUpFragment extends Fragment {
     UserViewModel userViewModel;
     NavHostFragment navHostFragment;
     NavController navController;
+    FirebaseAuth firebaseAuth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,6 +45,8 @@ public class SignUpFragment extends Fragment {
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         navController = navHostFragment.getNavController();
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         return binding.getRoot();
     }
@@ -105,14 +117,44 @@ public class SignUpFragment extends Fragment {
         binding.logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!isEmail(binding.userName.getText().toString())){
+                    Toast.makeText(getContext(), "Вы ввели логин не в формате почты!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (binding.firstPassword.getText().toString().length() < 6){
+                    Toast.makeText(getContext(), "Ваш пароль меньше 6-ти символов!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (!binding.secondPassword.getText().toString().equals(binding.firstPassword.getText().toString())){
                     Toast.makeText(getContext(), "Ваши пароли не совпадают!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 userViewModel.my_user.Login = binding.userName.getText().toString();
                 userViewModel.my_user.Password = binding.firstPassword.getText().toString();
-                navController.navigate(R.id.action_signUpFragment_to_helloFragment);
+                firebaseAuth.createUserWithEmailAndPassword(binding.userName.getText().toString(), binding.firstPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            navController.navigate(R.id.action_signUpFragment_to_helloFragment);
+                        }
+                        else {
+                            Toast.makeText(getContext(), "Ошибка регистрации пользователя. Проверьте подключение к интернету.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
             }
         });
+    }
+
+    private boolean isEmail(String string) {
+        String emailPattern = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(emailPattern);
+        Matcher matcher = pattern.matcher(string);
+        return matcher.matches();
     }
 }

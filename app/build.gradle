@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -33,7 +34,13 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth'
+
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+
 
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
 
@@ -42,6 +49,8 @@ dependencies {
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation 'com.google.firebase:firebase-firestore:24.0.2'
+    implementation 'com.google.firebase:firebase-database-ktx:20.2.1'
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 

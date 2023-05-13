@@ -186,5 +186,3 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         }
     }
 }
-
-
