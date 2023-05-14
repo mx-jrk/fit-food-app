@@ -54,6 +54,10 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.progressBar.setVisibility(View.GONE);
+        binding.progressBarTv.setVisibility(View.GONE);
+
         binding.userName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -131,6 +135,8 @@ public class SignUpFragment extends Fragment {
                     return;
                 }
 
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.progressBarTv.setVisibility(View.VISIBLE);
                 userViewModel.my_user.Login = binding.userName.getText().toString();
                 userViewModel.my_user.Password = binding.firstPassword.getText().toString();
                 firebaseAuth.createUserWithEmailAndPassword(binding.userName.getText().toString(), binding.firstPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

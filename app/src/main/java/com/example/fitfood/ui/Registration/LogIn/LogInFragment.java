@@ -71,6 +71,9 @@ public class LogInFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.progressBar.setVisibility(View.GONE);
+        binding.progressBarTv.setVisibility(View.GONE);
+
         binding.userName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -109,9 +112,12 @@ public class LogInFragment extends Fragment {
             }
         });
 
+
         binding.logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.progressBarTv.setVisibility(View.VISIBLE);
                 firebaseAuth.signInWithEmailAndPassword(binding.userName.getText().toString(), binding.password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

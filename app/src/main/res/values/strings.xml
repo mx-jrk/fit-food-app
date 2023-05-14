@@ -90,6 +90,8 @@
     <string name="recipe">Способ приготовления:</string>
     <string name="watch_plan">Изучить план</string>
     <string name="mail_example">example@mail.ru</string>
+    <string name="do_registration">Регестрируем пользователя...</string>
+    <string name="do_login">Выполянем вход...</string>
 
     <string-array name="shopping_list_variants">
         <item>сегодня</item>

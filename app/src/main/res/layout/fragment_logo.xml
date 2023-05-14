@@ -12,5 +12,10 @@
         android:layout_height="200dp"
         android:src="@drawable/logo"
         android:layout_gravity="center"/>
+    <ProgressBar
+        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"/>
 
 </LinearLayout>
