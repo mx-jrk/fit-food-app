@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.DataLoadCallback;
+import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.databinding.FragmentLogInBinding;
@@ -123,21 +124,27 @@ public class LogInFragment extends Fragment {
                                         @Override
                                         public void onChanged(List<RecipeEntity> recipeEntities) {
                                             userViewModel.my_user.DailyRecipes = recipeEntities;
-                                            userViewModel.insert();
-                                            shoppingListViewModel.deleteGenerated();
-
-                                            parseRecipes(recipeEntities, "today");
-
-                                            userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) getContext(), new Observer<List<RecipeEntity>>() {
+                                            userViewModel.getPlansById(userViewModel.my_user.PlanId).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
                                                 @Override
-                                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                    parseRecipes(recipeEntities, "tomorrow");
+                                                public void onChanged(PlanEntity plan) {
+                                                    userViewModel.my_user.Plan = plan;
+                                                    userViewModel.insert();
+                                                    shoppingListViewModel.deleteGenerated();
 
-                                                    shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe((LifecycleOwner) getContext(), new Observer<List<RecipeEntity>>() {
+                                                    parseRecipes(recipeEntities, "today");
+
+                                                    userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) getContext(), new Observer<List<RecipeEntity>>() {
                                                         @Override
                                                         public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                            parseRecipes(recipeEntities, "week");
-                                                            navController.navigate(R.id.action_logInFragment_to_homeFragment);
+                                                            parseRecipes(recipeEntities, "tomorrow");
+
+                                                            shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe((LifecycleOwner) getContext(), new Observer<List<RecipeEntity>>() {
+                                                                @Override
+                                                                public void onChanged(List<RecipeEntity> recipeEntities) {
+                                                                    parseRecipes(recipeEntities, "week");
+                                                                    navController.navigate(R.id.action_logInFragment_to_homeFragment);
+                                                                }
+                                                            });
                                                         }
                                                     });
                                                 }
