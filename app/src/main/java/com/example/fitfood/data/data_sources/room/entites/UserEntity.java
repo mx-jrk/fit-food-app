@@ -63,6 +63,8 @@ public class UserEntity {
 
     public String FirebaseId;
 
+    public boolean isLoadedToCloud;
+
     @Ignore
     public PlanEntity Plan;
 

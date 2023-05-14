@@ -128,8 +128,9 @@ public class LogoFragment extends Fragment {
                                         user.DailyRecipes = recipeEntities;
                                         System.out.println(getNextDayOfWeek("Sun"));
                                         userViewModel.my_user = user;
-
-                                        if (hasConnection(getContext())){
+                                        System.out.println(userViewModel.my_user.isLoadedToCloud);
+                                        if (hasConnection(getContext()) && !userViewModel.my_user.isLoadedToCloud) navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                        else if (hasConnection(getContext())){
                                             firestoreReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getCurrentUser().getUid());
                                             userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
                                                 @Override
