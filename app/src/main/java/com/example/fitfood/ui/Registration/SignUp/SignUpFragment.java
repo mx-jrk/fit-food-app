@@ -147,6 +147,8 @@ public class SignUpFragment extends Fragment {
                         }
                         else {
                             Toast.makeText(getContext(), "Ошибка регистрации пользователя. Проверьте подключение к интернету.", Toast.LENGTH_SHORT).show();
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.progressBarTv.setVisibility(View.GONE);
                         }
                     }
                 });

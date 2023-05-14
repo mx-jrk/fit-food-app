@@ -162,6 +162,8 @@ public class LogInFragment extends Fragment {
                             });
                         } else {
                             Toast.makeText(getContext(), "Неверный логин или пароль!", Toast.LENGTH_LONG).show();
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.progressBarTv.setVisibility(View.GONE);
                         }
                     }
                 });
