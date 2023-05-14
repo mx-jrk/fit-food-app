@@ -1,5 +1,8 @@
 package com.example.fitfood.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -126,20 +129,19 @@ public class LogoFragment extends Fragment {
                                         System.out.println(getNextDayOfWeek("Sun"));
                                         userViewModel.my_user = user;
 
-                                        try {
+                                        if (hasConnection(getContext())){
                                             firestoreReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getCurrentUser().getUid());
-                                             userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
-                                                 @Override
-                                                 public void onDataLoaded() {
-                                                     navController.navigate(R.id.action_logoFragment_to_homeFragment);
-                                                 }
-                                             });
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                            userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
+                                                @Override
+                                                public void onDataLoaded() {
+                                                    navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                                }
+                                            });
+                                        }
+                                        else {
                                             Toast.makeText(getContext(), "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
                                             navController.navigate(R.id.action_logoFragment_to_homeFragment);
                                         }
-
                                     }
                                 });
                             }
@@ -149,6 +151,27 @@ public class LogoFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean hasConnection(final Context context)
+    {
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiInfo != null && wifiInfo.isConnected())
+        {
+            return true;
+        }
+        wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifiInfo != null && wifiInfo.isConnected())
+        {
+            return true;
+        }
+        wifiInfo = cm.getActiveNetworkInfo();
+        if (wifiInfo != null && wifiInfo.isConnected())
+        {
+            return true;
+        }
+        return false;
     }
 
     private String getNextDayOfWeek(String dayOfWeek) {
