@@ -49,6 +49,7 @@ public class LogInFragment extends Fragment {
     FirebaseAuth firebaseAuth;
     DatabaseReference firestoreReference;
     ShoppingListViewModel shoppingListViewModel;
+    LifecycleOwner lifecycleOwner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +64,8 @@ public class LogInFragment extends Fragment {
         firestoreReference = FirebaseDatabase.getInstance().getReference();
 
         shoppingListViewModel =new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
+
+        lifecycleOwner = getViewLifecycleOwner();
 
         return binding.getRoot();
     }
@@ -125,12 +128,13 @@ public class LogInFragment extends Fragment {
                             userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
                                 @Override
                                 public void onDataLoaded() {
-
-                                    userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, new Date().toString().split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
+                                    userViewModel.my_user.FirebaseId = firebaseAuth.getCurrentUser().getUid();
+                                    userViewModel.my_user.isLoadedToCloud = true;
+                                    userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, new Date().toString().split(" ")[0]).observe(lifecycleOwner, new Observer<List<RecipeEntity>>() {
                                         @Override
                                         public void onChanged(List<RecipeEntity> recipeEntities) {
                                             userViewModel.my_user.DailyRecipes = recipeEntities;
-                                            userViewModel.getPlansById(userViewModel.my_user.PlanId).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
+                                            userViewModel.getPlansById(userViewModel.my_user.PlanId).observe(lifecycleOwner, new Observer<PlanEntity>() {
                                                 @Override
                                                 public void onChanged(PlanEntity plan) {
                                                     userViewModel.my_user.Plan = plan;
@@ -144,7 +148,7 @@ public class LogInFragment extends Fragment {
                                                         public void onChanged(List<RecipeEntity> recipeEntities) {
                                                             parseRecipes(recipeEntities, "tomorrow");
 
-                                                            shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe((LifecycleOwner) getContext(), new Observer<List<RecipeEntity>>() {
+                                                            shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe(lifecycleOwner, new Observer<List<RecipeEntity>>() {
                                                                 @Override
                                                                 public void onChanged(List<RecipeEntity> recipeEntities) {
                                                                     parseRecipes(recipeEntities, "week");

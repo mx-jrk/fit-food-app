@@ -128,20 +128,30 @@ public class LogoFragment extends Fragment {
                                         user.DailyRecipes = recipeEntities;
                                         System.out.println(getNextDayOfWeek("Sun"));
                                         userViewModel.my_user = user;
-                                        System.out.println(userViewModel.my_user.isLoadedToCloud);
-                                        if (hasConnection(getContext()) && !userViewModel.my_user.isLoadedToCloud) navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                        System.out.println(user.isLoadedToCloud);
+                                        if (hasConnection(getContext()) && !userViewModel.my_user.isLoadedToCloud) {
+                                            System.out.println("+CONNECTION -LOADED");
+                                            goToHomePage();
+                                        }
                                         else if (hasConnection(getContext())){
-                                            firestoreReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseAuth.getCurrentUser().getUid());
                                             userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
                                                 @Override
                                                 public void onDataLoaded() {
-                                                    navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                                    try {
+                                                        System.out.println("+CONNECTION +LOADED");
+                                                        goToHomePage();
+
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                        System.out.println("ERROR OF NAV");
+                                                    }
                                                 }
                                             });
                                         }
                                         else {
                                             Toast.makeText(getContext(), "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
-                                            navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                            System.out.println("-CONNECTION +LOADED");
+                                            goToHomePage();
                                         }
                                     }
                                 });
@@ -152,6 +162,10 @@ public class LogoFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void goToHomePage(){
+        navController.navigate(R.id.homeFragment);
     }
 
     private boolean hasConnection(final Context context)

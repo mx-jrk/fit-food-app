@@ -143,10 +143,11 @@ public class MainActivity extends AppCompatActivity {
        if (hasConnection(this)){
            userViewModel.loadDataToFirebaseCloud();
            userViewModel.my_user.isLoadedToCloud = true;
+           System.out.println("Loaded " + userViewModel.my_user.isLoadedToCloud);
        }
        else {
-           Toast.makeText(this, "Не удалось загрузить данные в облако. Но они сохранены на вашем устройстве!", Toast.LENGTH_LONG).show();
            userViewModel.my_user.isLoadedToCloud = false;
+           Toast.makeText(this, "Не удалось загрузить данные в облако. Но они сохранены на вашем устройстве!", Toast.LENGTH_LONG).show();
        }
         userViewModel.update();
 

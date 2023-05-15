@@ -143,6 +143,8 @@ public class SignUpFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
+                            userViewModel.my_user.FirebaseId = firebaseAuth.getCurrentUser().getUid();
+                            userViewModel.my_user.isLoadedToCloud = true;
                             navController.navigate(R.id.action_signUpFragment_to_helloFragment);
                         }
                         else {
