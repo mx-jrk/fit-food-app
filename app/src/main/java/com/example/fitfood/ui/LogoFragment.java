@@ -108,7 +108,7 @@ public class LogoFragment extends Fragment {
                                             @Override
                                             public void onChanged(List<RecipeEntity> recipeEntities) {
                                                 parseRecipes(recipeEntities, "tomorrow");
-
+                                                System.out.println(getNextDayOfWeek(new Date().toString().split(" ")[0]) + recipeEntities.size());
                                                 shoppingListViewModel.getAllRecipesByPlan(user.PlanId).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
                                                     @Override
                                                     public void onChanged(List<RecipeEntity> recipeEntities) {
@@ -126,9 +126,7 @@ public class LogoFragment extends Fragment {
                                     @Override
                                     public void onChanged(List<RecipeEntity> recipeEntities) {
                                         user.DailyRecipes = recipeEntities;
-                                        System.out.println(getNextDayOfWeek("Sun"));
                                         userViewModel.my_user = user;
-                                        System.out.println(user.isLoadedToCloud);
                                         if (hasConnection(getContext()) && !userViewModel.my_user.isLoadedToCloud) {
                                             System.out.println("+CONNECTION -LOADED");
                                             goToHomePage();
@@ -191,7 +189,7 @@ public class LogoFragment extends Fragment {
 
     private String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
-        String[] days = {"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for (int i = 0; i < days.length; i++){
             if (days[i].equals(dayOfWeek)) return days[i + 1];
         }
@@ -214,6 +212,7 @@ public class LogoFragment extends Fragment {
                 }
             }
         }
+        System.out.println(productEntityList.size());
         for (ProductEntity product : productEntityList) {
             shoppingListViewModel.insert(product);
             System.out.println(product.name + " " + product.count);

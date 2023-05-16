@@ -163,7 +163,7 @@ public class PlanCardFragment extends Fragment {
 
     private String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
-        String[] days = {"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"};
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for (int i = 0; i < days.length; i++){
             if (days[i].equals(dayOfWeek)) return days[i + 1];
         }
