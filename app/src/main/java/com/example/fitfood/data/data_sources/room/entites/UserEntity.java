@@ -97,13 +97,14 @@ public class UserEntity {
         this.context = context;
     }
 
+    //Method of assigning values to fields linked in Firebase
     public void setFirebaseFields(FirebaseAuth firebaseAuth, DatabaseReference databaseReference){
         this.firebaseReference = databaseReference;
         this.firebaseAuth = firebaseAuth;
     }
 
+    //Method of loading data from Firebase using CallBack
     public void downloadDataFromFirebase(DataLoadCallback callback){
-
         firebaseReference
                 .child("Users").
                 child(FirebaseId).
@@ -139,6 +140,7 @@ public class UserEntity {
         });
     }
 
+    //Method of uploading data to Firebase
     public void uploadDataToFirebase(){
         firebaseReference.child("Users").child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).child("Name").setValue(Name);
         firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Height").setValue(Height);
@@ -162,6 +164,7 @@ public class UserEntity {
         firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("FirebaseId").setValue(FirebaseId);
     }
 
+    //Method of determining suitable meal plans using survey data
     public List<PlanEntity> choosePlans(List<PlanEntity> plans){
         String[] Contraindications = Contraindications_s.split("\n");
 
@@ -194,6 +197,7 @@ public class UserEntity {
         return good_plans;
     }
 
+    //The method of counting calories eaten per day
     public int dailyCalories(){
         int calories = 0;
         for (RecipeEntity dish: DailyRecipes){
@@ -202,6 +206,7 @@ public class UserEntity {
         return calories;
     }
 
+    //The method of counting the meals eaten during the day
     public int setEatenDishesCount(){
         int count = 0;
         if (BreakfastEaten) count++;
@@ -218,6 +223,7 @@ public class UserEntity {
         return false;
     }
 
+    //Method of resetting values when a new day comes
     public void resetForNewDay(List<RecipeEntity> recipeEntities){
         if (WeightHistory == null) WeightHistory = String.valueOf(Weight);
         else {
@@ -252,6 +258,7 @@ public class UserEntity {
         SnackEaten = false;
     }
 
+    //Method of obtaining the history of calories eaten as List
     public List<Entry> getEatenCaloriesHistoryAsList() {
         if(EatenCaloriesHistory == null) return new ArrayList<>();
         if (EatenCaloriesHistoryList == null) {
@@ -266,6 +273,7 @@ public class UserEntity {
         return EatenCaloriesHistoryList;
     }
 
+    //Method of obtaining the history of weight eaten as List
     public List<Entry> getWeightHistoryAsList() {
         if(WeightHistory == null) return new ArrayList<>();
         if (WeightHistoryList == null) {

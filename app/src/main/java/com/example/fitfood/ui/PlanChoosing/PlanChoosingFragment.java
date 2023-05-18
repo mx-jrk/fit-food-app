@@ -60,6 +60,7 @@ public class PlanChoosingFragment extends Fragment {
         binding.plansList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.plansList.setAdapter(adapter);
 
+        //Starting RecyclerView
         userViewModel.getAllPlans().observe(getViewLifecycleOwner(), planEntities -> {
             adapter.setFirstLaunch(getArguments() == null || getArguments().getBoolean("is_first"));
             adapter.setPlans(userViewModel.my_user.choosePlans(planEntities));

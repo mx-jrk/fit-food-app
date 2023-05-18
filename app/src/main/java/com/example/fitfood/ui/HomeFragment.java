@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         binding.changePlanBtn.setOnClickListener(view1 -> navController.navigate(R.id.action_homeFragment_to_planChoosingFragment));
 
 
-
+        //Setting up transitions to editing fragments
         binding.watchPlanBtn.setOnClickListener(view12 -> {
             Bundle bundle = new Bundle();
             bundle.putInt("plan", userViewModel.my_user.PlanId);
@@ -119,10 +119,13 @@ public class HomeFragment extends Fragment {
         });
 
 
+        //Setting daily statistics
         setEatenDishes();
         setEatenCalories();
         setButtons();
 
+
+        //Setting daily statistics
         if( (userViewModel.my_user.Goal.contains("Сушка") || userViewModel.my_user.Goal.contains("Похудение"))
                 && (userViewModel.my_user.Weight <= userViewModel.my_user.WeightGoal)) binding.weightTv.setText("Цель достигнута!");
         else  if  (userViewModel.my_user.Goal.contains("Набор массы")
@@ -131,6 +134,8 @@ public class HomeFragment extends Fragment {
         binding.weightPb.setMax((int) Math.round(Math.max(userViewModel.my_user.WeightGoal, userViewModel.my_user.Weight)));
         binding.weightPb.setProgress((int) Math.round(Math.min(userViewModel.my_user.WeightGoal, userViewModel.my_user.Weight)));
 
+
+        //Setting up the buttons for meal marks
         binding.breakfastEatenBtn.setOnClickListener(view15 -> {
             if (userViewModel.my_user.BreakfastEaten){
                 userViewModel.my_user.BreakfastEaten = false;
@@ -199,6 +204,8 @@ public class HomeFragment extends Fragment {
             setEatenCalories();
         });
 
+
+        //Setting up Recipe View buttons
         binding.watchBreakfastRecipe.setOnClickListener(view19 -> goToRecipeCard(0));
 
         binding.watchLunchRecipe.setOnClickListener(view110 -> goToRecipeCard(1));
@@ -206,10 +213,10 @@ public class HomeFragment extends Fragment {
         binding.watchDinnerRecipe.setOnClickListener(view111 -> goToRecipeCard(2));
 
         binding.watchSnackRecipe.setOnClickListener(view112 -> goToRecipeCard(3));
-
-
     }
 
+
+    //Method for setting the status of the buttons about marking recipes
     @SuppressLint("UseCompatLoadingForDrawables")
     private void setButtons(){
         if (userViewModel.my_user.BreakfastEaten) {
@@ -230,6 +237,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    //Method of switching to a recipe fragment
     private void goToRecipeCard(int time){
         Bundle bundle = new Bundle();
         bundle.putInt("time", time);
@@ -238,6 +246,7 @@ public class HomeFragment extends Fragment {
         navController.navigate(R.id.action_homeFragment_to_recipeCardFragment, bundle);
     }
 
+    //Method of setting the scale and text of the number of meals eaten
     @SuppressLint("SetTextI18n")
     private void setEatenDishes(){
         binding.eatenTv.setText(userViewModel.my_user.setEatenDishesCount() + " из " + userViewModel.my_user.DailyRecipes.size());
@@ -245,6 +254,7 @@ public class HomeFragment extends Fragment {
         binding.eatenPb.setProgress(userViewModel.my_user.setEatenDishesCount());
     }
 
+    //The method of setting the scale and the text of the number of calories eaten
     @SuppressLint("SetTextI18n")
     private void setEatenCalories(){
         binding.caloriesTv.setText(userViewModel.my_user.EatenCalories + " из " + userViewModel.my_user.dailyCalories());

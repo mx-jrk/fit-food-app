@@ -103,20 +103,27 @@ public class LogInFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.progressBarTv.setVisibility(View.VISIBLE);
 
+            //User authentication in Firebase
             firebaseAuth.signInWithEmailAndPassword(binding.userName.getText().toString(), binding.password.getText().toString()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     userViewModel.my_user.FirebaseId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
                     userViewModel.my_user.setFirebaseFields(firebaseAuth, firebaseReference);
+
+                    //Setting values from Firebase to user object in ViewModel
                     userViewModel.downloadDataFromFirebase(() -> {
                         userViewModel.my_user.isLoadedToCloud = true;
 
+                        //Getting recipes according to the selected plan
                         userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, new Date().toString().split(" ")[0]).observe(lifecycleOwner, recipeEntities -> {
                             userViewModel.my_user.DailyRecipes = recipeEntities;
+
+                            //Getting a plan by id
                             userViewModel.getPlansById(userViewModel.my_user.PlanId).observe(lifecycleOwner, plan -> {
                                 userViewModel.my_user.Plan = plan;
                                 userViewModel.insert();
                                 shoppingListViewModel.deleteGenerated();
 
+                                //Parsing recipes by pulling ingredients from them to generate a shopping list
                                 parseRecipes(recipeEntities, "today");
 
                                 userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) requireContext(), recipeEntities12 -> {
@@ -142,6 +149,7 @@ public class LogInFragment extends Fragment {
 
     }
 
+    //Method of getting the next day of the week
     private void parseRecipes(List<RecipeEntity> recipeEntities, String type){
         String[] products;
         List<ProductEntity> productEntityList = new ArrayList<>();
@@ -167,6 +175,7 @@ public class LogInFragment extends Fragment {
         }
     }
 
+    //Method of getting the next day of the week
     private static String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
 

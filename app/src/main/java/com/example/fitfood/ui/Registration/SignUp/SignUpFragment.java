@@ -127,6 +127,7 @@ public class SignUpFragment extends Fragment {
             userViewModel.my_user.Login = binding.userName.getText().toString();
             userViewModel.my_user.Password = binding.firstPassword.getText().toString();
 
+            //Creating a user in Firebase
             firebaseAuth.createUserWithEmailAndPassword(binding.userName.getText().toString(), binding.firstPassword.getText().toString()).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     userViewModel.my_user.FirebaseId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
@@ -143,6 +144,7 @@ public class SignUpFragment extends Fragment {
         });
     }
 
+    //Checking that the string is mail
     private boolean isEmail(String string) {
         String emailPattern = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
         Pattern pattern = Pattern.compile(emailPattern);

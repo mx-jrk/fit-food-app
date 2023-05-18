@@ -97,7 +97,7 @@ public class PlanCardAdapter extends BaseExpandableListAdapter {
                 break;
 
         }
-        System.out.println(recipeEntity.Title);
+
         title.setText(recipeEntity.Title);
         description.setText(recipeEntity.Description);
         image.setImageResource(context.getResources().getIdentifier(recipeEntity.ImageName, "drawable", context.getPackageName()));

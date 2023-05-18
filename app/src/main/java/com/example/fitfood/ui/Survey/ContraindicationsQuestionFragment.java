@@ -47,6 +47,7 @@ public class ContraindicationsQuestionFragment extends Fragment {
         binding.nextBtn.setOnClickListener(view1 -> {
             String Contraindications = "";
 
+            //Forming a list of contraindications
             if (binding.pig.isChecked()){
                 Contraindications += binding.pig.getText().toString().toLowerCase(Locale.ROOT);
             }

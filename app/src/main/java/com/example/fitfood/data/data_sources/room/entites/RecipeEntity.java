@@ -73,12 +73,4 @@ public class RecipeEntity {
         ImageName = imageName;
         CookingMethod = cookingMethod;
     }
-
-    public boolean is_this_time(String time){
-        String[] times = Time.split(" ");
-        for (String s : times){
-            if (Objects.equals(time, s)) return true;
-        }
-        return false;
-    }
 }

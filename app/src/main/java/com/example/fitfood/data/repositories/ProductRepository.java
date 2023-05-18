@@ -14,19 +14,12 @@ import java.util.List;
 public class ProductRepository {
     private final ProductDAO productDAO;
 
-    private static volatile ProductRepository instance;
-
-    public static synchronized ProductRepository getInstance(Application application) {
-        if (instance == null) {
-            instance = new ProductRepository(application);
-        }
-        return instance;
-    }
     public ProductRepository(Application application){
         ProductDatabase db = ProductDatabase.getDatabase(application);
         productDAO = db.productDAO();
     }
 
+    // Method of getting all products by day of the week from ROOM
     public LiveData<List<ProductEntity>> getAllProductsByType(String type){
         return productDAO.getProductsByType(type);
     }
@@ -43,6 +36,7 @@ public class ProductRepository {
         ProductDatabase.databaseWriteExecutor.execute(()-> productDAO.delete(product));
     }
 
+    //Method of removing generated products from the ROOM
     public void deleteGenerated(){
         productDAO.deleteGenerated();
     }

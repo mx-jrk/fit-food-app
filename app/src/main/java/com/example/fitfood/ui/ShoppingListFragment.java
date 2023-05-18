@@ -42,6 +42,7 @@ public class ShoppingListFragment extends Fragment {
         binding.shoppingList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.shoppingList.setAdapter(this.adapter);
 
+        //Changes to the shopping list based on the value of the spinner
         selectedSpinner = "today";
 
         binding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

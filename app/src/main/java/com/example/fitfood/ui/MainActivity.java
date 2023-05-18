@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         setupWithNavController(bottomNavigationView, navController);
 
 
-
         //Hiding BottomNavigation
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if(destination.getId() == R.id.homeFragment || destination.getId() == R.id.shoppingListFragment || destination.getId() == R.id.profileFragment) {
@@ -70,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        //Installing Notifications
         Intent intentBreakfast = new Intent(this, NotificationReceiver.class);
         intentBreakfast.putExtra("id", 0);
         intentBreakfast.putExtra("time", "завтрака!");
@@ -91,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
         @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntentDinner= PendingIntent.getBroadcast(this, 3, intentDinner, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-
-
-        // Завтрак
         Calendar breakfastCalendar = Calendar.getInstance();
         AlarmManager alarmManagerBreakfast = (AlarmManager) getSystemService(ALARM_SERVICE);
         breakfastCalendar.set(Calendar.HOUR_OF_DAY, 7);
@@ -128,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Writing data to ROOM and Firebase
     @Override
     protected void onPause() {
         super.onPause();
@@ -145,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Method of checking the availability of an Internet connection
     private boolean hasConnection(final Context context)
     {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);

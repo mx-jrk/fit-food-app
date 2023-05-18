@@ -65,7 +65,10 @@ public class ProfileFragment extends Fragment {
         else if (hour >= 12 && hour < 17) binding.hello.setText("Добрый день,");
         else if (hour >= 17 && hour < 23) binding.hello.setText("Добрый вечер,");
         else binding.hello.setText("Доброй ночи,");
+
+
         binding.name.setText(userViewModel.my_user.Name + "!");
+
         binding.userName.setText(userViewModel.my_user.Name);
 
         binding.userWeight.setText(userViewModel.my_user.Weight + "кг");
@@ -77,6 +80,7 @@ public class ProfileFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("source", "profile");
 
+        //Setting up transitions to editing fragments
         binding.changeName.setOnClickListener(view1 -> {
             NameQuestionFragment nameQuestionFragment = new NameQuestionFragment();
             nameQuestionFragment.setArguments(bundle);
@@ -96,6 +100,7 @@ public class ProfileFragment extends Fragment {
             navController.navigate(R.id.action_profileFragment_to_goalWeightFragment, bundle);
         });
 
+        //Setting charts
         weight = userViewModel.my_user.getWeightHistoryAsList();
         calories = userViewModel.my_user.getEatenCaloriesHistoryAsList();
 
@@ -111,6 +116,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    //  Method of creating and configuring graphs
     private void setGraph(LineChart graph, List<Entry> data, String label, int color){
         graph.getLegend().setEnabled(false);
 
@@ -146,5 +152,4 @@ public class ProfileFragment extends Fragment {
         graph.animateX(200);
         graph.invalidate();
     }
-
 }

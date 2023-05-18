@@ -44,6 +44,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.name.setText(currentProduct.name);
         holder.count.setText(currentProduct.count + " шт.");
 
+        //Changing the color of the text based on the fact of its selection
         if (currentProduct.selected) {
             holder.name.setTextColor(Color.parseColor("#C9D6DF"));
             holder.count.setTextColor(Color.parseColor("#C9D6DF"));
@@ -60,6 +61,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             productRepository.update(currentProduct);
         });
 
+        //Deleting an element
         holder.delete.setOnClickListener(view -> {
             builder.setMessage("Вы уверены, что хотите удалить этот элемент?").setCancelable(false).setPositiveButton("Нет", (dialog, id) -> dialog.cancel()).setNegativeButton("Да", (dialog, id) -> {
                products.remove(currentProduct);

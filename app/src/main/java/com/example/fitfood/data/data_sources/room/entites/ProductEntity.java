@@ -25,6 +25,7 @@ public class ProductEntity {
         this.type = type;
     }
 
+    //Methods for comparing values in fields
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

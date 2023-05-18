@@ -17,17 +17,9 @@ public class UserRepository {
     private final UserDao userDao;
     private final LiveData<UserEntity> user;
 
-    private static volatile UserRepository instance;
-
-    public static synchronized UserRepository getInstance(Application application) {
-        if (instance == null) {
-            instance = new UserRepository(application);
-        }
-        return instance;
-    }
     public UserRepository(Application application){
         UserDatabase db = UserDatabase.getDatabase(application);
-        userDao = db.userDAO();;
+        userDao = db.userDAO();
         user = userDao.getUser();
     }
 

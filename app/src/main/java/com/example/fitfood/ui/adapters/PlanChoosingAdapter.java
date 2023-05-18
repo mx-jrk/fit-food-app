@@ -71,9 +71,12 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
             navController.navigate(R.id.action_planChoosingFragment_to_planCardFragment, bundle);
         });
 
+        //The process of registering a meal plan, generating a shopping list for it
         holder.planChoose.setOnClickListener(view -> {
             userViewModel.my_user.PlanId = currentPlan.id;
             userViewModel.my_user.Plan = currentPlan;
+
+            //Getting recipes for the selected plan
             userViewModel.getRecipesByPlan(currentPlan.id, new Date().toString().split(" ")[0]).observe((LifecycleOwner)context, recipeEntities -> {
                 userViewModel.my_user.DailyRecipes = recipeEntities;
                 if (!firstLaunch) {
@@ -91,6 +94,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
 
                 shoppingListViewModel.deleteGenerated();
 
+                //Parsing recipes by pulling ingredients from them to generate a shopping list
                 parseRecipes(recipeEntities, "today");
 
                 userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) context, recipeEntities12 -> {
@@ -105,6 +109,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         });
     }
 
+    //Method of getting the next day of the week
     private static String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
 
@@ -117,6 +122,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         return dayOfWeek;
     }
 
+    //Recipe parsing method for getting a list of necessary ingredients from List objects
     private void parseRecipes(List<RecipeEntity> recipeEntities, String type){
         String[] products;
         List<ProductEntity> productEntityList = new ArrayList<>();

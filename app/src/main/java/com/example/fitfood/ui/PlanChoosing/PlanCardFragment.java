@@ -60,23 +60,30 @@ public class PlanCardFragment extends Fragment {
         if (getArguments() != null){
             List<List<RecipeEntity>> plansRecipes = new ArrayList<>();
 
+            //Getting a plan by id
             userViewModel.getPlansById(getArguments().getInt("plan")).observe(getViewLifecycleOwner(), plan -> {
                 binding.title.setText(plan.Title);
                 binding.description.setText(plan.Description);
                 binding.calories.setText("Среднесуточный калораж: " + plan.AverageCalories);
                 binding.image.setImageResource(requireContext().getResources().getIdentifier(plan.ImageName, "drawable", requireContext().getPackageName()));
 
+                //Checking the first launch
                 assert getArguments() != null;
                 if (!getArguments().getBoolean("is_first")) binding.chooseBtn.setVisibility(View.GONE);
+
+                //The process of registering a meal plan, generating a shopping list for it
                 binding.chooseBtn.setOnClickListener(view1 -> {
                     userViewModel.my_user.Plan = plan;
                     userViewModel.my_user.PlanId = plan.id;
+
+                    //Getting recipes according to the selected plan
                     userViewModel.getRecipesByPlan(userViewModel.my_user).observe(getViewLifecycleOwner(), recipeEntities -> {
                         userViewModel.my_user.DailyRecipes = recipeEntities;
                         userViewModel.insert();
 
                         shoppingListViewModel.deleteGenerated();
 
+                        //Parsing recipes by pulling ingredients from them to generate a shopping list
                         parseRecipes(recipeEntities, "today");
 
                         userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe(getViewLifecycleOwner(), recipeEntities1 -> {
@@ -92,6 +99,7 @@ public class PlanCardFragment extends Fragment {
                 });
 
 
+                //Creating a List for the Daily Ration List Adapter
                 userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Mon").observe(getViewLifecycleOwner(), recipeEntities -> {
                     plansRecipes.add(recipeEntities);
                     userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Tue").observe(getViewLifecycleOwner(), recipeEntities12 -> {
@@ -125,6 +133,7 @@ public class PlanCardFragment extends Fragment {
         }
     }
 
+    //Method of getting the next day of the week
     private String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
         String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
@@ -134,6 +143,7 @@ public class PlanCardFragment extends Fragment {
         return dayOfWeek;
     }
 
+    //Recipe parsing method for getting a list of necessary ingredients from List objects
     private void parseRecipes(List<RecipeEntity> recipeEntities, String type){
         String[] products;
         List<ProductEntity> productEntityList = new ArrayList<>();
