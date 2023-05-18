@@ -178,6 +178,7 @@ public class PlanCardFragment extends Fragment {
             if (recipe.Products == null) continue;
             products = recipe.Products.split("\n");
             for (String product : products) {
+                System.out.println(product);
                 generatedProduct = new ProductEntity(product.split(": ")[0], Integer.parseInt(product.split(": ")[1].trim()), false, true, type);
                 if (productEntityList.contains(generatedProduct)) {
                     productEntityList.get(productEntityList.indexOf(generatedProduct)).count++;
