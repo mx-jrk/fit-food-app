@@ -1,35 +1,23 @@
 package com.example.fitfood.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
-
 import com.example.fitfood.R;
-import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
-import com.example.fitfood.ui.RecipeCardFragment;
-import com.example.fitfood.ui.view_models.UserViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class PlanCardAdapter extends BaseExpandableListAdapter {
-    private Context context;
-    private List<List<RecipeEntity>> recipes;
-    private String[] daysOfWeek = {"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
+    private final Context context;
+    private final List<List<RecipeEntity>> recipes;
+    private final String[] daysOfWeek = {"Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"};
 
     public PlanCardAdapter(Context context, List<List<RecipeEntity>> recipes) {
         this.context = context;
@@ -82,6 +70,7 @@ public class PlanCardAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    @SuppressLint("DiscouragedApi")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(R.layout.plan_choosing_expandable_child_item, parent, false);

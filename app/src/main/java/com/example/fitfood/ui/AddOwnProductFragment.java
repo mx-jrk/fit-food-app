@@ -20,52 +20,52 @@ import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 
 public class AddOwnProductFragment extends Fragment {
     FragmentAddOwnProductBinding binding;
+
     private boolean count_input;
     private boolean name_input;
-    ShoppingListViewModel viewModel;
+
+    ShoppingListViewModel shoppingListViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentAddOwnProductBinding inflate = FragmentAddOwnProductBinding.inflate(inflater, container, false);
-        binding = inflate;
+        binding = FragmentAddOwnProductBinding.inflate(inflater, container, false);
+
         count_input = false;
+
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         AddOwnProductFragment.super.onViewCreated(view, savedInstanceState);
-        this.viewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
-        this.binding.productName.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+        shoppingListViewModel = new ViewModelProvider(this).get(ShoppingListViewModel.class);
+        binding.productName.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 name_input = charSequence.toString().length() != 0;
                 check_button();
             }
 
-            public void afterTextChanged(Editable editable) {
-            }
+            public void afterTextChanged(Editable editable) {}
         });
-        this.binding.productCount.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+
+        binding.productCount.addTextChangedListener(new TextWatcher() {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 count_input = charSequence.toString().length() != 0;
                 check_button();
             }
 
-            public void afterTextChanged(Editable editable) {
-            }
+            public void afterTextChanged(Editable editable) {}
         });
-        this.binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                try {
-                    viewModel.insert(new ProductEntity(binding.productName.getText().toString(), Integer.parseInt(binding.productCount.getText().toString()), false, false, getArguments().getString("type")));
-                    Navigation.findNavController(AddOwnProductFragment.this.requireView()).navigate(R.id.action_addOwnProduct_to_shoppingListFragment);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(AddOwnProductFragment.this.getActivity(), "В поле «количество» вы ввели не целое число!", Toast.LENGTH_SHORT).show();
-                }
+
+        binding.nextBtn.setOnClickListener(view1 -> {
+            try {
+                assert getArguments() != null;
+                shoppingListViewModel.insert(new ProductEntity(binding.productName.getText().toString(), Integer.parseInt(binding.productCount.getText().toString()), false, false, getArguments().getString("type")));
+                Navigation.findNavController(AddOwnProductFragment.this.requireView()).navigate(R.id.action_addOwnProduct_to_shoppingListFragment);
+            } catch (NumberFormatException e) {
+                Toast.makeText(AddOwnProductFragment.this.getActivity(), "В поле «количество» вы ввели не целое число!", Toast.LENGTH_SHORT).show();
             }
         });
     }

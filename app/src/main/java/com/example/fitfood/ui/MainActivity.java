@@ -2,30 +2,24 @@ package com.example.fitfood.ui;
 
 import static androidx.navigation.ui.BottomNavigationViewKt.setupWithNavController;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.fragment.NavHostFragment;
-
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.fitfood.R;
 import com.example.fitfood.data.NotificationReceiver;
-import com.example.fitfood.data.repositories.PlanRepository;
 import com.example.fitfood.databinding.ActivityMainBinding;
 import com.example.fitfood.ui.view_models.UserViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -37,9 +31,10 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-    static BottomNavigationView bottomNavigationView;
+
+    BottomNavigationView bottomNavigationView;
+
     UserViewModel userViewModel;
-    PlanRepository planRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,42 +55,40 @@ public class MainActivity extends AppCompatActivity {
         //Activating Bottom navigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         NavController navController = navHostFragment.getNavController();
         setupWithNavController(bottomNavigationView, navController);
 
 
 
         //Hiding BottomNavigation
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if(destination.getId() == R.id.homeFragment || destination.getId() == R.id.shoppingListFragment || destination.getId() == R.id.profileFragment) {
-                    bottomNavigationView.setVisibility(View.VISIBLE);
-                } else {
-                    bottomNavigationView.setVisibility(View.GONE);
-                }
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if(destination.getId() == R.id.homeFragment || destination.getId() == R.id.shoppingListFragment || destination.getId() == R.id.profileFragment) {
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            } else {
+                bottomNavigationView.setVisibility(View.GONE);
             }
         });
 
         Intent intentBreakfast = new Intent(this, NotificationReceiver.class);
         intentBreakfast.putExtra("id", 0);
         intentBreakfast.putExtra("time", "завтрака!");
-        PendingIntent pendingIntentBreakfast = PendingIntent.getBroadcast(this, 0, intentBreakfast, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntentBreakfast = PendingIntent.getBroadcast(this, 0, intentBreakfast, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentLunch = new Intent(this, NotificationReceiver.class);
         intentLunch.putExtra("id", 1);
         intentLunch.putExtra("time", "обеда!");
-        PendingIntent pendingIntentLunch = PendingIntent.getBroadcast(this, 1, intentLunch, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntentLunch = PendingIntent.getBroadcast(this, 1, intentLunch, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentSnack = new Intent(this, NotificationReceiver.class);
         intentSnack.putExtra("id", 2);
         intentSnack.putExtra("time", "перекуса!");
-        PendingIntent pendingIntentSnack = PendingIntent.getBroadcast(this, 2, intentSnack, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntentSnack = PendingIntent.getBroadcast(this, 2, intentSnack, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent intentDinner = new Intent(this, NotificationReceiver.class);
         intentDinner.putExtra("id", 3);
         intentDinner.putExtra("time", "ужина!");
-        PendingIntent pendingIntentDinner= PendingIntent.getBroadcast(this, 3, intentDinner, PendingIntent.FLAG_UPDATE_CURRENT);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntentDinner= PendingIntent.getBroadcast(this, 3, intentDinner, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
 
@@ -141,9 +134,8 @@ public class MainActivity extends AppCompatActivity {
         userViewModel.my_user.LastChangeDate = new Date().toString();
        userViewModel.my_user.LastChangeDateInt = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
        if (hasConnection(this)){
-           userViewModel.loadDataToFirebaseCloud();
+           userViewModel.uploadDataToFirebase();
            userViewModel.my_user.isLoadedToCloud = true;
-           System.out.println("Loaded " + userViewModel.my_user.isLoadedToCloud);
        }
        else {
            userViewModel.my_user.isLoadedToCloud = false;
@@ -167,10 +159,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         wifiInfo = cm.getActiveNetworkInfo();
-        if (wifiInfo != null && wifiInfo.isConnected())
-        {
-            return true;
-        }
-        return false;
+        return wifiInfo != null && wifiInfo.isConnected();
     }
 }

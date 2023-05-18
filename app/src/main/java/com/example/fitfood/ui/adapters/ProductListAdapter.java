@@ -13,40 +13,37 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitfood.R;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.repositories.ProductRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductHolder> {
     private AlertDialog.Builder builder;
-    private ProductRepository productRepository;
-    private List<ProductEntity> products = new ArrayList();
-    private Context context;
+
+    private final ProductRepository productRepository;
+    private List<ProductEntity> products;
 
     public ProductListAdapter(Context context){
-        this.context = context;
         productRepository = new ProductRepository((Application) context.getApplicationContext());
-
     }
 
     @NonNull
     public ProductHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_recyclerview_item, parent, false);
         builder = new AlertDialog.Builder(parent.getContext());
-               return new ProductHolder(itemView);
+        return new ProductHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     public void onBindViewHolder(ProductHolder holder, int position) {
         ProductEntity currentProduct = products.get(position);
         holder.name.setText(currentProduct.name);
-        holder.count.setText(String.valueOf(currentProduct.count) + " шт.");
+        holder.count.setText(currentProduct.count + " шт.");
+
         if (currentProduct.selected) {
             holder.name.setTextColor(Color.parseColor("#C9D6DF"));
             holder.count.setTextColor(Color.parseColor("#C9D6DF"));
@@ -57,10 +54,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         }
 
         holder.selected.setChecked(currentProduct.selected);
+
         holder.selected.setOnClickListener(view -> {
             currentProduct.selected = !currentProduct.selected;
             productRepository.update(currentProduct);
         });
+
         holder.delete.setOnClickListener(view -> {
             builder.setMessage("Вы уверены, что хотите удалить этот элемент?").setCancelable(false).setPositiveButton("Нет", (dialog, id) -> dialog.cancel()).setNegativeButton("Да", (dialog, id) -> {
                products.remove(currentProduct);
@@ -71,26 +70,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
     }
 
-    public int getSelectedItemCount() {
-        int count = 0;
-        for (ProductEntity product : this.products) {
-            if (product.selected) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public int getItemCount() {
-        return this.products.size();
+        if (products == null) return 0;
+        return products.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setProducts(List<ProductEntity> productEntities) {
         products = productEntities;
         notifyDataSetChanged();
     }
 
-    static class ProductHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ProductHolder extends RecyclerView.ViewHolder {
         private final TextView count;
         private final ImageView delete;
         private final TextView name;
@@ -98,13 +89,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
         public ProductHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.title);
-            count = (TextView) itemView.findViewById(R.id.count);
-            selected = (RadioButton) itemView.findViewById(R.id.selected);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
-        }
-
-        public void onClick(View view) {
+            name = itemView.findViewById(R.id.title);
+            count = itemView.findViewById(R.id.count);
+            selected = itemView.findViewById(R.id.selected);
+            delete = itemView.findViewById(R.id.delete);
         }
     }
 }

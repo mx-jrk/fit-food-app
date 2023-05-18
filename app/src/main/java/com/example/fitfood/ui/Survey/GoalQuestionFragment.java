@@ -24,18 +24,22 @@ import com.example.fitfood.ui.view_models.UserViewModel;
 public class GoalQuestionFragment extends Fragment {
 
     FragmentGoalQuestionBinding binding;
+
     UserViewModel userViewModel;
+
     NavHostFragment navHostFragment;
     NavController navController;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentGoalQuestionBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         return binding.getRoot();
     }
@@ -44,19 +48,15 @@ public class GoalQuestionFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.goal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton selectedRadioButton = radioGroup.findViewById(i);
-                binding.nextBtn.setEnabled(true);
-                binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        userViewModel.my_user.Goal = selectedRadioButton.getText().toString();
-                        navController.navigate(R.id.action_goalQuestionFragment_to_goalWeightFragment);
-                    }
-                });
-            }
+        binding.goal.setOnCheckedChangeListener((radioGroup, i) -> {
+            RadioButton selectedRadioButton = radioGroup.findViewById(i);
+
+            binding.nextBtn.setEnabled(true);
+
+            binding.nextBtn.setOnClickListener(view1 -> {
+                userViewModel.my_user.Goal = selectedRadioButton.getText().toString();
+                navController.navigate(R.id.action_goalQuestionFragment_to_goalWeightFragment);
+            });
         });
     }
 }

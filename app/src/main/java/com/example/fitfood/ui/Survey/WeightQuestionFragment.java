@@ -28,19 +28,22 @@ public class WeightQuestionFragment extends Fragment {
 
 
     FragmentWeightQuestionBinding binding;
+
     UserViewModel userViewModel;
+
     NavHostFragment navHostFragment;
     NavController navController;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentWeightQuestionBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         return binding.getRoot();
     }
@@ -51,39 +54,30 @@ public class WeightQuestionFragment extends Fragment {
 
         binding.weight.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) binding.nextBtn.setEnabled(true);
-                else binding.nextBtn.setEnabled(false);
+                binding.nextBtn.setEnabled(charSequence.length() > 0);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
 
-        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.nextBtn.setOnClickListener(view1 -> {
+                userViewModel.my_user.Weight = Double.parseDouble(binding.weight.getText().toString().replace(',', '.'));
+                userViewModel.my_user.NormalCalories = (int) Math.round(userViewModel.my_user.Weight * 33);
 
-                    userViewModel.my_user.Weight = Double.parseDouble(binding.weight.getText().toString().replace(',', '.'));
-                    userViewModel.my_user.NormalCalories = (int) Math.round(userViewModel.my_user.Weight * 33);
-
-                    if (getArguments() == null){
-                        navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);
-                    }
-                    else if (Objects.equals(getArguments().getString("source"), "profile")){
-                        navController.navigate(R.id.action_weightQuestionFragment_to_profileFragment);
-                    }
-                    else if (Objects.equals(getArguments().getString("source"), "home")){
-                        navController.navigate(R.id.action_weightQuestionFragment_to_homeFragment);
-                    }
-            }
+                if (getArguments() == null){
+                    navController.navigate(R.id.action_weightQuestionFragment_to_goalQuestionFragment);
+                }
+                else if (Objects.equals(getArguments().getString("source"), "profile")){
+                    navController.navigate(R.id.action_weightQuestionFragment_to_profileFragment);
+                }
+                else if (Objects.equals(getArguments().getString("source"), "home")){
+                    navController.navigate(R.id.action_weightQuestionFragment_to_homeFragment);
+                }
         });
     }
 }

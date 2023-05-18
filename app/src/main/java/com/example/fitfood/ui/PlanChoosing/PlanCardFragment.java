@@ -1,28 +1,23 @@
 package com.example.fitfood.ui.PlanChoosing;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.example.fitfood.R;
-import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.databinding.FragmentPlanCardBinding;
 import com.example.fitfood.ui.adapters.PlanCardAdapter;
-import com.example.fitfood.ui.view_models.HomeViewModel;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
@@ -33,126 +28,95 @@ import java.util.Objects;
 
 public class PlanCardFragment extends Fragment {
     FragmentPlanCardBinding binding;
+
     NavHostFragment navHostFragment;
     NavController navController;
+
     UserViewModel userViewModel;
-    PlanCardAdapter planCardAdapter;
     ShoppingListViewModel shoppingListViewModel;
 
+    PlanCardAdapter planCardAdapter;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPlanCardBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
-        shoppingListViewModel = new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
-
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
+        shoppingListViewModel = new ViewModelProvider(requireActivity()).get(ShoppingListViewModel.class);
 
         return binding.getRoot();
     }
 
+    @SuppressLint({"SetTextI18n", "DiscouragedApi"})
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         if (getArguments() != null){
-            List<List<RecipeEntity>> plansRicepes = new ArrayList<>();
+            List<List<RecipeEntity>> plansRecipes = new ArrayList<>();
 
-            userViewModel.getPlansById(getArguments().getInt("plan")).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
-                @Override
-                public void onChanged(PlanEntity plan) {
-                    binding.title.setText(plan.Title);
-                    binding.description.setText(plan.Description);
-                    binding.calories.setText(String.valueOf("Среднесуточный калораж: " + plan.AverageCalories));
-                    binding.image.setImageResource(getContext().getResources().getIdentifier(plan.ImageName, "drawable", getContext().getPackageName()));
-                    if (!getArguments().getBoolean("is_first")) binding.chooseBtn.setVisibility(View.GONE);
-                    binding.chooseBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            userViewModel.my_user.Plan = plan;
-                            userViewModel.my_user.PlanId = plan.id;
-                            userViewModel.getRecipesByPlan(userViewModel.my_user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                @Override
-                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                    userViewModel.my_user.DailyRecipes = recipeEntities;
-                                    userViewModel.insert();
+            userViewModel.getPlansById(getArguments().getInt("plan")).observe(getViewLifecycleOwner(), plan -> {
+                binding.title.setText(plan.Title);
+                binding.description.setText(plan.Description);
+                binding.calories.setText("Среднесуточный калораж: " + plan.AverageCalories);
+                binding.image.setImageResource(requireContext().getResources().getIdentifier(plan.ImageName, "drawable", requireContext().getPackageName()));
 
-                                    shoppingListViewModel.deleteGenerated();
+                assert getArguments() != null;
+                if (!getArguments().getBoolean("is_first")) binding.chooseBtn.setVisibility(View.GONE);
+                binding.chooseBtn.setOnClickListener(view1 -> {
+                    userViewModel.my_user.Plan = plan;
+                    userViewModel.my_user.PlanId = plan.id;
+                    userViewModel.getRecipesByPlan(userViewModel.my_user).observe(getViewLifecycleOwner(), recipeEntities -> {
+                        userViewModel.my_user.DailyRecipes = recipeEntities;
+                        userViewModel.insert();
 
-                                    parseRecipes(recipeEntities, "today");
+                        shoppingListViewModel.deleteGenerated();
 
-                                    userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                        @Override
-                                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                                            parseRecipes(recipeEntities, "tomorrow");
+                        parseRecipes(recipeEntities, "today");
 
-                                            shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                @Override
-                                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                    parseRecipes(recipeEntities, "week");
-                                                    navController.navigate(R.id.action_planCardFragment_to_homeFragment);
-                                                }
-                                            });
-                                        }
-                                    });
+                        userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe(getViewLifecycleOwner(), recipeEntities1 -> {
+                            parseRecipes(recipeEntities1, "tomorrow");
 
-                                }
+                            shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe(getViewLifecycleOwner(), recipeEntities11 -> {
+                                parseRecipes(recipeEntities11, "week");
+                                navController.navigate(R.id.action_planCardFragment_to_homeFragment);
                             });
-                        }
+                        });
+
                     });
+                });
 
 
-                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Mon").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                        @Override
-                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                            plansRicepes.add(recipeEntities);
-                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Tue").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                @Override
-                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                    plansRicepes.add(recipeEntities);
-                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Wed").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                        @Override
-                                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                                            plansRicepes.add(recipeEntities);
-                                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Thu").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                @Override
-                                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                    plansRicepes.add(recipeEntities);
-                                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Fri").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                        @Override
-                                                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                            plansRicepes.add(recipeEntities);
-                                                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Sat").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                                @Override
-                                                                public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                                    plansRicepes.add(recipeEntities);
-                                                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Sun").observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                                        @Override
-                                                                        public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                                            plansRicepes.add(recipeEntities);
-                                                                            planCardAdapter = new PlanCardAdapter(getContext(),plansRicepes);
-                                                                            binding.allPlanRecipes.setAdapter(planCardAdapter);
-                                                                            planCardAdapter.notifyDataSetChanged();
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            });
-
-                                        }
+                userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Mon").observe(getViewLifecycleOwner(), recipeEntities -> {
+                    plansRecipes.add(recipeEntities);
+                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Tue").observe(getViewLifecycleOwner(), recipeEntities12 -> {
+                        plansRecipes.add(recipeEntities12);
+                        userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Wed").observe(getViewLifecycleOwner(), recipeEntities1212 -> {
+                            plansRecipes.add(recipeEntities1212);
+                            userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Thu").observe(getViewLifecycleOwner(), recipeEntities121 -> {
+                                plansRecipes.add(recipeEntities121);
+                                userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Fri").observe(getViewLifecycleOwner(), recipeEntities1211 -> {
+                                    plansRecipes.add(recipeEntities1211);
+                                    userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Sat").observe(getViewLifecycleOwner(), recipeEntities12111 -> {
+                                        plansRecipes.add(recipeEntities12111);
+                                        userViewModel.getRecipesByPlan(getArguments().getInt("plan"), "Sun").observe(getViewLifecycleOwner(), recipeEntities121111 -> {
+                                            plansRecipes.add(recipeEntities121111);
+                                            planCardAdapter = new PlanCardAdapter(getContext(),plansRecipes);
+                                            binding.allPlanRecipes.setAdapter(planCardAdapter);
+                                            planCardAdapter.notifyDataSetChanged();
+                                        });
                                     });
-                                }
+                                });
                             });
-                        }
+
+                        });
                     });
-                }
+                });
             });
 
 

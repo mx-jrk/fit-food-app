@@ -1,23 +1,30 @@
 package com.example.fitfood.data.data_sources.room.entites;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.example.fitfood.data.repositories.PlanRepository;
+import com.example.fitfood.data.DataLoadCallback;
 import com.github.mikephil.charting.data.Entry;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Entity(tableName = "user_table")
 public class UserEntity {
-    @NonNull
     @PrimaryKey(autoGenerate = true)
     public int id;
 
@@ -44,8 +51,6 @@ public class UserEntity {
     public boolean DinnerEaten = false;
 
     public boolean SnackEaten = false;
-
-    public int PlanCycle = 1;
 
     public String LastChangeDate =new Date().toString();
 
@@ -77,11 +82,87 @@ public class UserEntity {
     @Ignore
     List<Entry> WeightHistoryList;
 
+    @Ignore
+    public DatabaseReference firebaseReference;
+
+    @Ignore
+    public FirebaseAuth firebaseAuth;
+
+    @Ignore
+    Context context;
 
     public UserEntity(){}
 
+    public UserEntity(Context context){
+        this.context = context;
+    }
 
-    public List<PlanEntity> choose_plans(List<PlanEntity> plans){
+    public void setFirebaseFields(FirebaseAuth firebaseAuth, DatabaseReference databaseReference){
+        this.firebaseReference = databaseReference;
+        this.firebaseAuth = firebaseAuth;
+    }
+
+    public void downloadDataFromFirebase(DataLoadCallback callback){
+
+        firebaseReference
+                .child("Users").
+                child(FirebaseId).
+                addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Name = Objects.requireNonNull(snapshot.child("Name").getValue()).toString();
+                Height = Integer.parseInt(Objects.requireNonNull(snapshot.child("Height").getValue()).toString());
+                Weight = Double.parseDouble(Objects.requireNonNull(snapshot.child("Weight").getValue()).toString());
+                Goal = Objects.requireNonNull(snapshot.child("Goal").getValue()).toString();
+                WeightGoal = Double.parseDouble(Objects.requireNonNull(snapshot.child("WeightGoal").getValue()).toString());
+                Contraindications_s = Objects.requireNonNull(snapshot.child("Contraindications_s").getValue()).toString();
+                PlanId = Integer.parseInt(Objects.requireNonNull(snapshot.child("PlanId").getValue()).toString());
+                EatenCalories = Integer.parseInt(Objects.requireNonNull(snapshot.child("EatenCalories").getValue()).toString());
+                BreakfastEaten = Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("BreakfastEaten").getValue()).toString());
+                LunchEaten = Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("LunchEaten").getValue()).toString());
+                DinnerEaten = Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("DinnerEaten").getValue()).toString());
+                SnackEaten = Boolean.parseBoolean(Objects.requireNonNull(snapshot.child("SnackEaten").getValue()).toString());
+                LastChangeDate = Objects.requireNonNull(snapshot.child("LastChangeDate").getValue()).toString();
+                LastChangeDateInt = Integer.parseInt(Objects.requireNonNull(snapshot.child("LastChangeDateInt").getValue()).toString());
+                Login = Objects.requireNonNull(snapshot.child("Login").getValue()).toString();
+                Password = Objects.requireNonNull(snapshot.child("Password").getValue()).toString();
+                NormalCalories = Integer.parseInt(Objects.requireNonNull(snapshot.child("NormalCalories").getValue()).toString());
+                if (snapshot.child("WeightHistory").getValue() != null)  WeightHistory = Objects.requireNonNull(snapshot.child("WeightHistory").getValue()).toString();
+                if (snapshot.child("EatenCaloriesHistory").getValue() != null) EatenCaloriesHistory = Objects.requireNonNull(snapshot.child("EatenCaloriesHistory").getValue()).toString();
+                callback.onDataLoaded();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void uploadDataToFirebase(){
+        firebaseReference.child("Users").child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).child("Name").setValue(Name);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Height").setValue(Height);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Weight").setValue(Weight);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Goal").setValue(Goal);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("WeightGoal").setValue(WeightGoal);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Contraindications_s").setValue(Contraindications_s);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("PlanId").setValue(PlanId);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("EatenCalories").setValue(EatenCalories);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("BreakfastEaten").setValue(BreakfastEaten);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("LunchEaten").setValue(LunchEaten);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("DinnerEaten").setValue(DinnerEaten);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("SnackEaten").setValue(SnackEaten);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("LastChangeDate").setValue(LastChangeDate);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("LastChangeDateInt").setValue(LastChangeDateInt);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Login").setValue(Login);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("Password").setValue(Password);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("NormalCalories").setValue(NormalCalories);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("WeightHistory").setValue(WeightHistory);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("EatenCaloriesHistory").setValue(EatenCaloriesHistory);
+        firebaseReference.child("Users").child(firebaseAuth.getCurrentUser().getUid()).child("FirebaseId").setValue(FirebaseId);
+    }
+
+    public List<PlanEntity> choosePlans(List<PlanEntity> plans){
         String[] Contraindications = Contraindications_s.split("\n");
 
         if (Contraindications.length == 0) return plans;
@@ -121,7 +202,7 @@ public class UserEntity {
         return calories;
     }
 
-    public int dishesEaten(){
+    public int setEatenDishesCount(){
         int count = 0;
         if (BreakfastEaten) count++;
         if (LunchEaten) count++;

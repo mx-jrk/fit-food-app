@@ -1,5 +1,6 @@
 package com.example.fitfood.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +20,6 @@ import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
 import com.example.fitfood.ui.PlanChoosing.PlanCardFragment;
-import com.example.fitfood.ui.Survey.WeightQuestionFragment;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 
@@ -31,10 +30,13 @@ import java.util.Objects;
 
 public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapter.PlanHolder> {
     private List<PlanEntity> plans = new ArrayList<>();
-    private Context context;
-    private NavController navController;
-    private UserViewModel userViewModel;
-    private ShoppingListViewModel shoppingListViewModel;
+
+    private final Context context;
+    private final NavController navController;
+
+    private final UserViewModel userViewModel;
+    private final ShoppingListViewModel shoppingListViewModel;
+
     private boolean firstLaunch;
 
     public PlanChoosingAdapter(Context context, NavController navController, UserViewModel userViewModel, ShoppingListViewModel shoppingListViewModel) {
@@ -51,79 +53,67 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         return new PlanHolder(itemView);
     }
 
+    @SuppressLint({"SetTextI18n", "DiscouragedApi"})
     @Override
     public void onBindViewHolder(@NonNull PlanHolder holder, int position) {
         PlanEntity currentPlan = plans.get(position);
         holder.planTitle.setText(String.valueOf(currentPlan.Title));
         holder.planDescription.setText(currentPlan.Description);
-        holder.planCalories.setText(String.valueOf(holder.planCalories.getText().toString() + ' ' + currentPlan.AverageCalories));
+        holder.planCalories.setText(holder.planCalories.getText().toString() + ' ' + currentPlan.AverageCalories);
         holder.planImage.setImageResource(context.getResources().getIdentifier(currentPlan.ImageName, "drawable", context.getPackageName()));
-        holder.watchPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("plan", currentPlan.id);
-                bundle.putBoolean("is_first", firstLaunch);
-                PlanCardFragment planCardFragment = new PlanCardFragment();
-                planCardFragment.setArguments(bundle);
-                navController.navigate(R.id.action_planChoosingFragment_to_planCardFragment, bundle);
-            }
+
+        holder.watchPlan.setOnClickListener(view -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("plan", currentPlan.id);
+            bundle.putBoolean("is_first", firstLaunch);
+            PlanCardFragment planCardFragment = new PlanCardFragment();
+            planCardFragment.setArguments(bundle);
+            navController.navigate(R.id.action_planChoosingFragment_to_planCardFragment, bundle);
         });
-        holder.planChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userViewModel.my_user.PlanId = currentPlan.id;
-                userViewModel.my_user.Plan = currentPlan;
-                userViewModel.getRecipesByPlan(currentPlan.id, new Date().toString().split(" ")[0]).observe((LifecycleOwner)context, new Observer<List<RecipeEntity>>() {
 
-                    @Override
-                    public void onChanged(List<RecipeEntity> recipeEntities) {
-                        userViewModel.my_user.DailyRecipes = recipeEntities;
-                        if (!firstLaunch) {
-                            shoppingListViewModel.deleteGenerated();
-                            userViewModel.my_user.EatenCalories = 0;
-                            userViewModel.my_user.BreakfastEaten = false;
-                            userViewModel.my_user.LunchEaten = false;
-                            userViewModel.my_user.DinnerEaten = false;
-                            userViewModel.my_user.SnackEaten = false;
-                            userViewModel.update();
-                        }
-                        else{
-                            userViewModel.insert();
-                        }
+        holder.planChoose.setOnClickListener(view -> {
+            userViewModel.my_user.PlanId = currentPlan.id;
+            userViewModel.my_user.Plan = currentPlan;
+            userViewModel.getRecipesByPlan(currentPlan.id, new Date().toString().split(" ")[0]).observe((LifecycleOwner)context, recipeEntities -> {
+                userViewModel.my_user.DailyRecipes = recipeEntities;
+                if (!firstLaunch) {
+                    shoppingListViewModel.deleteGenerated();
+                    userViewModel.my_user.EatenCalories = 0;
+                    userViewModel.my_user.BreakfastEaten = false;
+                    userViewModel.my_user.LunchEaten = false;
+                    userViewModel.my_user.DinnerEaten = false;
+                    userViewModel.my_user.SnackEaten = false;
+                    userViewModel.update();
+                }
+                else{
+                    userViewModel.insert();
+                }
 
-                        shoppingListViewModel.deleteGenerated();
+                shoppingListViewModel.deleteGenerated();
 
-                        parseRecipes(recipeEntities, "today");
+                parseRecipes(recipeEntities, "today");
 
-                        userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) context, new Observer<List<RecipeEntity>>() {
-                            @Override
-                            public void onChanged(List<RecipeEntity> recipeEntities) {
-                                parseRecipes(recipeEntities, "tomorrow");
+                userViewModel.getRecipesByPlan(userViewModel.my_user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe((LifecycleOwner) context, recipeEntities12 -> {
+                    parseRecipes(recipeEntities12, "tomorrow");
 
-                                shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe((LifecycleOwner) context, new Observer<List<RecipeEntity>>() {
-                                    @Override
-                                    public void onChanged(List<RecipeEntity> recipeEntities) {
-                                        parseRecipes(recipeEntities, "week");
-                                        navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
-                                    }
-                                });
-                            }
-                        });
-                    }
+                    shoppingListViewModel.getAllRecipesByPlan(userViewModel.my_user.PlanId).observe((LifecycleOwner) context, recipeEntities1 -> {
+                        parseRecipes(recipeEntities1, "week");
+                        navController.navigate(R.id.action_planChoosingFragment_to_homeFragment);
+                    });
                 });
-
-
-            }
+            });
         });
     }
 
     private static String getNextDayOfWeek(String dayOfWeek) {
         if (Objects.equals(dayOfWeek, "Sun")) return "Mon";
+
         String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+
         for (int i = 0; i < days.length; i++){
             if (days[i].equals(dayOfWeek)) return days[i + 1];
         }
+
         return dayOfWeek;
     }
 
@@ -131,6 +121,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         String[] products;
         List<ProductEntity> productEntityList = new ArrayList<>();
         ProductEntity generatedProduct;
+
         for (RecipeEntity recipe : recipeEntities) {
             if (recipe.Products == null) continue;
             products = recipe.Products.split("\n");
@@ -143,9 +134,9 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
                 }
             }
         }
+
         for (ProductEntity product : productEntityList) {
             shoppingListViewModel.insert(product);
-            System.out.println(product.name + " " + product.count);
         }
     }
 
@@ -154,6 +145,7 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
         return plans.size();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setPlans(List<PlanEntity> plans){
         this.plans = plans;
         notifyDataSetChanged();
@@ -162,10 +154,6 @@ public class PlanChoosingAdapter extends RecyclerView.Adapter<PlanChoosingAdapte
     public void setFirstLaunch(boolean isFirst){
         this.firstLaunch = isFirst;
     }
-
-
-
-
 
     static class PlanHolder extends RecyclerView.ViewHolder {
         private final TextView planTitle;

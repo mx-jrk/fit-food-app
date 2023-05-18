@@ -20,19 +20,22 @@ import com.example.fitfood.ui.view_models.UserViewModel;
 public class LoginOrSignupFragment extends Fragment {
 
    FragmentLoginOrSignupBinding binding;
+
    UserViewModel userViewModel;
+
    NavHostFragment navHostFragment;
    NavController navController;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLoginOrSignupBinding.inflate(inflater, container, false);
 
          navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-         navController = navHostFragment.getNavController();
+        assert navHostFragment != null;
+        navController = navHostFragment.getNavController();
 
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         return binding.getRoot();
     }
@@ -41,18 +44,8 @@ public class LoginOrSignupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.logInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_loginOrSignupFragment_to_logInFragment);
-            }
-        });
+        binding.logInBtn.setOnClickListener(view1 -> navController.navigate(R.id.action_loginOrSignupFragment_to_logInFragment));
 
-        binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.action_loginOrSignupFragment_to_signUpFragment);
-            }
-        });
+        binding.signUpBtn.setOnClickListener(view12 -> navController.navigate(R.id.action_loginOrSignupFragment_to_signUpFragment));
     }
 }

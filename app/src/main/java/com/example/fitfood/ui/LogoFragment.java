@@ -4,70 +4,59 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.fitfood.R;
-import com.example.fitfood.data.DataLoadCallback;
-import com.example.fitfood.data.data_sources.room.entites.PlanEntity;
 import com.example.fitfood.data.data_sources.room.entites.ProductEntity;
 import com.example.fitfood.data.data_sources.room.entites.RecipeEntity;
-import com.example.fitfood.data.data_sources.room.entites.UserEntity;
-import com.example.fitfood.data.repositories.PlanRepository;
-import com.example.fitfood.databinding.FragmentHomeBinding;
 import com.example.fitfood.databinding.FragmentLogoBinding;
 import com.example.fitfood.ui.view_models.ShoppingListViewModel;
 import com.example.fitfood.ui.view_models.UserViewModel;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.ktx.Firebase;
 
-import java.time.DayOfWeek;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class LogoFragment extends Fragment {
-
     FragmentLogoBinding binding;
+
     NavHostFragment navHostFragment;
     NavController navController;
+
     UserViewModel userViewModel;
     ShoppingListViewModel shoppingListViewModel;
+
     FirebaseAuth firebaseAuth;
-    DatabaseReference firestoreReference;
+    DatabaseReference firebaseReference;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLogoBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
-        shoppingListViewModel =new ViewModelProvider(getActivity()).get(ShoppingListViewModel.class);
+        shoppingListViewModel =new ViewModelProvider(requireActivity()).get(ShoppingListViewModel.class);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseReference = FirebaseDatabase.getInstance().getReference();
 
         return binding.getRoot();
     }
@@ -76,88 +65,69 @@ public class LogoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         //First Launch checking
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
-        userViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<UserEntity>() {
-            @Override
-            public void onChanged(UserEntity user) {
-                if (user == null){
-                    NavController navController = navHostFragment.getNavController();
-                    navController.navigate(R.id.loginOrSignupFragment);
-                }
-                else {
-                    userViewModel.getPlansById(user.PlanId).observe(getViewLifecycleOwner(), new Observer<PlanEntity>() {
-                        @Override
-                        public void onChanged(PlanEntity plan) {
-                            user.Plan = plan;
-                            if (Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != user.LastChangeDateInt){
-                                userViewModel.getRecipesByPlan(user.PlanId, new Date().toString().split(" ")[0]).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                    @Override
-                                    public void onChanged(List<RecipeEntity> recipeEntities) {
-                                        userViewModel.my_user = user;
+        userViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null){
+                NavController navController = navHostFragment.getNavController();
+                navController.navigate(R.id.loginOrSignupFragment);
+            }
+            else {
+                user.setFirebaseFields(firebaseAuth, firebaseReference);
+                userViewModel.getPlansById(user.PlanId).observe(getViewLifecycleOwner(), plan -> {
+                    user.Plan = plan;
+                    if (user.LastChangeDateInt != 0 && Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != user.LastChangeDateInt){
+                        System.out.println(Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + " " + user.LastChangeDateInt);
+                        userViewModel.getRecipesByPlan(user.PlanId, new Date().toString().split(" ")[0]).observe(getViewLifecycleOwner(), recipeEntities -> {
+                            userViewModel.my_user = user;
 
-                                        userViewModel.my_user.resetForNewDay(recipeEntities);
+                            userViewModel.my_user.resetForNewDay(recipeEntities);
 
-                                        shoppingListViewModel.deleteGenerated();
+                            shoppingListViewModel.deleteGenerated();
 
-                                        parseRecipes(recipeEntities, "today");
+                            parseRecipes(recipeEntities, "today");
 
-                                        userViewModel.getRecipesByPlan(user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                            @Override
-                                            public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                parseRecipes(recipeEntities, "tomorrow");
-                                                System.out.println(getNextDayOfWeek(new Date().toString().split(" ")[0]) + recipeEntities.size());
-                                                shoppingListViewModel.getAllRecipesByPlan(user.PlanId).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                                    @Override
-                                                    public void onChanged(List<RecipeEntity> recipeEntities) {
-                                                        parseRecipes(recipeEntities, "week");
-                                                        navController.navigate(R.id.action_logoFragment_to_homeFragment);
-                                                    }
-                                                });
-                                            }
-                                        });
+                            userViewModel.getRecipesByPlan(user.PlanId, getNextDayOfWeek(new Date().toString().split(" ")[0])).observe(getViewLifecycleOwner(), recipeEntities12 -> {
+                                parseRecipes(recipeEntities12, "tomorrow");
+                                System.out.println(getNextDayOfWeek(new Date().toString().split(" ")[0]) + recipeEntities12.size());
+                                shoppingListViewModel.getAllRecipesByPlan(user.PlanId).observe(getViewLifecycleOwner(), recipeEntities1 -> {
+                                    parseRecipes(recipeEntities1, "week");
+                                    navController.navigate(R.id.action_logoFragment_to_homeFragment);
+                                });
+                            });
+                        });
+                    }
+                    else {
+                        userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), recipeEntities -> {
+                            user.DailyRecipes = recipeEntities;
+                            userViewModel.my_user = user;
+                            if (hasConnection(requireContext()) && !userViewModel.my_user.isLoadedToCloud) {
+                                System.out.println("+CONNECTION -LOADED");
+                                goToHomePage();
+                            }
+                            else if (hasConnection(requireContext())){
+                                userViewModel.downloadDataFromFirebase(() -> {
+                                    try {
+                                        System.out.println("+CONNECTION +LOADED");
+                                        System.out.println(userViewModel.my_user.BreakfastEaten);
+                                        goToHomePage();
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        System.out.println("ERROR OF NAV");
                                     }
                                 });
                             }
                             else {
-                                userViewModel.getRecipesByPlan(user).observe(getViewLifecycleOwner(), new Observer<List<RecipeEntity>>() {
-                                    @Override
-                                    public void onChanged(List<RecipeEntity> recipeEntities) {
-                                        user.DailyRecipes = recipeEntities;
-                                        userViewModel.my_user = user;
-                                        if (hasConnection(getContext()) && !userViewModel.my_user.isLoadedToCloud) {
-                                            System.out.println("+CONNECTION -LOADED");
-                                            goToHomePage();
-                                        }
-                                        else if (hasConnection(getContext())){
-                                            userViewModel.uploadDataToFirebaseCloud(new DataLoadCallback() {
-                                                @Override
-                                                public void onDataLoaded() {
-                                                    try {
-                                                        System.out.println("+CONNECTION +LOADED");
-                                                        goToHomePage();
-
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                        System.out.println("ERROR OF NAV");
-                                                    }
-                                                }
-                                            });
-                                        }
-                                        else {
-                                            Toast.makeText(getContext(), "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
-                                            System.out.println("-CONNECTION +LOADED");
-                                            goToHomePage();
-                                        }
-                                    }
-                                });
+                                Toast.makeText(getContext(), "Не удалось загрузить данные из базы. Будут использованы локальные данные", Toast.LENGTH_SHORT).show();
+                                System.out.println("-CONNECTION +LOADED");
+                                goToHomePage();
                             }
-                        }
-                    });
+                        });
+                    }
+                });
 
-                }
             }
         });
     }
@@ -180,11 +150,7 @@ public class LogoFragment extends Fragment {
             return true;
         }
         wifiInfo = cm.getActiveNetworkInfo();
-        if (wifiInfo != null && wifiInfo.isConnected())
-        {
-            return true;
-        }
-        return false;
+        return wifiInfo != null && wifiInfo.isConnected();
     }
 
     private String getNextDayOfWeek(String dayOfWeek) {

@@ -24,19 +24,22 @@ import com.example.fitfood.ui.view_models.UserViewModel;
 public class HeightQuestionFragment extends Fragment {
 
     FragmentHeightQuestionBinding binding;
+
     UserViewModel userViewModel;
     NavHostFragment navHostFragment;
+
     NavController navController;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHeightQuestionBinding.inflate(inflater, container, false);
 
         navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
 
-        userViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
         return binding.getRoot();
     }
@@ -46,32 +49,23 @@ public class HeightQuestionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.height.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) binding.nextBtn.setEnabled(true);
-                else binding.nextBtn.setEnabled(false);
+                binding.nextBtn.setEnabled(charSequence.length() > 0);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
 
-        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try{
-                    userViewModel.my_user.Height = Integer.parseInt(binding.height.getText().toString());
-                    navController.navigate(R.id.action_heightQuestionFragment_to_weightQuestionFragment);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
-                }
-
+        binding.nextBtn.setOnClickListener(view1 -> {
+            try{
+                userViewModel.my_user.Height = Integer.parseInt(binding.height.getText().toString());
+                navController.navigate(R.id.action_heightQuestionFragment_to_weightQuestionFragment);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Вы ввели не число!", Toast.LENGTH_SHORT).show();
             }
         });
     }
