@@ -105,6 +105,7 @@ public class UserEntity {
 
     //Method of loading data from Firebase using CallBack
     public void downloadDataFromFirebase(DataLoadCallback callback){
+       // System.out.println(firebaseReference == null);
         firebaseReference
                 .child("Users").
                 child(FirebaseId).
@@ -224,7 +225,7 @@ public class UserEntity {
     }
 
     //Method of resetting values when a new day comes
-    public void resetForNewDay(List<RecipeEntity> recipeEntities){
+    public void resetForNewDay(){
         if (WeightHistory == null) WeightHistory = String.valueOf(Weight);
         else {
             String[] weightHistoryArr = WeightHistory.split(" ");
@@ -250,7 +251,6 @@ public class UserEntity {
                 EatenCaloriesHistory += " " + EatenCalories;
             }
         }
-        DailyRecipes = recipeEntities;
         EatenCalories = 0;
         BreakfastEaten = false;
         LunchEaten = false;
